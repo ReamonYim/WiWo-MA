@@ -1,0 +1,11 @@
+<scene version="3.0.0">
+  <bsdf type="itu-radio-material" id="concrete">
+    <string name="type" value="concrete"/>
+    <float name="thickness" value="0.2"/>
+  </bsdf>
+  <shape type="obj" id="ground_and_finite_wall">
+    <string name="filename" value="reflector.obj"/>
+    <boolean name="face_normals" value="true"/>
+    <ref id="concrete" name="bsdf"/>
+  </shape>
+</scene>

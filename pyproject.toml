@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wiwo-ma-sim"
+version = "1.0.0"
+description = "Native Sionna RT movable antenna mechanics, Web interaction and continuous complex CSI datasets"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
+dependencies = ["sionna-rt==2.2.0", "mitsuba==3.9.1", "drjit==1.5.0", "numpy==2.4.6", "scipy==1.17.1", "h5py==3.16.0", "PyYAML==6.0.3", "viser==1.1.1", "trimesh==5.1.1", "matplotlib==3.11.2", "psutil==7.2.2", "zstandard==0.25.0"]
+
+[project.optional-dependencies]
+test = ["playwright==1.63.0", "pytest==9.1.1", "ruff>=0.14,<1", "build>=1.2,<2"]
+
+[project.scripts]
+wiwo-ma-platform = "wiwo_ma.platform.cli:main"
+
+[project.urls]
+Repository = "https://github.com/ReamonYim/WiWo-MA"
+Documentation = "https://github.com/ReamonYim/WiWo-MA/blob/main/README.md"
+Issues = "https://github.com/ReamonYim/WiWo-MA/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+# Public CPU tests need no retained research datasets or GPU.
+testpaths = ["tests/platform"]
+markers = ["gpu: requires explicit GPU authorization", "restricted: requires retained independent research artifacts"]
+
+[tool.ruff.lint]
+# Check actual syntax/name errors without rewriting frozen numerical formulas.
+select = ["E9", "F63", "F7", "F82"]

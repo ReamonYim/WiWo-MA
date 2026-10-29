@@ -1,0 +1,56 @@
+name: CPU checks
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cpu-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  source-install-and-tests:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      CUDA_VISIBLE_DEVICES: "-1"
+      WIWO_GPU: "-1"
+      OPENBLAS_NUM_THREADS: "2"
+      OMP_NUM_THREADS: "2"
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6, resolved from upstream
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6, resolved from upstream
+        with:
+          python-version: "3.11"
+      - name: Install the source tree
+        run: |
+          python -m pip install -e '.[test]'
+          python -m pip check
+      - name: Import and metadata only; no CUDA initialization
+        run: |
+          python -c "from wiwo_ma.platform.physics import PhysicalWorld; from wiwo_ma.platform.native_rt import NativeRT; print('Native adapter imported without a query')"
+          python -m wiwo_ma.platform.cli doctor
+      - name: Static and actual compiled-GUI prerequisites
+        run: |
+          node --version
+          python -m ruff check src tests examples scripts
+          python -m compileall -q src examples scripts
+          python scripts/release/check_links.py
+      - name: Public CPU mechanics, storage, input and failure regressions
+        run: python -m pytest tests/platform -q --strict-markers --strict-config
+      - name: Runnable mechanical examples
+        run: |
+          python examples/01_single_ma.py --headless
+          python examples/02_dynamic_6dma.py --headless
+      - name: Tracklist and source-bundle checks
+        run: |
+          python scripts/release/audit_public.py --output artifacts/ci-source-scan.json
+          python scripts/release/source_bundle.py --output dist/WiWo-MA-v1.0.0-source.tar.gz
+
+# No hosted GPU tracing, private-data tests, publication, credentials or badges.

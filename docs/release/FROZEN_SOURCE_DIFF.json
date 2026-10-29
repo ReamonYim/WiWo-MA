@@ -1,0 +1,680 @@
+{
+  "status": "Passed_frozen_numerical_core_preservation",
+  "source_archive": "WiWo-MA-Platform-1.0.0.tar.gz",
+  "source_archive_sha256": "dd56af848e72c36b22073e658f61b4fcd9e3154b5ee57c0fedc9f4b05f9ccd97",
+  "comparison": "Selected source extraction; no original research files changed",
+  "new_GPU_seconds": 0,
+  "byte_identical_numerical_modules": [
+    "src/wiwo_ma/config.py",
+    "src/wiwo_ma/mechanics.py",
+    "src/wiwo_ma/platform/benchmark.py",
+    "src/wiwo_ma/platform/config.py",
+    "src/wiwo_ma/platform/continuous_validation.py",
+    "src/wiwo_ma/platform/controller.py",
+    "src/wiwo_ma/platform/dataset_audit.py",
+    "src/wiwo_ma/platform/delivery.py",
+    "src/wiwo_ma/platform/examples.py",
+    "src/wiwo_ma/platform/jobs.py",
+    "src/wiwo_ma/platform/longstudy.py",
+    "src/wiwo_ma/platform/motion.py",
+    "src/wiwo_ma/platform/native_rt.py",
+    "src/wiwo_ma/platform/path_capture.py",
+    "src/wiwo_ma/platform/physical_gate.py",
+    "src/wiwo_ma/platform/physics.py",
+    "src/wiwo_ma/platform/polarized_paths.py",
+    "src/wiwo_ma/platform/replay_analysis.py",
+    "src/wiwo_ma/platform/resource_estimate.py",
+    "src/wiwo_ma/platform/scenario_checks.py",
+    "src/wiwo_ma/platform/scene_geometry.py",
+    "src/wiwo_ma/platform/session_control.py",
+    "src/wiwo_ma/platform/state_identity.py",
+    "src/wiwo_ma/platform/storage.py",
+    "src/wiwo_ma/platform/validation.py",
+    "src/wiwo_ma/platform/workflow.py",
+    "src/wiwo_ma/scene.py",
+    "src/wiwo_ma/v4/collision.py",
+    "src/wiwo_ma/v4/visualization.py",
+    "src/wiwo_ma/v5/actor_mesh.py"
+  ],
+  "files": [
+    {
+      "path": "assets/platform/viser-ordered-gui-v1/LICENSE-Viser",
+      "original_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "public_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "assets/platform/viser-ordered-gui-v1/input_guard.js",
+      "original_sha256": "257253ad8300ee2b928cd17f7fc0e3fe27f46e79b2c80ec04ba5ea4090ff7a4e",
+      "public_sha256": "257253ad8300ee2b928cd17f7fc0e3fe27f46e79b2c80ec04ba5ea4090ff7a4e",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "assets/reflector.obj",
+      "original_sha256": "6e9ed5bda8ed3ce2d84adb16e41efdc7ffcdcc94cf115a68bfb0dfc9ecc00f14",
+      "public_sha256": "6e9ed5bda8ed3ce2d84adb16e41efdc7ffcdcc94cf115a68bfb0dfc9ecc00f14",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "assets/reflector.xml",
+      "original_sha256": "1e9956b5bb0302e1007ca3aac9ad9eab6596a1005ea0f4f66a147b536eda0eeb",
+      "public_sha256": "1e9956b5bb0302e1007ca3aac9ad9eab6596a1005ea0f4f66a147b536eda0eeb",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "configs/platform/munich64_k40_28ghz.json",
+      "original_sha256": "6d14d951320ebf4d9f40187093bfb827554cea73d68091b329fe24a04190d7d6",
+      "public_sha256": "6d14d951320ebf4d9f40187093bfb827554cea73d68091b329fe24a04190d7d6",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "configs/platform/munich_continuous_full64_4s_NOT_authorized.json",
+      "original_sha256": "4bd49cf6e0e6bfd424b85d12797ffc348dfafe284deb3bccef3e41cab059faca",
+      "public_sha256": "4bd49cf6e0e6bfd424b85d12797ffc348dfafe284deb3bccef3e41cab059faca",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "configs/platform/munich_continuous_full64_audited_4s_PROPOSED.json",
+      "original_sha256": "af557e0737ebf59f2a35b5529534db3555a5ec6f5b4ed8086c2d10390d0921dd",
+      "public_sha256": "af557e0737ebf59f2a35b5529534db3555a5ec6f5b4ed8086c2d10390d0921dd",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "configs/platform/munich_continuous_small_4s.json",
+      "original_sha256": "51eeeab33c212eb2a844b0a2595569571e2e47d90f1a1e563eecbafbfec9d830",
+      "public_sha256": "51eeeab33c212eb2a844b0a2595569571e2e47d90f1a1e563eecbafbfec9d830",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "configs/platform/munich_continuous_small_audited_4s.json",
+      "original_sha256": "4427b8073d22a2564c4899df1bbe4520245a90a6037afc68a4b31e0fa7925520",
+      "public_sha256": "4427b8073d22a2564c4899df1bbe4520245a90a6037afc68a4b31e0fa7925520",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "configs/platform/reflector.json",
+      "original_sha256": "5e42167e78eb9fc86a492798641c573c64dc5639f2e88849a6f7e4fa1cd065d8",
+      "public_sha256": "5e42167e78eb9fc86a492798641c573c64dc5639f2e88849a6f7e4fa1cd065d8",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "pyproject.toml",
+      "original_sha256": "35d340354b3728c90d7e72502b3f304b27fab17baeeb993f057c7f568f6668b3",
+      "public_sha256": "2453df03435690de4caa1fb1b4a068abd2476f8bbe60d4b859eb75196f821320",
+      "status": "Modified",
+      "reason": "Public platform-only install and CPU test/static-check dependencies; no inferred license or authors."
+    },
+    {
+      "path": "requirements-platform-v1.lock.txt",
+      "original_sha256": "650154f6b7f2fcbb8ebcececc293a7164f92e708b093ff9dc4c7530b430e95aa",
+      "public_sha256": null,
+      "status": "Excluded_or_relocated",
+      "reason": "Redundant original requirements renamed to validated public files; raw artifacts and retired helpers are excluded."
+    },
+    {
+      "path": "requirements-platform-v1.txt",
+      "original_sha256": "e77dc7c2c15540d2aae87abf292c32bb442bd20e572720b7b41ab1b604621779",
+      "public_sha256": null,
+      "status": "Excluded_or_relocated",
+      "reason": "Redundant original requirements renamed to validated public files; raw artifacts and retired helpers are excluded."
+    },
+    {
+      "path": "scripts/audit_platform_physical_native_gate.py",
+      "original_sha256": "7e1e1daa222297fc818658370c8aeaf26c2048154a0f6e055cdd5b27787d5e94",
+      "public_sha256": "7e1e1daa222297fc818658370c8aeaf26c2048154a0f6e055cdd5b27787d5e94",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "scripts/audit_platform_sdk16_results.py",
+      "original_sha256": "218481a13b19ff3bf1918d4a0ad3205798cc40fa1dd97166b61f0d0b3d0d0719",
+      "public_sha256": "218481a13b19ff3bf1918d4a0ad3205798cc40fa1dd97166b61f0d0b3d0d0719",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "scripts/close_platform_csi30s_delivery.py",
+      "original_sha256": "213bd9e71c5de1e9421cafb21578cdffa9cd94b1b2ce16986c32b2f967686633",
+      "public_sha256": "213bd9e71c5de1e9421cafb21578cdffa9cd94b1b2ce16986c32b2f967686633",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "scripts/diagnose_platform_csi30s.py",
+      "original_sha256": "7ba1f569ac95022329486accfa7169351cc00602f4956754909af19d5cc5c689",
+      "public_sha256": "7ba1f569ac95022329486accfa7169351cc00602f4956754909af19d5cc5c689",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "scripts/diagnose_sdk16_path_physics.py",
+      "original_sha256": "509c6afea38273473e5a83abfd5c1570cc3faa2113c19b3da8bc995ef25efad7",
+      "public_sha256": "509c6afea38273473e5a83abfd5c1570cc3faa2113c19b3da8bc995ef25efad7",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "scripts/diagnose_sdk16_short_segments.py",
+      "original_sha256": "9bb34c26d96075d2d3c33ab04982302248ab51d7a4706381109129b3ceb692e2",
+      "public_sha256": "9bb34c26d96075d2d3c33ab04982302248ab51d7a4706381109129b3ceb692e2",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "scripts/enrich_platform_csi30s_audit.py",
+      "original_sha256": "4afdae73614b6418576acfa9e0950b11c683afab0c12d337ab8fc892bfc14111",
+      "public_sha256": "4afdae73614b6418576acfa9e0950b11c683afab0c12d337ab8fc892bfc14111",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "scripts/platform/monitor_GPU_namespace_bound.py",
+      "original_sha256": "0a4e9e397d7c47e8df183df8e45ba65d25f3115a7531b01e2d00240ddbde3c90",
+      "public_sha256": "0a4e9e397d7c47e8df183df8e45ba65d25f3115a7531b01e2d00240ddbde3c90",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "scripts/platform/read_saved_CSI.py",
+      "original_sha256": "ba0107ab4c6437263716ee586b5f3d8cbfd57912f19b29265fe1e918ef629aaf",
+      "public_sha256": "ba0107ab4c6437263716ee586b5f3d8cbfd57912f19b29265fe1e918ef629aaf",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "scripts/platform/run",
+      "original_sha256": "b65be7ef1166b3ca8e3241460c7e77644125c29841c088e83d66494899831699",
+      "public_sha256": "28e56c49d37a5458004bcf342f03b3ad321ed43682bb5a9761ed8803570dcdc5",
+      "status": "Modified",
+      "reason": "Portable interpreter and OptiX selection; preserve device authorization policy."
+    },
+    {
+      "path": "scripts/platform/run_current_pose_Web_gate.py",
+      "original_sha256": "a6a908dc2c6e1cf04eafb9efd328b795740cf371d4faf4e161c8002d6c23c6fa",
+      "public_sha256": "37d5c8be566021d467bf2661b6eff1d8111c6406d30755d770530adf0aec3d01",
+      "status": "Modified",
+      "reason": "Keep the exact pure gate-policy helper used by tests; exclude archived GPU orchestration."
+    },
+    {
+      "path": "scripts/run_platform_sdk16_audit.py",
+      "original_sha256": "8d0a359a14d52d74812bbd2fac5c71fd4318f8bd153a9bf22c454b3ae435bde2",
+      "public_sha256": "8d0a359a14d52d74812bbd2fac5c71fd4318f8bd153a9bf22c454b3ae435bde2",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "src/wiwo_ma/__init__.py",
+      "original_sha256": "e3888254ed1ea3fbe40d4eb066bceee0d9a3a0b79c5708116b2d22b141e7ec8f",
+      "public_sha256": "e3888254ed1ea3fbe40d4eb066bceee0d9a3a0b79c5708116b2d22b141e7ec8f",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "src/wiwo_ma/config.py",
+      "original_sha256": "fa8081f36d4e15c617333d8245f6362c460360651b0223b397f07ba1b71d72b2",
+      "public_sha256": "fa8081f36d4e15c617333d8245f6362c460360651b0223b397f07ba1b71d72b2",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "src/wiwo_ma/mechanics.py",
+      "original_sha256": "15a96b90ede24f6b8d32f0aacbeb1997a6f1e5730a780bc36081b80ab7576f28",
+      "public_sha256": "15a96b90ede24f6b8d32f0aacbeb1997a6f1e5730a780bc36081b80ab7576f28",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "src/wiwo_ma/platform/__init__.py",
+      "original_sha256": "a1bfc8593e370e6c3e89a392f8d0b8db82fc2dba18ecaa288a3d8107cad8fd43",
+      "public_sha256": "a1bfc8593e370e6c3e89a392f8d0b8db82fc2dba18ecaa288a3d8107cad8fd43",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "src/wiwo_ma/platform/benchmark.py",
+      "original_sha256": "ad46fbe4a339240342522a95d94b8d68e7528f896f4b96850f5ccea4bb29e60f",
+      "public_sha256": "ad46fbe4a339240342522a95d94b8d68e7528f896f4b96850f5ccea4bb29e60f",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "src/wiwo_ma/platform/cli.py",
+      "original_sha256": "0c4f6e51535b2f8c7b09ecfe0334f66253ba8b842ad0ab646aab56b2a09b2bae",
+      "public_sha256": "c654712533e1e6340a693fc9f4744a8340f7016fdda0dcee88bec630001249cf",
+      "status": "Modified",
+      "reason": "Remove archive-specific commands; retain generic platform job/preview/replay commands. Default ports become portable."
+    },
+    {
+      "path": "src/wiwo_ma/platform/config.py",
+      "original_sha256": "e15331fb593b7056c2e5980fbda0fb10bf63ce2d88dbb6475a49b955f7d19542",
+      "public_sha256": "e15331fb593b7056c2e5980fbda0fb10bf63ce2d88dbb6475a49b955f7d19542",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "src/wiwo_ma/platform/continuous_validation.py",
+      "original_sha256": "28a56c180f35c702c2c0756085f5945d31130d0af5ae49282de95c5ac854b854",
+      "public_sha256": "28a56c180f35c702c2c0756085f5945d31130d0af5ae49282de95c5ac854b854",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "src/wiwo_ma/platform/controller.py",
+      "original_sha256": "131b939e372ebe4d75038d73b0464a528661a473942364dd6ecb6cb895f92788",
+      "public_sha256": "131b939e372ebe4d75038d73b0464a528661a473942364dd6ecb6cb895f92788",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "src/wiwo_ma/platform/dataset_audit.py",
+      "original_sha256": "e3912d0317303fd1f4a4ab79312847d4d7954f7fcca52f5c09b09719ee5be71c",
+      "public_sha256": "e3912d0317303fd1f4a4ab79312847d4d7954f7fcca52f5c09b09719ee5be71c",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "src/wiwo_ma/platform/delivery.py",
+      "original_sha256": "ec2ea6af4f657380e827216f43bf54f07c60f96fd4524e9c7d01f44a89e50eb7",
+      "public_sha256": "ec2ea6af4f657380e827216f43bf54f07c60f96fd4524e9c7d01f44a89e50eb7",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "src/wiwo_ma/platform/environment.py",
+      "original_sha256": "69a6a04dcf3f6d518cc4284eb4e7178b605cc6b0c9c76c21150100262740a7b9",
+      "public_sha256": "75e0dadae5bf5cbef5cb6af6dd7f272e10274a6f7d0b3bc3d277d21d289af04a",
+      "status": "Modified",
+      "reason": "Remove host-specific OptiX fallback; report system discovery without claiming GPU compatibility."
+    },
+    {
+      "path": "src/wiwo_ma/platform/examples.py",
+      "original_sha256": "76b421ab4f41824efafece11ecc4d9eff688423001f5560fe599c19e58fe5abf",
+      "public_sha256": "76b421ab4f41824efafece11ecc4d9eff688423001f5560fe599c19e58fe5abf",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "src/wiwo_ma/platform/gui_delivery.py",
+      "original_sha256": "048545d14a0cff51a96714c313b3e4e5bd5cafb9797afabedfa76e807112bc0e",
+      "public_sha256": "72fc4269112600c038d0a9734fae17bd3d8b6a062e7ed8a0ea87dea480743478",
+      "status": "Modified",
+      "reason": "Split two statements for static-parser compatibility; GUI semantics unchanged."
+    },
+    {
+      "path": "src/wiwo_ma/platform/jobs.py",
+      "original_sha256": "e39b0dc43ef90c1909f5d5db45621cac2aa4af9be088d4f80e93c24b150b9135",
+      "public_sha256": "e39b0dc43ef90c1909f5d5db45621cac2aa4af9be088d4f80e93c24b150b9135",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "src/wiwo_ma/platform/longstudy.py",
+      "original_sha256": "12b5da035a0548e5fd62d4f42a4498e71af8f7737b8eb01f58529d819ac33781",
+      "public_sha256": "12b5da035a0548e5fd62d4f42a4498e71af8f7737b8eb01f58529d819ac33781",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "src/wiwo_ma/platform/motion.py",
+      "original_sha256": "3e1cd2e42447db2194e220ccbaffb5cbf6c267d1f771c5cb54a75ae46e1c409e",
+      "public_sha256": "3e1cd2e42447db2194e220ccbaffb5cbf6c267d1f771c5cb54a75ae46e1c409e",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "src/wiwo_ma/platform/native_rt.py",
+      "original_sha256": "249d3a91e854a2f1ee02e8377c8bf66f8d1ff1a458abb4fed691f163a7f0b7d0",
+      "public_sha256": "249d3a91e854a2f1ee02e8377c8bf66f8d1ff1a458abb4fed691f163a7f0b7d0",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "src/wiwo_ma/platform/path_capture.py",
+      "original_sha256": "f0f91dedfbf6d86f3b1ccf1074d39bdc3f5691341fb672bcb183aa2b4249637e",
+      "public_sha256": "f0f91dedfbf6d86f3b1ccf1074d39bdc3f5691341fb672bcb183aa2b4249637e",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "src/wiwo_ma/platform/physical_gate.py",
+      "original_sha256": "d077e7fe8f56f8712391f278a1f4c8020cf5a2245a541bf6c9674294f580280b",
+      "public_sha256": "d077e7fe8f56f8712391f278a1f4c8020cf5a2245a541bf6c9674294f580280b",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "src/wiwo_ma/platform/physics.py",
+      "original_sha256": "adddf3122cdccb1dd75a7b5b0876228afec560462e992b5d809617a14ed80ea7",
+      "public_sha256": "adddf3122cdccb1dd75a7b5b0876228afec560462e992b5d809617a14ed80ea7",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "src/wiwo_ma/platform/polarized_paths.py",
+      "original_sha256": "a57bdca8f1bbecb16dc618e4ca65ca9d8028947272597bcd8dda09b126a7b6df",
+      "public_sha256": "a57bdca8f1bbecb16dc618e4ca65ca9d8028947272597bcd8dda09b126a7b6df",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "src/wiwo_ma/platform/replay_analysis.py",
+      "original_sha256": "f900c3eb7fb47bba2ce9c47b385d0d65c360a4a8dd7743601d0ce52fc80c774b",
+      "public_sha256": "f900c3eb7fb47bba2ce9c47b385d0d65c360a4a8dd7743601d0ce52fc80c774b",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "src/wiwo_ma/platform/resource_estimate.py",
+      "original_sha256": "4309a7129ec00059fb981574aa5273fe71b00ed5ca417d5937b613d18b2a206f",
+      "public_sha256": "4309a7129ec00059fb981574aa5273fe71b00ed5ca417d5937b613d18b2a206f",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "src/wiwo_ma/platform/scenario_checks.py",
+      "original_sha256": "99db602f68d064c3c72acd2f9c967493a95277022d057a64200bd4a85e16e925",
+      "public_sha256": "99db602f68d064c3c72acd2f9c967493a95277022d057a64200bd4a85e16e925",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "src/wiwo_ma/platform/scene_geometry.py",
+      "original_sha256": "c3f411ce47fbe9ce2edd24a5c2a397d0931f5b93df70d47c0948ed9950ef117a",
+      "public_sha256": "c3f411ce47fbe9ce2edd24a5c2a397d0931f5b93df70d47c0948ed9950ef117a",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "src/wiwo_ma/platform/session_control.py",
+      "original_sha256": "705f17a4c2b36c6a9dedf31017d4ded6a35ec56adb8764e687e06c7f2fbc89ef",
+      "public_sha256": "705f17a4c2b36c6a9dedf31017d4ded6a35ec56adb8764e687e06c7f2fbc89ef",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "src/wiwo_ma/platform/state_identity.py",
+      "original_sha256": "ed346c2f317ed1a186992e61ad65fcb3f2657f7d45b4cab59888b5b32a977e4a",
+      "public_sha256": "ed346c2f317ed1a186992e61ad65fcb3f2657f7d45b4cab59888b5b32a977e4a",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "src/wiwo_ma/platform/storage.py",
+      "original_sha256": "08b96dcb1dd2e58495174cf6c6b9d21cedcfd0c8f2e49485cea8901a64057777",
+      "public_sha256": "08b96dcb1dd2e58495174cf6c6b9d21cedcfd0c8f2e49485cea8901a64057777",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "src/wiwo_ma/platform/validation.py",
+      "original_sha256": "d4390c5cfacc72b250d3d4079869ca04f4e4965022c34c0eaf485cf9432ad0c4",
+      "public_sha256": "d4390c5cfacc72b250d3d4079869ca04f4e4965022c34c0eaf485cf9432ad0c4",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "src/wiwo_ma/platform/web.py",
+      "original_sha256": "9a57a28ebcfb76ba4554595ebe4d2dbd921c449facdbe57f6dc942dc4abb416b",
+      "public_sha256": "a098b813e5eb3c3755c81f753060a239448fcbc5d0df5a563e59ceef5d2c7e7c",
+      "status": "Modified",
+      "reason": "Change only default port and example input paths to portable public values."
+    },
+    {
+      "path": "src/wiwo_ma/platform/workflow.py",
+      "original_sha256": "2c04da0d2f5534fe305336b96375b4d963c5c65359cccaf3eac3b24c77152232",
+      "public_sha256": "2c04da0d2f5534fe305336b96375b4d963c5c65359cccaf3eac3b24c77152232",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "src/wiwo_ma/scene.py",
+      "original_sha256": "bea9329e32d1ead71af08b8253c3bc31bae59388e1abd078a21cb6f89994d90e",
+      "public_sha256": "bea9329e32d1ead71af08b8253c3bc31bae59388e1abd078a21cb6f89994d90e",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "src/wiwo_ma/v4/__init__.py",
+      "original_sha256": "c4ec253117646009f8c928e34419d5b20c46dec3c2fce3d5de674f42682a4b24",
+      "public_sha256": "c4ec253117646009f8c928e34419d5b20c46dec3c2fce3d5de674f42682a4b24",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "src/wiwo_ma/v4/collision.py",
+      "original_sha256": "a8aa24965447cb07ad5d4ad466535c57c8b952f4590c46a06e088d95b3968d6f",
+      "public_sha256": "a8aa24965447cb07ad5d4ad466535c57c8b952f4590c46a06e088d95b3968d6f",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "src/wiwo_ma/v4/visualization.py",
+      "original_sha256": "9f5b8095aebddaaa47b8eb2b938deb621006c230d7eba1279345811eca20943b",
+      "public_sha256": "9f5b8095aebddaaa47b8eb2b938deb621006c230d7eba1279345811eca20943b",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "src/wiwo_ma/v5/__init__.py",
+      "original_sha256": "9216db8cbb46fed92cae6790dc8f210c2c3740c77fa5b4c3d009d7636c59b9aa",
+      "public_sha256": "9216db8cbb46fed92cae6790dc8f210c2c3740c77fa5b4c3d009d7636c59b9aa",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "src/wiwo_ma/v5/actor_mesh.py",
+      "original_sha256": "a8684920fa6c6a3e99933b804cb3cf315ba35a6c2956fd08b4377ffc7e411e7f",
+      "public_sha256": "a8684920fa6c6a3e99933b804cb3cf315ba35a6c2956fd08b4377ffc7e411e7f",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "tests/platform/test_GPU_namespace_bound.py",
+      "original_sha256": "5035f7ebd0a498a907b85a8c657ee1b3a6b4a800d8a0d312a44fc0bc67bde621",
+      "public_sha256": "5035f7ebd0a498a907b85a8c657ee1b3a6b4a800d8a0d312a44fc0bc67bde621",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "tests/platform/test_bounded_scenarios.py",
+      "original_sha256": "f3d626c0f907bf4ed9bb4bf9d51838fa6771eba55cd3d99ccff0391ed4bcbda7",
+      "public_sha256": "af13a93ccf545663120572ca89a6b23ddd39b97319b34c46e8220c6a0908a230",
+      "status": "Modified",
+      "reason": "Move private-artifact test to restricted collection or relocate its unchanged configuration fixture; public assertions retained."
+    },
+    {
+      "path": "tests/platform/test_control_and_validation.py",
+      "original_sha256": "4b6a2d009d7ede3a541fd9ead456e54d2253a771a6daafdc0148cdac75b4dab8",
+      "public_sha256": "4b6a2d009d7ede3a541fd9ead456e54d2253a771a6daafdc0148cdac75b4dab8",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "tests/platform/test_controller.py",
+      "original_sha256": "0f7881ce85b3fc0ce979183619a7b16228e0d8a7b0307e2e9e1843b6a07b5958",
+      "public_sha256": "503744d12dd9d27c77ebcfc4b94fdef096d27d9d61b20682be75d65ffe96b2f0",
+      "status": "Modified",
+      "reason": "Move private-artifact test to restricted collection or relocate its unchanged configuration fixture; public assertions retained."
+    },
+    {
+      "path": "tests/platform/test_dataset_audit.py",
+      "original_sha256": "f3358706026f520f3f16798ed7263174246a018bddd67c0600ac6a217fb34d72",
+      "public_sha256": "f3358706026f520f3f16798ed7263174246a018bddd67c0600ac6a217fb34d72",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "tests/platform/test_fullscale_admission.py",
+      "original_sha256": "0386ac5da58d5d93e379bd946661518257645569384141a7762156e1f39584fd",
+      "public_sha256": "b83ee4ff5bb7678cc9ef83f4e687751ca943cf99bc9cf5b931ad19e507713b43",
+      "status": "Modified",
+      "reason": "Move private-artifact test to restricted collection or relocate its unchanged configuration fixture; public assertions retained."
+    },
+    {
+      "path": "tests/platform/test_gui_delivery.py",
+      "original_sha256": "35c97ba9e4522a2fa8077aa6987163786c2b98b617f98dea59d8bdbac7c40ff4",
+      "public_sha256": "35c97ba9e4522a2fa8077aa6987163786c2b98b617f98dea59d8bdbac7c40ff4",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "tests/platform/test_interactive_generalization.py",
+      "original_sha256": "558e17dcc63b1c0bee54be857c92ddb104630716eba81875d0d9aaa63670e573",
+      "public_sha256": "558e17dcc63b1c0bee54be857c92ddb104630716eba81875d0d9aaa63670e573",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "tests/platform/test_joint_workflow.py",
+      "original_sha256": "fe1cb638bb7f862ca8c30763666bee5f0ea060fe390a464d487310752c3fe05c",
+      "public_sha256": "fe1cb638bb7f862ca8c30763666bee5f0ea060fe390a464d487310752c3fe05c",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "tests/platform/test_live_job_attachment.py",
+      "original_sha256": "5859bf8782a4eb3c4294bcd52fcc6f42770d7dc110902cfa5003a3d4c31a0df9",
+      "public_sha256": "a8e1f03817b186bd7d7f94af7c3b57df1ddae93925b6d35878d203e1bd0ed94a",
+      "status": "Modified",
+      "reason": "Move private-artifact test to restricted collection or relocate its unchanged configuration fixture; public assertions retained."
+    },
+    {
+      "path": "tests/platform/test_long_and_provenance.py",
+      "original_sha256": "0fff033ba9c60754e21f693b0dae8f74ff6d755faeb29536db22527a99d9675e",
+      "public_sha256": "1aa827732dbbdef17a1b126f1a18996f2362a42efc9a19c4f50db33c97048256",
+      "status": "Modified",
+      "reason": "Move private-artifact test to restricted collection or relocate its unchanged configuration fixture; public assertions retained."
+    },
+    {
+      "path": "tests/platform/test_long_failure_boundary.py",
+      "original_sha256": "20be68743c8e70cdb9e6907ff31aeba75cf550ce004b5bc86789138cd27e7662",
+      "public_sha256": "20be68743c8e70cdb9e6907ff31aeba75cf550ce004b5bc86789138cd27e7662",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "tests/platform/test_native_contract.py",
+      "original_sha256": "6135ac4aad79ca7a76d6cd12f92eea5861a03bea5478a9caa5d62afc237094b0",
+      "public_sha256": "6135ac4aad79ca7a76d6cd12f92eea5861a03bea5478a9caa5d62afc237094b0",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "tests/platform/test_physical_native_independent_audit.py",
+      "original_sha256": "c58ce29a0d87a52ec3974d3daab012452dde8c1e11093a7b5a491907f64c17a9",
+      "public_sha256": "c58ce29a0d87a52ec3974d3daab012452dde8c1e11093a7b5a491907f64c17a9",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "tests/platform/test_physical_path_audit.py",
+      "original_sha256": "f0d4819c4b754cd1d8d3aa4c3f32d168275e7cf3f5a21b3e2f371594c11bdc79",
+      "public_sha256": "f0d4819c4b754cd1d8d3aa4c3f32d168275e7cf3f5a21b3e2f371594c11bdc79",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "tests/platform/test_physics.py",
+      "original_sha256": "350f50ab0582e4d7b8272681b19ec120db3d00f22f4c799dce0de60fdcb67488",
+      "public_sha256": "350f50ab0582e4d7b8272681b19ec120db3d00f22f4c799dce0de60fdcb67488",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "tests/platform/test_polarized_paths.py",
+      "original_sha256": "3386cb43a9b37a540641976844d4d79f7020a9634c19dd0cbe1d5bffab1b03e8",
+      "public_sha256": "3386cb43a9b37a540641976844d4d79f7020a9634c19dd0cbe1d5bffab1b03e8",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "tests/platform/test_replay_analysis.py",
+      "original_sha256": "c550a0cef0c30a43443c713473e71f19a2c26ba2c3026aaf471e356971340d71",
+      "public_sha256": "c550a0cef0c30a43443c713473e71f19a2c26ba2c3026aaf471e356971340d71",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "tests/platform/test_replay_clock_roundoff.py",
+      "original_sha256": "49de212385ecf9bdb0f55f1d0641b10d21f0c6f907a0aa88de2b240253ed742b",
+      "public_sha256": "49de212385ecf9bdb0f55f1d0641b10d21f0c6f907a0aa88de2b240253ed742b",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "tests/platform/test_replay_numeric_sidecar.py",
+      "original_sha256": "109466f88c7c70402895ce57bdf55dcf5f60259a0b2b7e740e4ff91ec5abd36d",
+      "public_sha256": "109466f88c7c70402895ce57bdf55dcf5f60259a0b2b7e740e4ff91ec5abd36d",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "tests/platform/test_sdk16_audit.py",
+      "original_sha256": "a3f265b0cd6ad8e198cec26de8bef8c35a08bc2f9eb309f6e96162738d8ef74b",
+      "public_sha256": "a3f265b0cd6ad8e198cec26de8bef8c35a08bc2f9eb309f6e96162738d8ef74b",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "tests/platform/test_session_and_failure_recovery.py",
+      "original_sha256": "3bf36a8e17325b5ad48f6617070dced3532bd3a65e27225b99dc13322b64996a",
+      "public_sha256": "3bf36a8e17325b5ad48f6617070dced3532bd3a65e27225b99dc13322b64996a",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "tests/platform/test_storage.py",
+      "original_sha256": "3b8f3faf341bd2e4b270cf6b6cd7d0db043cf9e25d2b235bec6a064ee02d52c3",
+      "public_sha256": "3b8f3faf341bd2e4b270cf6b6cd7d0db043cf9e25d2b235bec6a064ee02d52c3",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "tests/platform/test_v1_gate_policy.py",
+      "original_sha256": "e9d5752305e0f1700849e5816ead718e38291683ab553ceefe02f8f68d9bb8f6",
+      "public_sha256": "e9d5752305e0f1700849e5816ead718e38291683ab553ceefe02f8f68d9bb8f6",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    },
+    {
+      "path": "tests/platform/test_v1_replay_entrypoint.py",
+      "original_sha256": "13e209dd17217bb2187636c84ed7b7837a3c7eb49316656b4ffd0b84fc285aa5",
+      "public_sha256": "13e209dd17217bb2187636c84ed7b7837a3c7eb49316656b4ffd0b84fc285aa5",
+      "status": "Unchanged",
+      "reason": "Byte-identical to frozen file"
+    }
+  ],
+  "excluded_categories": [
+    "Original HDF5 and SDK reference/path arrays",
+    "GPU authorizations and ledgers",
+    "Raw job logs and machine-bound QA manifests",
+    "Dependency source trees and compiled frontend",
+    "Munich city meshes and old propagation/ML engines"
+  ],
+  "new_files_scope": "Public README/docs/gallery/examples/CPU release guards/CI; their final hashes are in the source-bundle manifest",
+  "test_reorganization": {
+    "public_CPU_tests": 136,
+    "restricted_retained_artifact_tests": 4,
+    "restricted_bodies": "Preserved in tests/restricted/test_retained_artifacts.py; not run as public tests",
+    "fixture_move": "Legacy configuration metadata only, tests/fixtures/legacy30s_config.json; no HDF or approval exported"
+  },
+  "new_bounded_example": "CPU planning example replaces the legacy reflector example in the user guide; no new SDK certification",
+  "approved_publication_metadata": {
+    "owner": "ReamonYim",
+    "repository": "WiWo-MA",
+    "visibility": "public",
+    "license": "MIT",
+    "author_metadata": "Not inferred; CITATION.md instead of invalid draft CFF",
+    "numerical_core_changed": false
+  }
+}

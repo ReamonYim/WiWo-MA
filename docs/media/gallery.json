@@ -1,0 +1,74 @@
+{
+  "status": "Passed_actual_browser_gallery_no_new_GPU",
+  "images": [
+    {
+      "file": "01_munich_overview.png",
+      "title": "Actual Munich scene \u00b7 16 panels / 64 TX / 40 UE",
+      "physical_time_s": 0.0,
+      "mode": "stored_replay",
+      "CSI_source": "Recorded native HDF5",
+      "sha256": "3585ed414ccc13b141e13e2d762694735bed4b682941452c64572f89262d416b"
+    },
+    {
+      "file": "02_full64_array.png",
+      "title": "Actual stored antenna geometry \u00b7 64 physical TX ports",
+      "physical_time_s": 0.0,
+      "mode": "stored_replay",
+      "CSI_source": "Recorded native HDF5",
+      "sha256": "e46e63d2f7558abdd264143030e913beb764c8dfd4446e9e4fb9b66c1de8db75"
+    },
+    {
+      "file": "03_mechanics_controls.png",
+      "title": "Mechanical input draft \u00b7 bounded translation and rotation",
+      "physical_time_s": 0.0,
+      "mode": "physical_preview_no_synthetic_CSI",
+      "CSI_source": "No CSI computed",
+      "sha256": "fdd46dba1745498507617611d7f99fe2fdfb7fc57cb6069256a7816cd9fd97df"
+    },
+    {
+      "file": "04_panel_motion.png",
+      "title": "Executed translation and rotation \u00b7 geometry preview only",
+      "physical_time_s": 0.89,
+      "mode": "physical_preview_no_synthetic_CSI",
+      "CSI_source": "No CSI computed",
+      "sha256": "142786c985f819e592ff336af95b2ebdf367caaf18e279972394e06f59f913ff"
+    },
+    {
+      "file": "05_actor_occlusion.png",
+      "title": "Actual recorded actor occlusion \u00b7 UE0 LOS ports 64 \u2192 0 \u2192 64",
+      "physical_time_s": 1.68,
+      "mode": "stored_replay",
+      "CSI_source": "Recorded native HDF5",
+      "sha256": "6e01ed33e3598ba2ea985c8e99ac3072570a8324be3871563edb824c51b7c267"
+    },
+    {
+      "file": "06_csi_response.png",
+      "title": "Actual complex CSI amplitude / phase and channel gain",
+      "physical_time_s": 1.68,
+      "mode": "stored_replay",
+      "CSI_source": "Recorded native HDF5",
+      "sha256": "ae409ff7f886adb700fe8e54b77bb43fa604559cf674ab9ffefb3247e9414e9b"
+    },
+    {
+      "file": "07_full_sequence_replay.png",
+      "title": "Complete 401-sample HDF replay \u00b7 physical interval 0\u20134 s",
+      "physical_time_s": 4.0,
+      "mode": "stored_replay",
+      "CSI_source": "Recorded native HDF5",
+      "sha256": "ea6043007626d66633eaa651d384fce574731b8d8abd463bb132160fd964c5d2"
+    }
+  ],
+  "source": "Frozen native full401 dataset; no new native query",
+  "LOS_UE0": [
+    64,
+    0,
+    64
+  ],
+  "mode_annotation": "Preview and recorded CSI explicitly distinguished",
+  "attribution": "Map data \u00a9 OpenStreetMap contributors, ODbL; Sionna RT Munich scene",
+  "additional_plot": {
+    "file": "08_csi_time_frequency.png",
+    "sha256": "6af19fcaf4ea85e1e37dc6e85aa44775e1f923f08499621f68d80c2fa3658048",
+    "source": "Actual frozen small401 HDF, UE0/RX0/TX0; all 401 saved samples; no new RT"
+  }
+}

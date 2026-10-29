@@ -1,0 +1,54 @@
+{
+  "schema": "wiwo-data-catalog-v1",
+  "status": "Catalog_only_no_public_download_claim",
+  "datasets": [
+    {
+      "id": "full401",
+      "frames": 401,
+      "physical_duration_s": 4,
+      "CSI_dt_s": 0.01,
+      "panels": 16,
+      "TX_ports": 64,
+      "UEs": 40,
+      "H_shape_per_frame": [
+        40,
+        1,
+        64,
+        64
+      ],
+      "raw_HDF_sha256": "6810dd78f2b8228021f929f394d4a15a4fee5370493a1af005d5930adb0d8b8d",
+      "independent": {
+        "Passed": 20,
+        "Unknown": 381,
+        "Failed": 0
+      },
+      "download_url": null,
+      "public_data_release": "Pending_ownership_metadata_and_license_review",
+      "CSI_recomputed_for_packaging": false
+    },
+    {
+      "id": "small401",
+      "frames": 401,
+      "physical_duration_s": 4,
+      "CSI_dt_s": 0.01,
+      "panels": 2,
+      "TX_ports": 4,
+      "UEs": 2,
+      "H_shape_per_frame": [
+        2,
+        1,
+        4,
+        64
+      ],
+      "raw_HDF_sha256": "cd5b6530bfc326c73a5d41299ec161353dfb19acee7c77c4367ef8bae75cd43a",
+      "independent": {
+        "Passed": 9,
+        "Unknown": 392,
+        "Failed": 0
+      },
+      "download_url": null,
+      "public_data_release": "Pending_ownership_metadata_and_license_review",
+      "CSI_recomputed_for_packaging": false
+    }
+  ]
+}

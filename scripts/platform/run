@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+task_platform_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)"
+export PYTHONDONTWRITEBYTECODE=1
+export OPENBLAS_NUM_THREADS="${WIWO_BLAS_THREADS:-1}"
+export OMP_NUM_THREADS="${WIWO_BLAS_THREADS:-1}"
+export MKL_NUM_THREADS="${WIWO_BLAS_THREADS:-1}"
+export CUDA_VISIBLE_DEVICES="${WIWO_GPU:--1}"
+# No driver binary or host-specific library path is shipped.
+if [[ -n "${WIWO_OPTIX_LIBRARY:-${DRJIT_LIBOPTIX_PATH:-}}" ]]; then
+  export DRJIT_LIBOPTIX_PATH="${WIWO_OPTIX_LIBRARY:-$DRJIT_LIBOPTIX_PATH}"
+  export LD_LIBRARY_PATH="$(dirname -- "$DRJIT_LIBOPTIX_PATH"):${LD_LIBRARY_PATH:-}"
+fi
+export CUDA_CACHE_PATH="$task_platform_root/.cache/platform/cuda"
+export XDG_CACHE_HOME="$task_platform_root/.cache/platform"
+export TMPDIR="$task_platform_root/.cache/platform/tmp"
+mkdir -p "$TMPDIR" "$CUDA_CACHE_PATH"
+cd "$task_platform_root"
+if [[ -n "${WIWO_PYTHON:-}" ]]; then task_platform_python="$WIWO_PYTHON"
+elif [[ -n "${VIRTUAL_ENV:-}" ]]; then task_platform_python="$VIRTUAL_ENV/bin/python"
+elif [[ -x "$task_platform_root/.venv/bin/python" ]]; then task_platform_python="$task_platform_root/.venv/bin/python"
+else task_platform_python="$(command -v python3)"; fi
+exec "$task_platform_python" -m wiwo_ma.platform.cli "$@"

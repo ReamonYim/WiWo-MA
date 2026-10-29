@@ -1,0 +1,55 @@
+# Private verification and machine state
+.releasework/
+.venv/
+.envs/
+.env
+.env.*
+.cache/
+.state/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+build/
+dist/
+releases/
+
+# Research outputs, independent references and resource approvals
+artifacts/
+experiments/
+*.h5
+*.hdf5
+*.npy
+*.npz
+*.pt
+*.pth
+*.ckpt
+*.pkl
+*.pickle
+*.log
+*.jsonl
+*.pid
+*.lock
+core
+core.*
+
+# Data are supplied separately; the catalog contains no private download URL.
+data/*
+!data/README.md
+!data/manifests/
+!data/manifests/*.json
+
+# Generated from the user's installed dependencies; never vendored.
+assets/platform_generated/
+assets/platform/viser-ordered-gui-v1/index.html
+assets/platform/viser-ordered-gui-v1/adapter.json
+
+# Credentials and editor-local files
+*.pem
+*.key
+id_rsa*
+id_ed25519*
+.DS_Store
+.idea/
+.vscode/
