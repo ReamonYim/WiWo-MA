@@ -4,6 +4,9 @@ This records actual local checks on Linux/Python 3.11. It is not a GitHub
 Actions run and does not claim deployment on another machine. No native GPU
 computation is used to prepare the public copy.
 
+This is the retained **pre-publication local** record. Current hosted CI status
+is available from the repository's actual Actions runs, independently of this table.
+
 | Check | Result |
 |---|---|
 | Fresh isolated virtual environment and editable installation | Passed; dependency consistency check Passed |

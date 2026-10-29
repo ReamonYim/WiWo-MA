@@ -62,7 +62,7 @@ awaits ordered critical callbacks. Permanent tests execute the actual compiled
 sender, and browser evidence covers fill/keyboard/same-value/rapid edits,
 joint panel actions, explicit no-op status and invalid-number refusal.
 
-GitHub-hosted CI status remains **Unknown/not run** until a real repository and
-workflow run exist. Local preparation results are recorded in
+Consult the actual [GitHub Actions runs](https://github.com/ReamonYim/WiWo-MA/actions)
+for hosted CI status at each commit. Local preparation results are recorded in
 `docs/release/LOCAL_VERIFICATION.md`; they must not be displayed as a hosted CI
 badge. No new GPU computation is part of this release-preparation task.

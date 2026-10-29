@@ -128,7 +128,7 @@ from the same HDF5 row. See [data format and replay](docs/data.md).
 ![Recorded CSI and actual timeline](docs/media/07_full_sequence_replay.png)
 
 The [complete gallery](docs/media/README.md) also includes the physical array,
-actual actor occlusion, port-wise CSI and a measured-data time–frequency plot.
+actual actor occlusion, port-wise CSI and a recorded native-CSI time–frequency plot.
 
 ## Configure an experiment
 
