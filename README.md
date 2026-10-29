@@ -66,6 +66,8 @@ Web replay do not require a GPU. Built-in scenes are installed with Sionna RT;
 city meshes and dependency source trees are not vendored in this repository.
 
 ```bash
+git clone https://github.com/ReamonYim/WiWo-MA.git
+cd WiWo-MA
 python3.11 -m venv .venv
 source .venv/bin/activate
 python -m pip install -e '.[test]'

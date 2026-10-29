@@ -5,6 +5,8 @@ Use a source checkout and Python 3.11. The reviewed runtime pins Sionna RT
 Torch and the old research engines are not required.
 
 ```bash
+git clone https://github.com/ReamonYim/WiWo-MA.git
+cd WiWo-MA
 python3.11 -m venv .venv
 source .venv/bin/activate
 python -m pip install -e '.[test]'
