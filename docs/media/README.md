@@ -1,4 +1,24 @@
-# Real platform gallery
+# Platform images
+
+## Current Town02 geometry and capture workflow
+
+The [Town02 overview](town02-map-overview.png) is a projection of the actual
+imported PLY vertices using the current five material groups. It is not a
+browser screenshot or a ray-tracing result.
+
+To capture the current Town02 frontend, panorama and movable antenna panels:
+
+```bash
+.venv-full/bin/python scripts/media/capture_town02.py
+```
+
+The script starts an isolated CPU-preview service, captures the actual browser,
+verifies physical panel motion and displayed TX coordinates, and saves image
+hashes and timestamps in `town02-gallery.json` when successful. It does not
+change an existing background service or use the historical dataset below.
+The interface remains Chinese/bilingual; captions and the main guide are English.
+
+## Historical Munich gallery
 
 These are actual Chromium captures of the source candidate and the frozen
 native Full401 dataset. Capturing them performs **no new ray tracing**. The

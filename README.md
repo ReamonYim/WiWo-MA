@@ -1,130 +1,215 @@
-# WiWo-MA · Town02 地图加载与可移动天线仿真
+# WiWo-MA
 
-在 WiWo-MA 中加载 `Sionna_Town02` 地图，保留原始世界坐标，显示基站、可移动天线面板和 UE，
-并使用 **Sionna RT 2.2.0 内置 ITU 无线材质**。默认场景为 **16 个面板、64 个物理 TX 端口、40 个 UE、2.8 GHz**。
+**A research platform for movable antennas and 6DMA systems, built on Sionna RT.**
 
-![Town02 地图总览：五类无线材质、基站和 40 个 UE](docs/media/town02-map-overview.png)
+WiWo-MA connects antenna motion, scene geometry and channel measurements on the same simulation timeline. You can arrange physical antenna ports, move panels within mechanical limits, run native ray-tracing jobs, and inspect saved complex CSI alongside the state that produced it.
 
-*由本地 Town02 原始 PLY 顶点生成的俯视投影。颜色表示无线材质绑定，星号为基站，橙点为 UE 初始位置；不是光学贴图或射线追踪结果。*
+The current examples use **Town02: 16 panels, 64 physical TX ports, 40 UEs, and a 2.8 GHz carrier**. The browser preview runs on the CPU. Computing new channels requires a working NVIDIA/CUDA/OptiX environment and a separately authorized job.
 
-## 1. 下载代码，准备地图资源
+![Town02 geometry overview with material groups, base station and UEs](docs/media/town02-map-overview.png)
+
+*Vertex projection of the imported Town02 scene, with the current five material groups, base station and UE positions. This is a geometry overview, not a browser screenshot or a propagation result.*
+
+## 🧭 What the platform does
+
+- **MA and 6DMA mechanics.** Fixed arrays, rail-mounted antennas, Cartesian stages, gimbals and independently controlled panels. Workspace, velocity and acceleration limits are checked before motion is applied.
+- **Physical array geometry.** Element positions follow the panel pose. Sionna queries use explicit spatial ports with `synthetic_array=False`, including the configured polarization mapping.
+- **Dynamic scenes.** Antenna panels, UEs and optional actors share physical timestamps. The display refresh rate, mechanical integration step and channel sampling interval are separate settings.
+- **Native channel generation.** Sionna RT produces paths, CIR and complex CSI at the actual system state. The platform does not fill preview frames with approximate or invented channel values.
+- **Reproducible experiments.** JSON configurations, state snapshots, streaming HDF5 output, frame hashes, interrupted-job recovery and selected independent SDK comparisons.
+- **Inspection and replay.** Preview motion, inspect individual ports, step through recorded frames, and plot saved channel amplitude, phase and time–frequency behavior.
+
+```mermaid
+flowchart LR
+    C[Experiment JSON / Web controls] --> M[Constrained mechanics]
+    M --> S[Physical state at time t]
+    S --> P[CPU geometry preview]
+    S --> R[Native Sionna RT job]
+    R --> H[CIR / complex CSI]
+    H --> D[HDF5 + state snapshots]
+    D --> V[Replay and analysis]
+```
+
+## 🚀 Set up the platform
+
+Use Linux, Git and Python 3.11 or newer. The tested numerical environment pins Sionna RT 2.2.0, Mitsuba 3.9.1, Dr.Jit 1.5.0 and Viser 1.1.1. An editable source installation keeps the code, configurations and project assets together.
 
 ```bash
 git clone https://github.com/ReamonYim/WiWo-MA.git
 cd WiWo-MA
+python3.11 -m venv .venv-full
+.venv-full/bin/python -m pip install -e '.[test]'
+.venv-full/bin/python -m pip check
+WIWO_PYTHON=.venv-full/bin/python scripts/platform/run doctor
 ```
 
-**原始地图资源需要单独准备，不包含在 Git 仓库中。** 使用你已有的 `Sionna_Town02` 资源包，目录应包含：
+You can try the small project-owned reflector scene before obtaining any city map:
+
+```bash
+WIWO_PYTHON=.venv-full/bin/python scripts/platform/run serve \
+  --config configs/platform/reflector.json --port 8080
+```
+
+Open `http://localhost:8080` on the server, or forward the Web port to your computer as described below. Stop this foreground preview with Ctrl+C before starting another service on the same port.
+
+The installer can also prepare the environment and run the CPU checks:
+
+```bash
+scripts/platform/install --no-town02 --no-browser
+```
+
+`--no-town02` leaves external map import for later. `--no-browser` skips server-side Chromium, which is only needed for browser automation and screenshots. A browser on your own computer is sufficient for normal Web use. The installer can use an existing Conda installation to prepare a compatible Python environment. See [installation details](docs/installation.md).
+
+## 🏙️ Load Town02
+
+Town02 is an **external scene**, not a required download for the whole platform. Its XML, PLY meshes and CSV positions are required when you select a Town02 configuration. They are not included in Git or the source archive. Obtain the complete `Sionna_Town02` package from its original provider or use your existing authorized copy; this repository does not publish a separate download URL for it.
 
 ```text
 Sionna_Town02/
 ├── 资源SHA256.json
 └── Town2_xml/
-    ├── town2_xml.xml           # 原始材质标签
-    ├── town2_3mat.xml          # 原三材质无线场景
-    ├── meshes/                # 原始 PLY 网格
-    ├── car_coordinate/        # 归档车辆坐标 CSV
+    ├── town2_xml.xml
+    ├── town2_3mat.xml
+    ├── meshes/
+    ├── car_coordinate/
     └── material_manager.py
 ```
 
-导入器复制完整资源并检查 SHA-256，不修改源目录。导入后的主场景有 **6,085 个网格、2,831,119 个顶点、3,268,710 个三角形**。
-原始地图不缩放、不平移。资源准备、坐标来源和验证范围见 [Town02 指南](docs/town02.md)。
-
-## 2. 安装依赖并导入地图
-
-使用 Linux、Git 和 Python 3.11 及以上版本；安装器也支持通过已有 Conda 创建项目内 Python 环境。
-将下面的路径替换成资源包的实际位置：
-
-```bash
-WIWO_TOWN02_SOURCE=/path/to/Sionna_Town02 scripts/platform/install
-```
-
-默认资源路径为 `$HOME/project/Sionna_Town02`。安装器会创建独立的 `.venv-full`，安装依赖，
-复制地图，生成保守材质版本，运行 CPU 检查，并安装用于自动化检查的 Chromium。
-Ubuntu 20.04 会使用兼容的 Playwright 额外依赖。详见[安装说明](docs/installation.md)。
-
-已安装依赖、只需重新导入资源时：
+With the dependencies installed:
 
 ```bash
 .venv-full/bin/python -m wiwo_ma.platform.town02 import --source /path/to/Sionna_Town02
+.venv-full/bin/python -m wiwo_ma.platform.town02 status --require
 .venv-full/bin/python -m wiwo_ma.platform.town02_materials check
 ```
 
-## 3. 启动网页，查看地图
+The source can also be selected through `WIWO_TOWN02_SOURCE`; its default is `$HOME/project/Sionna_Town02`. For a full installation and import in one command:
+
+```bash
+WIWO_TOWN02_SOURCE=/path/to/Sionna_Town02 scripts/platform/install --no-browser
+```
+
+The importer checks source hashes before changing an existing import, copies resources into `assets/town02/`, and generates the strict material variant and its audit. It preserves the original scene and coordinates. The full map has **6,085 meshes, 2,831,119 vertices and 3,268,710 triangles**. The imported resource set contains 8,635 files, about 144 MiB uncompressed.
+
+In the Web viewer, use **地图全景 / Map overview** to frame the map, or **聚焦选中面板** to return to the selected antenna panel.
+
+### Materials and provenance
+
+The original radio scene groups objects into brick, concrete and wood. The strict variant also uses Sionna's built-in glass and metal models. Assignment follows **exact original material IDs**, recovered through matching mesh filenames. Color, generic object names and optical PBR parameters are not used to guess RF materials.
+
+| ITU model | Original mesh bindings | Current mesh bindings |
+|---|---:|---:|
+| `brick` | 4,920 | 4,601 |
+| `concrete` | 614 | 753 |
+| `wood` | 551 | 575 |
+| `glass` | 0 | 91 |
+| `metal` | 0 | 65 |
+
+The 21 approved source-ID rules match 408 meshes and correct 395 bindings. **The other 5,677 meshes retain their old bindings and remain physically unverified.** The table describes assigned models, not measured composition.
+
+Permittivity and conductivity come from the pinned Sionna ITU models at the configured frequency. SDK defaults for thickness and scattering are retained. Frequency bands, source hashes, geometry and per-mesh bindings are checked; no global material override is applied.
+
+The public [assignment rules](configs/materials/town02_strict_itu.json) and [resource guide](assets/README.md) explain the boundary between source code and external data. Import creates `assets/town02/town2_strict_itu.materials.json` with the per-mesh evidence. The original three-material scene remains available.
+
+## Open the Web interface
+
+For a persistent Town02 preview:
 
 ```bash
 scripts/platform/town02-service restart
+scripts/platform/town02-service status
 ```
 
-显示 `"status": "ready"` 表示网页和 API 已可访问、地图完成首次绘制，且使用当前保守材质配置。
-后台服务默认监听 **8080**，API 使用 **8081**；退出终端不会停止网页进程。
+`"status": "ready"` means the expected Web/API ports are owned by the managed process, the current strict preset is loaded, and the first map draw has completed. Closing the terminal does not stop the service. Logs are in `.state/town02-service/8080/`; use `scripts/platform/town02-service stop` to stop that process.
 
-- **在服务器本机访问：** 打开 <http://localhost:8080>。
-- **通过 VS Code 远程 SSH 访问：** 项目已提供自动转发 8080 / 8081 的设置。
-  若未自动转发，按 F1，运行 `Forward a Port`，分别添加两个端口，再在“端口”面板点击 8080 的“在浏览器中打开”。
-  保持远程连接；本地端口冲突时，以面板显示的地址为准。
-- **通过服务器平台的端口映射访问：** 使用平台为 8080 生成的网页地址。
+- **Local machine:** open `http://localhost:8080`.
+- **VS Code Remote SSH:** this project includes automatic forwarding for 8080 and 8081. If it is not detected, press F1, run **Forward a Port**, add both ports, and use **Open in Browser** for 8080. Keep the remote connection open. If the local port is occupied, use the address shown in the Ports panel.
+- **Hosted container:** use the address supplied by your platform's port mapping for 8080.
 
-```bash
-scripts/platform/town02-service status   # 检查状态
-scripts/platform/town02-service stop     # 停止自己管理的网页进程
-```
+The background manager listens on `0.0.0.0` by default. Use `restart --host 127.0.0.1` for a loopback-only service. Container restart persistence belongs in the platform's startup settings; a detached process does not survive a container restart.
 
-日志保存在 `.state/town02-service/8080/`。前台启动可用 `scripts/platform/town02 --port 8080`。
-容器重启后需再次启动服务，或在运行平台配置启动命令；后台进程本身不提供容器开机自启。
+## 🦾 Run a mechanical experiment
 
-## 4. 材质如何设置
+Choose a preset, then use **Start**, **Pause**, **Step** and **Reset** to inspect the motion. To submit a manual target:
 
-原场景只有砖、混凝土、木材三类无线材质。当前默认版本扩展为 **五类**，只按原始 XML 中明确的材质 ID 精确匹配，
-不根据颜色、物体类别或光学 PBR 数值猜测电磁材质。
+1. Select a panel and choose world coordinates or the constrained BS-local input mode.
+2. Enter a permitted position and rotation, or adjust the target gizmo.
+3. Click **执行目标姿态** to submit it. Editing a field alone does not move the antenna.
+4. Check the submitted action and its execution status. For several panels, add targets to the joint action queue and submit the transaction.
 
-| Sionna ITU 类型 | 原三材质版本：绑定网格数 | 当前版本：绑定网格数 |
-| --- | ---: | ---: |
-| 砖 `brick` | 4,920 | 4,601 |
-| 混凝土 `concrete` | 614 | 753 |
-| 木材 `wood` | 551 | 575 |
-| 玻璃 `glass` | 0 | 91 |
-| 金属 `metal` | 0 | 65 |
-| **合计** | **6,085** | **6,085** |
-
-**21 条精确 ID 规则匹配了 408 个网格，其中更正了 395 个绑定。** 其余 **5,677 个网格保留旧绑定，物理材质仍未核实**。
-上述数量是分配结果，不代表整张地图的真实成分已经确认；原始标签也不是实测成分证明。
-
-相对介电常数和电导率由 Sionna 内置模型按载频提供，不手填系数。厚度和散射等保留 SDK 默认值；
-不应用全局材质覆盖。修改载频时会检查内置模型的有效频段。
-
-规则见 [`configs/materials/town02_strict_itu.json`](configs/materials/town02_strict_itu.json)。
-每个网格的来源、绑定更改和依据在导入后生成的 `assets/town02/town2_strict_itu.materials.json` 中记录。
-原三材质 XML 与配置继续保留。
-
-## 配置与检查
-
-| 配置 | 用途 |
-| --- | --- |
-| [`town02_strict_itu_single_ma.json`](configs/platform/town02_strict_itu_single_ma.json) | 单 MA / 单 UE，1 秒机械示例 |
-| [`town02_strict_itu_64tx_40ue.json`](configs/platform/town02_strict_itu_64tx_40ue.json) | 默认 16 面板 / 64TX / 40UE，4 秒、401 个采样时刻 |
-| [`town02_64tx_40ue.json`](configs/platform/town02_64tx_40ue.json) | 保留原三材质的对照配置 |
-
-UE 初始位置来自归档道路坐标，使用新定义的有界运动；不是原车辆轨迹回放。原地图中的车辆是静态网格。
+| Configuration | System | Physical interval |
+|---|---|---|
+| [`town02_strict_itu_single_ma.json`](configs/platform/town02_strict_itu_single_ma.json) | One rail-mounted MA, one UE | 1 s |
+| [`town02_strict_itu_64tx_40ue.json`](configs/platform/town02_strict_itu_64tx_40ue.json) | 16 panels, 64 TX ports, 40 UEs | 4 s / 401 samples |
+| [`reflector.json`](configs/platform/reflector.json) | Small included scene for setup and development | Configured in JSON |
 
 ```bash
-scripts/platform/check
 WIWO_GPU=-1 .venv-full/bin/python examples/01_single_ma.py --headless
 WIWO_GPU=-1 .venv-full/bin/python examples/02_dynamic_6dma.py --headless
-.venv-full/bin/python scripts/platform/map_overview.py --output artifacts/town02/map-overview.png
 ```
 
-这些检查与网页预览验证资源、材质分配和机械运动，**不计算 CSI**。
-Town02 的原生 SDK 场景加载、CUDA / OptiX 和 GPU 传播结果仍需独立验证。
-原 Munich 数据的数值结论不用于证明 Town02 的传播正确性。
+These traverse actual mechanical states without ray tracing. Town02 UE positions are anchored to archived road coordinates and use new bounded trajectories; they are not playback of the recorded cars. Cars already in the map remain static geometry. See [mechanics](docs/mechanics.md), [UI controls](docs/ui.md) and [Town02 coordinates](docs/town02.md).
 
-## 其他文档
+## 📡 Generate and analyze channels
 
-- [Town02 资源、坐标和材质说明](docs/town02.md)
-- [安装与浏览器依赖](docs/installation.md)
-- [界面操作](docs/ui.md) · [机械模型](docs/mechanics.md)
-- [原平台与 Munich / CSI 工作流](docs/platform-overview.md)
-- [原生 GPU 计算](docs/gpu-jobs.md) · [数据与回放](docs/data.md)
+The Web preview does not continuously run the native solver. A channel job freezes its configuration and physical state, checks the resource grant, and stores results with timestamps and geometry. Start with a small case and confirm CUDA/OptiX compatibility before planning a full multi-port sequence.
 
-项目代码使用 [MIT 许可证](LICENSE)。Town02 原始资源、依赖和历史场景保留各自的权利与使用条件，
-见[第三方说明](THIRD_PARTY_NOTICES.md)。
+```bash
+# CPU planning only; choose a fresh job directory.
+WIWO_PYTHON=.venv-full/bin/python WIWO_GPU=-1 scripts/platform/run plan \
+  --config configs/platform/town02_strict_itu_single_ma.json \
+  --job artifacts/jobs/town02-single --max-wall-s 300 --max-disk-gib 1
+
+# After preparing a job-specific resource grant:
+WIWO_PYTHON=.venv-full/bin/python WIWO_GPU=0 scripts/platform/run launch \
+  --job artifacts/jobs/town02-single \
+  --authorization artifacts/approvals/town02-single.json
+```
+
+No approved grant is shipped. The [GPU workflow](docs/gpu-jobs.md) covers driver/OptiX setup, estimates, grant fields, bounded background execution and recovery. The same prepared job can be resumed with `--resume` within its approved scope.
+
+A completed native dataset can be read or replayed without a new solve:
+
+```bash
+.venv-full/bin/python examples/03_read_and_replay.py \
+  --dataset artifacts/jobs/town02-single/csi.h5 --time 0.5
+.venv-full/bin/python examples/03_read_and_replay.py \
+  --dataset artifacts/jobs/town02-single/csi.h5 --web --port 8080
+```
+
+Use the recorded scene for replay. A Munich dataset does not become Town02 CSI by changing a map setting. Dataset axes, timestamps and validation sidecars are described in the [data guide](docs/data.md).
+
+## Tests and validation
+
+```bash
+# Self-contained CPU tests, including generated XML/PLY fixtures:
+.venv-full/bin/python -m pytest tests/platform -m 'not town02' -q
+
+# Full Town02 integration; a missing or incomplete import is an error:
+.venv-full/bin/python -m pytest tests/platform -m town02 --require-town02 -q
+
+# Runtime checks, the complete CPU suite and both mechanical examples:
+scripts/platform/check --require-town02
+```
+
+A clean checkout can run the platform tests without the external map. Tests marked `town02` check actual XMLs, the import manifest, referenced meshes and generated strict resources before running. They are skipped only when the import is entirely absent and was not explicitly required. A partial import fails instead of being silently skipped. All real-scene material and geometry assertions remain enabled when the resources are present.
+
+Public CI exercises the importer, strict material rules, real PLY loading and mechanics with 25 independently authored quadrilaterals. It does not substitute those shapes for Town02 in the viewer or claim that they validate full city propagation.
+
+CPU preview and screenshot capture do not establish native Town02 CSI accuracy or certify a machine's GPU runtime. Historical Munich selected-state SDK comparisons are documented separately in the [platform workflow](docs/platform-overview.md) and [validation matrix](docs/validation.md).
+
+## Capture the running Town02 interface
+
+```bash
+.venv-full/bin/python scripts/media/capture_town02.py
+```
+
+Run this from a terminal that can listen on local ports and launch the installed Playwright Chromium. It starts a separate CPU-preview service on 8190/8191, captures the panorama, antenna panels and full frontend, checks that the scheduled antenna motion actually occurs, and closes the temporary service. An existing 8080 service is left unchanged.
+
+Successful capture writes `town02-panorama.png`, `town02-antennas.png`, `town02-platform.png` and `town02-gallery.json` into `docs/media/`. The JSON records the scene configuration, image hashes, physical timestamps and checked motion. It does not use historical Munich data or compute CSI. The checked-in overview above is a PLY projection; it is not presented as a live screenshot.
+
+## Documentation and license
+
+[Town02 resources](assets/README.md) · [Installation](docs/installation.md) · [UI guide](docs/ui.md) · [Mechanics](docs/mechanics.md) · [GPU jobs](docs/gpu-jobs.md) · [Data and replay](docs/data.md)
+
+Project-owned source code and the small reflector scene are [MIT licensed](LICENSE). Sionna, other dependencies and externally supplied scenes retain their own terms; see [third-party notices](THIRD_PARTY_NOTICES.md) and [citation information](CITATION.md).
