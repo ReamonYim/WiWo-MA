@@ -6,8 +6,10 @@ used. The normal background service is not changed. Run from a terminal that
 can open local TCP sockets and launch the installed Playwright Chromium.
 """
 import argparse
+from contextlib import closing
 from datetime import datetime,timezone
 import hashlib
+import errno
 import json
 import os
 from pathlib import Path
@@ -20,6 +22,37 @@ from urllib.request import urlopen
 import numpy as np
 from wiwo_ma.platform.config import ROOT,load
 from wiwo_ma.platform.town02_resources import require_resources
+
+
+def choose_capture_port(requested=0):
+    """Reserve-check a fresh adjacent pair; never retry permission failures."""
+    for _ in range(8):
+        with socket.socket() as web,socket.socket() as api_socket:
+            web.bind(('127.0.0.1',requested))
+            port=web.getsockname()[1]
+            if port>=65535:continue
+            try:api_socket.bind(('127.0.0.1',port+1))
+            except OSError as error:
+                if not requested and error.errno==errno.EADDRINUSE:continue
+                raise
+            return port
+    raise RuntimeError('Could not find an unused adjacent capture port pair')
+
+
+def run_capture_preview(config,port):
+    """Use the production UI, configuring its rate before the browser connects."""
+    from wiwo_ma.platform.controller import PlatformController
+    from wiwo_ma.platform.web import PlatformUI
+    controller=PlatformController(config);ui=None
+    try:
+        ui=PlatformUI(controller,'127.0.0.1',port)
+        ui.render_hz=2.
+        ui.render_rate.value=2
+        ui.run()
+    except KeyboardInterrupt:pass
+    finally:
+        if ui is not None:ui.close()
+        else:controller.close()
 
 
 def save_browser_screenshot(page,target,timeout_ms,timeout_error=TimeoutError):
@@ -57,21 +90,26 @@ def save_browser_screenshot(page,target,timeout_ms,timeout_error=TimeoutError):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--port',type=int,default=8190)
+    parser.add_argument('--port',type=int,default=0,help='Private capture port; default selects a fresh unused pair')
     parser.add_argument('--output',type=Path,default=ROOT/'docs/media')
     parser.add_argument('--width',type=int,default=1440)
     parser.add_argument('--height',type=int,default=960)
     parser.add_argument('--screenshot-timeout',type=float,default=180.,help='Maximum seconds per screenshot attempt')
+    parser.add_argument('--serve-preview',action='store_true',help=argparse.SUPPRESS)
     args=parser.parse_args()
     if args.width<800 or args.height<600 or not 0<args.screenshot_timeout<=600:
         parser.error('Use a viewport of at least 800x600 and a screenshot timeout of 1-600 seconds')
     require_resources()
     config=load(ROOT/'configs/platform/town02_strict_itu_64tx_40ue.json')
+    if args.serve_preview:
+        if not 1024<=args.port<=65534:parser.error('The private preview needs an explicit unprivileged port')
+        return run_capture_preview(config,args.port)
+    if args.port and not 1024<=args.port<=65534:parser.error('port must be 0 or between 1024 and 65534')
+    args.port=choose_capture_port(args.port)
     output=args.output.resolve();output.mkdir(parents=True,exist_ok=True)
     work=ROOT/'artifacts/town02-gallery';work.mkdir(parents=True,exist_ok=True)
-    for port in (args.port,args.port+1):
-        with socket.socket() as probe:probe.bind(('127.0.0.1',port))
     environment=dict(os.environ,WIWO_GPU='-1',PYTHONUNBUFFERED='1',
+                     CUDA_VISIBLE_DEVICES='-1',OPENBLAS_NUM_THREADS='1',OMP_NUM_THREADS='1',
                      WIWO_PYTHON=str(ROOT/'.venv-full/bin/python'),
                      WIWO_TOWN02_CONFIG=str(ROOT/'configs/platform/town02_strict_itu_64tx_40ue.json'),
                      PLAYWRIGHT_BROWSERS_PATH=str(ROOT/'.cache/ms-playwright'))
@@ -97,9 +135,10 @@ def main():
                 config_scene=config['scene'],images=[],page_errors=[],
                 browser_channel='chromium',rendering='software',preview_update_hz=2,
                 screenshot_timeout_s=args.screenshot_timeout)
-    print('Starting an isolated Town02 preview; loading the complete map...',flush=True)
+    print(f'Starting isolated Town02 preview on private ports {args.port}/{args.port+1}; loading the complete map...',flush=True)
     with (work/'server.log').open('ab') as log:
-        process=subprocess.Popen([str(ROOT/'scripts/platform/town02'),'--host','127.0.0.1','--port',str(args.port)],
+        process=subprocess.Popen([str(ROOT/'.venv-full/bin/python'),str(Path(__file__).resolve()),
+                                  '--serve-preview','--port',str(args.port)],
                                  cwd=ROOT,env=environment,stdout=log,stderr=subprocess.STDOUT,stdin=subprocess.DEVNULL)
     try:
         wait_for(lambda:api('ui').get('map_faces',0)>0)
@@ -109,67 +148,63 @@ def main():
         with sync_playwright() as playwright:
             browser=playwright.chromium.launch(channel='chromium',headless=True,args=['--no-sandbox','--disable-dev-shm-usage',
                 '--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader'])
-            page=browser.new_page(viewport=dict(width=args.width,height=args.height),device_scale_factor=1)
-            page.set_default_timeout(90000)
-            report['browser_version']=browser.version
-            page.on('pageerror',lambda error:report['page_errors'].append(str(error)))
-            page.goto(f'http://127.0.0.1:{args.port}',wait_until='domcontentloaded')
-            page.get_by_role('button',name='释放平台操作权',exact=True).wait_for(timeout=180000)
-            wait_for(lambda:len(api('ui').get('cameras',[]))>0)
-            notice=page.get_by_text('Software WebGL rendering detected',exact=True)
-            if notice.count():notice.locator('xpath=../..').get_by_role('button').click()
-
-            def button(label):
-                control=page.get_by_role('button',name=label,exact=True)
-                for _ in range(40):
-                    if control.is_visible():break
-                    closed=page.locator('button[aria-expanded="false"]')
-                    if not closed.count():break
-                    closed.first.click();page.wait_for_timeout(100)
-                control.scroll_into_view_if_needed();control.click()
-                page.wait_for_timeout(1500)
-
-            def top():
-                page.get_by_role('heading',name='WiWo MA / 6DMA',exact=True).scroll_into_view_if_needed()
-
-            # Viser renders on demand. Avoid invalidating its full-city canvas
-            # 20 times per second while SwiftShader is reading back a frame.
-            rate=page.get_by_text('UI更新Hz（非RT频率）',exact=True).locator('xpath=../../..').get_by_role('slider').first
-            rate.scroll_into_view_if_needed();rate.focus();rate.press('Home')
-            page.wait_for_timeout(1500)
-            if rate.get_attribute('aria-valuenow')!='2':raise AssertionError('Capture preview rate did not reach 2 Hz')
-            print('Town02 is loaded. Capture preview rate: 2 Hz; native CSI: not computed.',flush=True)
-
-            def shot(name,title):
-                state=api()['state'];telemetry=api('ui')
-                if api('csi')['available']:raise ValueError('Gallery must remain an actual mechanics preview without CSI')
-                if telemetry['last_action_error']:raise ValueError(telemetry['last_action_error'])
-                np.testing.assert_allclose(telemetry['displayed_tx_positions'],np.asarray(state['tx_port_positions'],np.float32),atol=0,rtol=0)
-                top();page.wait_for_timeout(2000)
-                print('Capturing '+name+'; allowing '+str(args.screenshot_timeout)+' seconds per attempt...',flush=True)
-                capture=save_browser_screenshot(page,output/name,args.screenshot_timeout*1000,PlaywrightTimeoutError)
-                if api()['state']['timestamp']!=state['timestamp']:
-                    raise AssertionError('Physical time changed during a supposedly paused capture')
-                report['images'].append(dict(file=name,title=title,physical_time_s=state['timestamp'],
-                    mode=report['mode'],capture=capture,sha256=hashlib.sha256((output/name).read_bytes()).hexdigest()))
-                (work/'capture.json').write_text(json.dumps(report,indent=2)+'\n')
-                print('Captured '+name,flush=True)
-
-            button('地图全景 / Map overview')
-            shot('town02-panorama.png','Town02 panorama in the running Web platform')
-            button('聚焦选中面板')
-            initial=api()['state']
-            shot('town02-antennas.png','Town02 movable antenna panels and physical TX ports before motion')
-            button('Start / 开始预览')
-            wait_for(lambda:api()['state']['timestamp']>=1.)
-            button('Pause / 暂停')
-            final=api()['state']
-            if np.array_equal(initial['positions'],final['positions']):raise AssertionError('Scheduled antenna motion did not execute')
-            report['motion']=dict(initial_panel_positions=initial['positions'],final_panel_positions=final['positions'],
-                                  initial_time_s=initial['timestamp'],final_time_s=final['timestamp'])
-            shot('town02-platform.png','Running Town02 platform after the scheduled bounded antenna motion')
-            if report['page_errors']:raise AssertionError(report['page_errors'])
-            browser.close()
+            with closing(browser):
+                page=browser.new_page(viewport=dict(width=args.width,height=args.height),device_scale_factor=1)
+                page.set_default_timeout(90000)
+                report['browser_version']=browser.version
+                page.on('pageerror',lambda error:report['page_errors'].append(str(error)))
+                page.goto(f'http://127.0.0.1:{args.port}',wait_until='domcontentloaded')
+                page.get_by_role('button',name='释放平台操作权',exact=True).wait_for(timeout=180000)
+                wait_for(lambda:len(api('ui').get('cameras',[]))>0)
+                notice=page.get_by_text('Software WebGL rendering detected',exact=True)
+                if notice.count():notice.locator('xpath=../..').get_by_role('button').click()
+    
+                def button(label):
+                    control=page.get_by_role('button',name=label,exact=True)
+                    for _ in range(40):
+                        if control.is_visible():break
+                        closed=page.locator('button[aria-expanded="false"]')
+                        if not closed.count():break
+                        closed.first.click();page.wait_for_timeout(100)
+                    control.scroll_into_view_if_needed();control.click()
+                    page.wait_for_timeout(1500)
+    
+                def top():
+                    page.get_by_role('heading',name='WiWo MA / 6DMA',exact=True).scroll_into_view_if_needed()
+    
+                if len(api('ui').get('cameras',[]))!=1:
+                    raise RuntimeError('The private capture service has another browser connected; choose a fresh port')
+                print('Town02 is loaded. Capture preview rate: 2 Hz; native CSI: not computed.',flush=True)
+    
+                def shot(name,title):
+                    state=api()['state'];telemetry=api('ui')
+                    if api('csi')['available']:raise ValueError('Gallery must remain an actual mechanics preview without CSI')
+                    if telemetry['last_action_error']:raise ValueError(telemetry['last_action_error'])
+                    np.testing.assert_allclose(telemetry['displayed_tx_positions'],np.asarray(state['tx_port_positions'],np.float32),atol=0,rtol=0)
+                    top();page.wait_for_timeout(2000)
+                    print('Capturing '+name+'; allowing '+str(args.screenshot_timeout)+' seconds per attempt...',flush=True)
+                    capture=save_browser_screenshot(page,output/name,args.screenshot_timeout*1000,PlaywrightTimeoutError)
+                    if api()['state']['timestamp']!=state['timestamp']:
+                        raise AssertionError('Physical time changed during a supposedly paused capture')
+                    report['images'].append(dict(file=name,title=title,physical_time_s=state['timestamp'],
+                        mode=report['mode'],capture=capture,sha256=hashlib.sha256((output/name).read_bytes()).hexdigest()))
+                    (work/'capture.json').write_text(json.dumps(report,indent=2)+'\n')
+                    print('Captured '+name,flush=True)
+    
+                button('地图全景 / Map overview')
+                shot('town02-panorama.png','Town02 panorama in the running Web platform')
+                button('聚焦选中面板')
+                initial=api()['state']
+                shot('town02-antennas.png','Town02 movable antenna panels and physical TX ports before motion')
+                button('Start / 开始预览')
+                wait_for(lambda:api()['state']['timestamp']>=1.)
+                button('Pause / 暂停')
+                final=api()['state']
+                if np.array_equal(initial['positions'],final['positions']):raise AssertionError('Scheduled antenna motion did not execute')
+                report['motion']=dict(initial_panel_positions=initial['positions'],final_panel_positions=final['positions'],
+                                      initial_time_s=initial['timestamp'],final_time_s=final['timestamp'])
+                shot('town02-platform.png','Running Town02 platform after the scheduled bounded antenna motion')
+                if report['page_errors']:raise AssertionError(report['page_errors'])
         report['status']='Passed_actual_Town02_browser_gallery'
     except BaseException as error:
         report.update(status='Failed_preserved',error=str(error));raise

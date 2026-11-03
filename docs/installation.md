@@ -91,7 +91,8 @@ server. The validated gallery uses Chromium/Linux and software WebGL rendering
 for the UI; screenshots do not imply that CUDA ran during capture.
 
 The current Town02 gallery is captured from a separate temporary CPU-preview
-service, leaving an existing background service unchanged:
+service on a fresh private port pair, leaving an existing background service
+unchanged. VS Code automatic forwarding ignores this temporary service:
 
 ```bash
 .venv-full/bin/python scripts/media/capture_town02.py

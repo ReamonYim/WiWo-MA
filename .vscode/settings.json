@@ -4,6 +4,10 @@
   "remote.restoreForwardedPorts": true,
   "remote.forwardOnOpen": true,
   "remote.portsAttributes": {
+    "capture_town02\\.py.*--serve-preview": {
+      "label": "Private Town02 screenshot service",
+      "onAutoForward": "ignore"
+    },
     "8080": {
       "label": "WiWo-MA Town02",
       "protocol": "http",

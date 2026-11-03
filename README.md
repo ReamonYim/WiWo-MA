@@ -204,7 +204,7 @@ CPU preview and screenshot capture do not establish native Town02 CSI accuracy o
 .venv-full/bin/python scripts/media/capture_town02.py
 ```
 
-Run this from a terminal that can listen on local ports and launch the installed Playwright Chromium. It starts a separate CPU-preview service on 8190/8191, captures the panorama, antenna panels and full frontend, checks that the scheduled antenna motion actually occurs, and closes the temporary service. An existing 8080 service is left unchanged.
+Run this from a terminal that can listen on local ports and launch the installed Playwright Chromium. It selects a fresh private port pair, starts the production CPU-preview UI at 2 Hz, captures the panorama, antenna panels and full frontend, checks that the scheduled antenna motion actually occurs, and closes the temporary service. An existing 8080 service is left unchanged. Private screenshot services are excluded from VS Code automatic port forwarding.
 
 Successful capture writes `town02-panorama.png`, `town02-antennas.png`, `town02-platform.png` and `town02-gallery.json` into `docs/media/`. The JSON records the scene configuration, image hashes, physical timestamps and checked motion. It does not use historical Munich data or compute CSI. The checked-in overview above is a PLY projection; it is not presented as a live screenshot.
 
