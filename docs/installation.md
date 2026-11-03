@@ -104,7 +104,11 @@ socket and browser-launch permissions. See the [main guide](../README.md) for
 the current screenshots and their scope.
 
 Large software-rendered scenes use the regular Chromium channel in headless
-mode, a 1440x960 viewport and a 2 Hz preview update rate. Each screenshot has
+mode, a 1600x1000 viewport and a 2 Hz preview update rate. Six views cover the
+city, road layout, base-station neighborhood, frontend, array and one panel.
+Camera distance follows the actual geometry and viewport aspect ratio.
+Each screenshot has
 a 180-second timeout and one retry at a smaller viewport. Geometry and material
-bindings are preserved; dimensions and retry history are recorded in the image
+bindings are preserved; a resized retry reframes the view to avoid clipping.
+Dimensions and retry history are recorded in the image
 provenance. Override `--width`, `--height` or `--screenshot-timeout` if needed.

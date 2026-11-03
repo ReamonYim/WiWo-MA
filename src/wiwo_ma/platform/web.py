@@ -406,12 +406,14 @@ class PlatformUI:
         for client in self.server.get_clients().values():self._aim(client,center,[1.7,-2.2,1.3])
 
     def _overview(self):
+        from .camera_views import fit_camera
         meshes,_=load_display_meshes(str(scene_xml(self.controller.config['scene'])))
         if not meshes:raise ValueError('No scene meshes available for an overview')
-        lo=np.min([np.min(mesh['vertices'],axis=0) for mesh in meshes],axis=0)
-        hi=np.max([np.max(mesh['vertices'],axis=0) for mesh in meshes],axis=0)
-        center=(lo+hi)/2;span=max(float(np.max(hi-lo)),1.)
-        for client in self.server.get_clients().values():self._aim(client,center,span*np.array([.85,-1.1,1.]))
+        points=np.concatenate([mesh['vertices'] for mesh in meshes])
+        for client in self.server.get_clients().values():
+            aspect=getattr(getattr(client,'camera',None),'aspect',1.2)
+            view=fit_camera(points,[.12,-.48,1.],aspect=aspect)
+            self._aim(client,view['look_at'],view['position']-view['look_at'])
 
     def _seek_timeline(self):
         result=self.controller.command('seek',dict(time_s=self.timeline.value));self.timeline_dirty=False;return result

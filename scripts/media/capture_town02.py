@@ -39,7 +39,7 @@ def choose_capture_port(requested=0):
     raise RuntimeError('Could not find an unused adjacent capture port pair')
 
 
-def run_capture_preview(config,port):
+def run_capture_preview(config,port,prepare=None):
     """Use the production UI, configuring its rate before the browser connects."""
     from wiwo_ma.platform.controller import PlatformController
     from wiwo_ma.platform.web import PlatformUI
@@ -48,6 +48,7 @@ def run_capture_preview(config,port):
         ui=PlatformUI(controller,'127.0.0.1',port)
         ui.render_hz=2.
         ui.render_rate.value=2
+        if prepare is not None:prepare(ui)
         ui.run()
     except KeyboardInterrupt:pass
     finally:
@@ -55,7 +56,46 @@ def run_capture_preview(config,port):
         else:controller.close()
 
 
-def save_browser_screenshot(page,target,timeout_ms,timeout_error=TimeoutError):
+def prepare_capture_views(ui):
+    """Native scene-camera controls on the private service, without moving objects."""
+    from wiwo_ma.platform.camera_views import fit_camera,padded_bounds
+    from wiwo_ma.platform.scene_geometry import load_display_meshes,scene_xml
+    meshes,_=load_display_meshes(str(scene_xml(ui.controller.config['scene'])))
+    vertices=np.concatenate([mesh['vertices'] for mesh in meshes])
+    bs_label=ui.server.scene.add_label('/gallery/BS',text='BS · 16 panels / 64 TX',visible=False)
+    ue_label=ui.server.scene.add_label('/gallery/UE',text='40 UE · road positions',visible=False)
+
+    def apply(name):
+        state=ui.controller.state();panels=np.asarray(state['positions']);users=np.asarray(state['user_positions'])
+        bs=np.asarray(state['bs_positions'][0]);bs_label.position=bs+[0,0,3];ue_label.position=users.mean(0)+[0,0,2]
+        bs_label.visible=ue_label.visible=name in ('site','platform')
+        ui.gizmo.visible=False
+        minimum=.1;fill=.86
+        if name in ('panorama','topdown'):
+            points=vertices;direction=[.12,-.48,1.] if name=='panorama' else [0.,-.08,1.]
+        elif name in ('site','platform'):
+            anchors=np.concatenate([users,panels]) if name=='platform' else bs[None,:]
+            margin=np.array([28.,32.]) if name=='platform' else np.array([52.,48.])
+            lo=anchors[:,:2].min(0)-margin;hi=anchors[:,:2].max(0)+margin
+            points=vertices[np.all(vertices[:,:2]>=lo,axis=1)&np.all(vertices[:,:2]<=hi,axis=1)]
+            direction=[.18,-.65,1.] if name=='platform' else [-.65,-.5,1.]
+        elif name=='antennas':
+            points=padded_bounds(panels,.15);direction=[0.,1.,1.1];minimum=4.5;fill=.78
+        elif name=='detail':
+            selected=ui.selected;rotation=np.asarray(state['rotations'][selected]);normal=rotation[:,0]
+            points=padded_bounds(panels[selected:selected+1],.12)
+            direction=normal+[0.,0.,.3];minimum=.65;fill=.75
+        else:raise ValueError('Unknown capture view: '+name)
+        if not len(points):raise ValueError('No actual geometry in the requested view')
+        for client in ui.server.get_clients().values():
+            view=fit_camera(points,direction,aspect=client.camera.aspect,fill=fill,minimum_distance=minimum)
+            ui._aim(client,view['look_at'],view['position']-view['look_at'])
+
+    for name in ('panorama','topdown','site','antennas','detail','platform'):
+        ui._button('Capture view: '+name,lambda name=name:apply(name))
+
+
+def save_browser_screenshot(page,target,timeout_ms,timeout_error=TimeoutError,on_resize=None):
     """Bound capture time, retry a stalled compositor at a smaller viewport.
 
     Both attempts use the real browser and unchanged scene. The PNG is only
@@ -86,14 +126,15 @@ def save_browser_screenshot(page,target,timeout_ms,timeout_error=TimeoutError):
             smaller=dict(width=min(viewport['width'],1024),height=min(viewport['height'],768))
             print('Screenshot compositor timed out; retrying the unchanged scene at '+str(smaller),flush=True)
             page.set_viewport_size(smaller);page.wait_for_timeout(3000)
+            if on_resize is not None:on_resize()
 
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--port',type=int,default=0,help='Private capture port; default selects a fresh unused pair')
     parser.add_argument('--output',type=Path,default=ROOT/'docs/media')
-    parser.add_argument('--width',type=int,default=1440)
-    parser.add_argument('--height',type=int,default=960)
+    parser.add_argument('--width',type=int,default=1600)
+    parser.add_argument('--height',type=int,default=1000)
     parser.add_argument('--screenshot-timeout',type=float,default=180.,help='Maximum seconds per screenshot attempt')
     parser.add_argument('--serve-preview',action='store_true',help=argparse.SUPPRESS)
     args=parser.parse_args()
@@ -103,7 +144,7 @@ def main():
     config=load(ROOT/'configs/platform/town02_strict_itu_64tx_40ue.json')
     if args.serve_preview:
         if not 1024<=args.port<=65534:parser.error('The private preview needs an explicit unprivileged port')
-        return run_capture_preview(config,args.port)
+        return run_capture_preview(config,args.port,prepare=prepare_capture_views)
     if args.port and not 1024<=args.port<=65534:parser.error('port must be 0 or between 1024 and 65534')
     args.port=choose_capture_port(args.port)
     output=args.output.resolve();output.mkdir(parents=True,exist_ok=True)
@@ -176,26 +217,35 @@ def main():
                     raise RuntimeError('The private capture service has another browser connected; choose a fresh port')
                 print('Town02 is loaded. Capture preview rate: 2 Hz; native CSI: not computed.',flush=True)
     
-                def shot(name,title):
+                def shot(name,title,view):
                     state=api()['state'];telemetry=api('ui')
                     if api('csi')['available']:raise ValueError('Gallery must remain an actual mechanics preview without CSI')
                     if telemetry['last_action_error']:raise ValueError(telemetry['last_action_error'])
                     np.testing.assert_allclose(telemetry['displayed_tx_positions'],np.asarray(state['tx_port_positions'],np.float32),atol=0,rtol=0)
                     top();page.wait_for_timeout(2000)
                     print('Capturing '+name+'; allowing '+str(args.screenshot_timeout)+' seconds per attempt...',flush=True)
-                    capture=save_browser_screenshot(page,output/name,args.screenshot_timeout*1000,PlaywrightTimeoutError)
+                    def reframe():
+                        button('Capture view: '+view);top();page.wait_for_timeout(2000)
+                    capture=save_browser_screenshot(page,output/name,args.screenshot_timeout*1000,PlaywrightTimeoutError,on_resize=reframe)
                     if api()['state']['timestamp']!=state['timestamp']:
                         raise AssertionError('Physical time changed during a supposedly paused capture')
                     report['images'].append(dict(file=name,title=title,physical_time_s=state['timestamp'],
-                        mode=report['mode'],capture=capture,sha256=hashlib.sha256((output/name).read_bytes()).hexdigest()))
+                        mode=report['mode'],view=view,capture=capture,cameras=api('ui')['cameras'],
+                        scene_faces=telemetry['map_faces'],sha256=hashlib.sha256((output/name).read_bytes()).hexdigest()))
                     (work/'capture.json').write_text(json.dumps(report,indent=2)+'\n')
                     print('Captured '+name,flush=True)
     
-                button('地图全景 / Map overview')
-                shot('town02-panorama.png','Town02 panorama in the running Web platform')
-                button('聚焦选中面板')
+                button('Capture view: panorama')
+                shot('town02-panorama.png','Town02 panorama in the running Web platform','panorama')
+                button('Capture view: topdown')
+                shot('town02-topdown.png','Town02 street layout from above','topdown')
+                button('Capture view: site')
+                shot('town02-site.png','Town02 blocks around the actual base station','site')
+                button('Capture view: antennas')
                 initial=api()['state']
-                shot('town02-antennas.png','Town02 movable antenna panels and physical TX ports before motion')
+                shot('town02-antennas.png','Town02 movable antenna panels and physical TX ports before motion','antennas')
+                button('Capture view: detail')
+                shot('town02-panel-detail.png','Selected movable antenna panel and its four physical TX ports','detail')
                 button('Start / 开始预览')
                 wait_for(lambda:api()['state']['timestamp']>=1.)
                 button('Pause / 暂停')
@@ -203,7 +253,8 @@ def main():
                 if np.array_equal(initial['positions'],final['positions']):raise AssertionError('Scheduled antenna motion did not execute')
                 report['motion']=dict(initial_panel_positions=initial['positions'],final_panel_positions=final['positions'],
                                       initial_time_s=initial['timestamp'],final_time_s=final['timestamp'])
-                shot('town02-platform.png','Running Town02 platform after the scheduled bounded antenna motion')
+                button('Capture view: platform')
+                shot('town02-platform.png','Running Town02 platform after the scheduled bounded antenna motion','platform')
                 if report['page_errors']:raise AssertionError(report['page_errors'])
         report['status']='Passed_actual_Town02_browser_gallery'
     except BaseException as error:
