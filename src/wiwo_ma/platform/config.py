@@ -84,13 +84,17 @@ def validate(config):
     c=deepcopy(config)
     if c.get('schema')!=SCHEMA:raise ValueError('Explicit platform schema required')
     scene=c.setdefault('scene',{'name':'munich'})
-    if scene.get('name') not in ('munich','etoile','reflector'):raise ValueError('Unknown supported scene')
+    if scene.get('name') not in ('munich','etoile','reflector','town02'):raise ValueError('Unknown supported scene')
+    if scene['name']=='town02' and not scene.get('xml_path'):scene['xml_path']='assets/town02/town2_3mat.xml'
     if scene.get('xml_path'):
         path=(ROOT/scene['xml_path']).resolve()
         if not path.is_relative_to(ROOT) or not path.is_file():raise ValueError('Scene XML must exist inside project')
     radio=c.setdefault('radio',{})
     for key,default in [('carrier_hz',3.5e9),('subcarrier_spacing_hz',30000.),('bandwidth_hz',1.92e6)]:radio[key]=positive(radio.get(key,default),'radio.'+key)
     radio['num_subcarriers']=integer(radio.get('num_subcarriers',64),'num_subcarriers')
+    if scene.get('material_policy'):
+        from .town02_materials import validate_strict_scene
+        validate_strict_scene(scene,radio['carrier_hz'])
     if radio['num_subcarriers']*radio['subcarrier_spacing_hz']>radio['bandwidth_hz']*(1+1e-12):raise ValueError('Subcarrier grid exceeds configured bandwidth')
     for side in ('tx','rx'):
         radio.setdefault(side+'_pattern','tr38901' if side=='tx' else 'iso')

@@ -1,6 +1,7 @@
 # Private verification and machine state
 .releasework/
 .venv/
+.venv-full/
 .envs/
 .env
 .env.*
@@ -44,6 +45,8 @@ data/*
 assets/platform_generated/
 assets/platform/viser-ordered-gui-v1/index.html
 assets/platform/viser-ordered-gui-v1/adapter.json
+# Local Town02 resources retain their original ownership and source manifest.
+assets/town02/
 
 # Credentials and editor-local files
 *.pem
@@ -52,4 +55,5 @@ id_rsa*
 id_ed25519*
 .DS_Store
 .idea/
-.vscode/
+.vscode/*
+!.vscode/settings.json

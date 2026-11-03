@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+task_platform_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)"
+task_town02_config="${WIWO_TOWN02_CONFIG:-$task_platform_root/configs/platform/town02_strict_itu_64tx_40ue.json}"
+export PLAYWRIGHT_BROWSERS_PATH="$task_platform_root/.cache/ms-playwright"
+if [[ -z "${WIWO_PYTHON:-}" && ( -f "$task_platform_root/.venv-full/.wiwo-runtime-ready" || -f "$task_platform_root/.venv-full/.wiwo-install-complete" ) ]]; then
+  export WIWO_PYTHON="$task_platform_root/.venv-full/bin/python"
+fi
+exec "$task_platform_root/scripts/platform/run" serve --config "$task_town02_config" "$@"

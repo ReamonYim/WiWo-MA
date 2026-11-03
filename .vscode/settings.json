@@ -1,0 +1,18 @@
+{
+  "remote.autoForwardPorts": true,
+  "remote.autoForwardPortsSource": "process",
+  "remote.restoreForwardedPorts": true,
+  "remote.forwardOnOpen": true,
+  "remote.portsAttributes": {
+    "8080": {
+      "label": "WiWo-MA Town02",
+      "protocol": "http",
+      "onAutoForward": "openBrowserOnce"
+    },
+    "8081": {
+      "label": "WiWo-MA API",
+      "protocol": "http",
+      "onAutoForward": "silent"
+    }
+  }
+}

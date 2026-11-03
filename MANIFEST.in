@@ -3,11 +3,15 @@ include requirements-platform-validated.txt requirements-dev.lock.txt
 recursive-include assets *.obj *.xml *.js LICENSE-Viser
 recursive-include configs *.json
 recursive-include examples *.py
-recursive-include scripts *.py run
+recursive-include scripts *.py run install install_browser check town02 town02-service
 recursive-include tests *.py *.json
 recursive-include docs *.md *.json *.png *.gif *.svg
 prune .releasework
 prune artifacts
 prune experiments
 prune .cache
+prune .state
+prune .envs
+prune .venv-full
+prune assets/town02
 global-exclude *.pyc *.h5 *.hdf5 *.npy *.npz

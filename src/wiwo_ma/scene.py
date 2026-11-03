@@ -18,13 +18,16 @@ class SceneAsset:
 
 def load_asset(config):
     """Load a private Sionna scene. Read meshes from the actual Mitsuba BVH geometry."""
+    if config['scene'].get('material_policy'):
+        from .platform.town02_materials import validate_strict_scene
+        validate_strict_scene(config['scene'],config['radio'].get('carrier_hz'),verify_meshes=True)
     import sionna.rt as rt
     import drjit as dr
     start = time.perf_counter()
     name = config["scene"]["name"]
     custom = config["scene"].get("xml_path")
     if custom:
-        path = Path(custom).resolve()
+        path = (PROJECT_ROOT / custom).resolve()
         source = "user-supplied XML"
     elif name == "reflector":
         path = PROJECT_ROOT / "assets/reflector.xml"

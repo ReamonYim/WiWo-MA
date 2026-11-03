@@ -1,5 +1,14 @@
 # Changelog
 
+## Town02 integration
+
+- Make Town02 resource preparation, import, preview and Web access the README's main workflow, with a generated map overview.
+- Import the original XML/PLY/CSV files locally and verify their source checksums; keep original geometry and world coordinates.
+- Add exact source-material-ID rules for Sionna's built-in ITU models, per-mesh provenance, frequency-band checks and explicit unverified bindings.
+- Add single-MA and 64TX/40UE configurations, detached Web service management and VS Code port-forwarding settings.
+- Separate CPU/runtime checks from optional Chromium installation, including Ubuntu 20.04 compatibility.
+- Retain Munich/CSI workflows in `docs/platform-overview.md`; original Town02 meshes and generated research data remain outside source distributions.
+
 ## v1.0.0
 
 - Configurable bounded MA/6DMA mechanics, native physical-port Sionna RT,

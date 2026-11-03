@@ -5,6 +5,7 @@ import numpy as np
 from wiwo_ma.platform.config import validate,ROOT
 from wiwo_ma.platform.examples import reflector_example
 from wiwo_ma.platform.physics import PhysicalWorld,constrained_target
+from wiwo_ma.platform.config import load
 
 def configuration():
     c=reflector_example();c['actors']=[];c['actions']=[]
@@ -16,12 +17,12 @@ def configuration():
     return validate(c)
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--headless',action='store_true');p.add_argument('--port',type=int,default=8080);a=p.parse_args();c=configuration()
+    p=argparse.ArgumentParser();p.add_argument('--headless',action='store_true');p.add_argument('--port',type=int,default=8080);p.add_argument('--config',default=str(ROOT/'configs/platform/town02_strict_itu_single_ma.json'));a=p.parse_args();c=load(a.config)
     if a.headless:
         w=PhysicalWorld(c);before=w.state();w.advance_to(1.);after=w.state()
         delta=np.asarray(before['bs_rotations'][0]).T@(np.asarray(after['positions'][0])-before['positions'][0])
         np.testing.assert_allclose(delta,[.02,0,0],atol=1e-10,rtol=0)
-        print(json.dumps(dict(status='Passed_CPU_single_MA',physical_time_s=after['timestamp'],actual_BS_local_translation_m=delta.tolist(),TX_ports=len(after['tx_port_positions']),CSI='Not_computed',GPU_seconds=0)))
+        print(json.dumps(dict(status='Passed_CPU_single_MA',scene=c['scene'],physical_time_s=after['timestamp'],actual_BS_local_translation_m=delta.tolist(),TX_ports=len(after['tx_port_positions']),CSI='Not_computed',GPU_seconds=0)))
     else:
         from wiwo_ma.platform.web import serve
         serve(c,port=a.port)

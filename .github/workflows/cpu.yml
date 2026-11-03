@@ -47,8 +47,8 @@ jobs:
         run: python -m pytest tests/platform -q --strict-markers --strict-config
       - name: Runnable mechanical examples
         run: |
-          python examples/01_single_ma.py --headless
-          python examples/02_dynamic_6dma.py --headless
+          python examples/01_single_ma.py --headless --config configs/platform/single_ma_bounded.json
+          python examples/02_dynamic_6dma.py --headless --config configs/platform/munich_continuous_full64_4s_NOT_authorized.json
       - name: Tracklist and source-bundle checks
         run: |
           python scripts/release/audit_public.py --output artifacts/ci-source-scan.json

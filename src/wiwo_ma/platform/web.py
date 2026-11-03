@@ -17,6 +17,8 @@ from .resource_estimate import estimate,markdown as estimate_markdown
 from .controller import PlatformController
 from .examples import reflector_example,munich_example,physical_munich_example,continuous_munich_example,continuous_fullscale_example
 from .scene_geometry import load_display_meshes,scene_xml
+from .town02 import example as town02_example
+from .town02_materials import POLICY as STRICT_MATERIAL_POLICY,example as strict_town02_example
 from .storage import plain,atomic_json
 
 
@@ -159,6 +161,15 @@ class PlatformUI:
     def _button(self,label,fn):
         b=self.server.gui.add_button(label);b.on_click(self._ordered(fn));return b
 
+    @staticmethod
+    def _material_scope(config):
+        if config['scene'].get('material_policy')==STRICT_MATERIAL_POLICY:
+            counts=config.get('town02_provenance',{}).get('material_assignment_counts',{})
+            return ('**Sionna 内置 ITU 材质，按原始标签严格匹配。** '
+                f"匹配 {counts.get('matched_meshes',0)} 个网格，更正 {counts.get('changed_meshes',0)} 个绑定；"
+                f"其余 {counts.get('unchanged_unverified_meshes',0)} 个未核实，沿用原分配。标签匹配不代表实测成分确认。")
+        return '使用场景 XML 中的无线材质；Town02 原三材质版本未逐网格确认实际成分。' if config['scene']['name']=='town02' else '使用场景 XML 中的无线材质。'
+
     def _mark_draft(self):
         self.draft_revision+=1;self.draft_unsubmitted=True
 
@@ -198,7 +209,10 @@ class PlatformUI:
             self.clock=g.add_markdown('物理时间 / UI更新墙钟 / RT求解墙钟分别记录。')
         with g.add_folder('场景与系统配置'):
             g.add_markdown('应用系统、UE或actor配置会重建物理世界并回到t=0，清空旧CSI；不是运行中的瞬移。运行中的原生任务使用冻结配置，编辑会被拒绝。')
-            self.preset=g.add_dropdown('预设',options=['Munich continuous / 64TX / K40 / 3.5GHz / 100Hz','Munich continuous / 4TX / K2 / 3.5GHz / 100Hz','Munich bounded LOS cycle / 4s','Munich 64 ports / K40 / 28GHz','Munich 64 ports / K35 / 2.4GHz','Reflector / 4 ports'],initial_value='Munich 64 ports / K40 / 28GHz' if c['scene']['name']=='munich' else 'Reflector / 4 ports')
+            prefix='Town02 strict ITU' if c['scene'].get('material_policy')==STRICT_MATERIAL_POLICY else 'Town02'
+            initial_preset=(prefix+' / single MA' if len(c['base_stations'][0]['panels'])==1 else prefix+' / 64TX / K40 / 2.8GHz / 100Hz') if c['scene']['name']=='town02' else 'Munich 64 ports / K40 / 28GHz' if c['scene']['name']=='munich' else 'Reflector / 4 ports'
+            self.preset=g.add_dropdown('预设',options=['Town02 strict ITU / 64TX / K40 / 2.8GHz / 100Hz','Town02 strict ITU / single MA','Town02 / 64TX / K40 / 2.8GHz / 100Hz','Town02 / single MA','Munich continuous / 64TX / K40 / 3.5GHz / 100Hz','Munich continuous / 4TX / K2 / 3.5GHz / 100Hz','Munich bounded LOS cycle / 4s','Munich 64 ports / K40 / 28GHz','Munich 64 ports / K35 / 2.4GHz','Reflector / 4 ports'],initial_value=initial_preset)
+            self.material_scope=g.add_markdown(self._material_scope(c))
             self._button('加载所选预设',self._load_preset)
             self.bs_count=g.add_number('BS数量',initial_value=len(c['base_stations']),min=1,max=32,step=1)
             self.bs_edit=g.add_number('编辑BS索引',initial_value=0,min=0,step=1)
@@ -316,7 +330,7 @@ class PlatformUI:
             self.config_text=g.add_text('完整配置 / Action / 轨迹 JSON',initial_value=json.dumps(c,ensure_ascii=False,indent=2),multiline=True)
             self._button('验证并加载配置JSON',lambda:self.configure(json.loads(self.config_text.value)))
             self.preset_name=g.add_text('保存预设名称',initial_value='my_native_config');self._button('保存配置预设',lambda:self.save_preset(self.preset_name.value))
-            self.preset_path=g.add_text('加载预设JSON项目相对路径',initial_value='configs/platform/reflector.json');self._button('加载配置文件',lambda:self.configure(json.loads(self._local(self.preset_path.value).read_text())))
+            self.preset_path=g.add_text('加载预设JSON项目相对路径',initial_value='configs/platform/town02_strict_itu_64tx_40ue.json');self._button('加载配置文件',lambda:self.configure(json.loads(self._local(self.preset_path.value).read_text())))
             self.dataset_path=g.add_text('HDF5项目相对路径',initial_value='data/demo401/csi.h5')
             self._button('加载真实保存数据',lambda:self.command('load_dataset',dict(path=self.dataset_path.value)))
             self.job_path=g.add_text('后台任务项目相对目录',initial_value='artifacts/platform/jobs/my_sequence')
@@ -398,7 +412,10 @@ class PlatformUI:
         self.gizmo.disable_rotations=self.gizmo_mode.value=='平移';self.gizmo.disable_axes=self.gizmo_mode.value=='旋转';self.gizmo.disable_sliders=self.gizmo_mode.value=='旋转'
 
     def _load_preset(self):
-        name=self.preset.value;return self.configure(continuous_fullscale_example() if 'continuous / 64TX' in name else continuous_munich_example() if 'continuous' in name else physical_munich_example() if 'bounded LOS' in name else reflector_example() if name.startswith('Reflector') else munich_example(35,2.4e9) if 'K35' in name else munich_example())
+        name=self.preset.value
+        if name.startswith('Town02 strict ITU'):return self.configure(strict_town02_example('single' if 'single MA' in name else 'full'))
+        if name.startswith('Town02'):return self.configure(town02_example('single' if 'single MA' in name else 'full'))
+        return self.configure(continuous_fullscale_example() if 'continuous / 64TX' in name else continuous_munich_example() if 'continuous' in name else physical_munich_example() if 'bounded LOS' in name else reflector_example() if name.startswith('Reflector') else munich_example(35,2.4e9) if 'K35' in name else munich_example())
 
     def refresh_estimate(self):
         with self.render_lock:
@@ -417,6 +434,7 @@ class PlatformUI:
         # HDF replay and job attachment also replace the controller config.
         # Refresh editor metadata without resetting the replay/world itself.
         c=self.controller.config;self.config_text.value=json.dumps(c,ensure_ascii=False,indent=2);self.node_signature=None;self.map_signature=None;self.last_channel_key=None;self.history=[]
+        if hasattr(self,'material_scope'):self.material_scope.content=self._material_scope(c)
         for name,value in [('bs_count',len(c['base_stations'])),('panel_count',len(c['base_stations'][0]['panels'])),('ue_count',len(c['users'])),
             ('rows',c['base_stations'][0]['panels'][0]['array']['rows']),('cols',c['base_stations'][0]['panels'][0]['array']['cols']),('spacing',c['base_stations'][0]['panels'][0]['array']['spacing_m']),
             ('bs_position',tuple(c['base_stations'][0]['position_m'])),('bs_orientation',tuple(c['base_stations'][0]['orientation_deg'])),('carrier',c['radio']['carrier_hz']/1e9),('bandwidth',c['radio']['bandwidth_hz']/1e6),
@@ -623,12 +641,19 @@ class PlatformUI:
         for client in self.server.get_clients().values():self._aim(client,np.mean(s['positions'],axis=0),[5,-7,4])
 
     def _map(self,s):
-        key=str(scene_xml(self.controller.config['scene']))
+        key=json.dumps(self.controller.config['scene'],sort_keys=True)
         if key==self.map_signature:return
-        meshes,hashes=load_display_meshes(key);asset=SceneAsset(self.controller.config['scene']['name'],key,'',meshes,0.,[],'Actual SDK resource geometry')
-        v,f,total=_scene_meshes(asset,np.mean(s['positions'],axis=0),None)
-        self.server.scene.add_mesh_simple('/environment/static',v,f,color=(84,99,115),side='double',cast_shadow=False,receive_shadow=False)
-        self.map_signature=key;self.map_faces=len(f);self.map_full_faces=total
+        xml=str(scene_xml(self.controller.config['scene']))
+        meshes,hashes=load_display_meshes(xml);asset=SceneAsset(self.controller.config['scene']['name'],xml,'',meshes,0.,[],'Actual SDK resource geometry')
+        groups={}
+        for mesh in meshes:groups.setdefault(mesh.get('material_id','default'),[]).append(mesh)
+        count=0
+        for index,group in enumerate(groups.values()):
+            asset.meshes=group
+            v,f,total=_scene_meshes(asset,np.mean(s['positions'],axis=0),None)
+            self.server.scene.add_mesh_simple('/environment/static/material_'+str(index),v,f,color=group[0].get('color',(84,99,115)),side='double',cast_shadow=False,receive_shadow=False)
+            count+=total
+        self.map_signature=key;self.map_faces=count;self.map_full_faces=count
 
     def _draw(self):
         with self.render_lock:return self._draw_snapshot()

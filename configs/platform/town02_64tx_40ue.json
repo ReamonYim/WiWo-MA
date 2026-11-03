@@ -1,0 +1,2993 @@
+{
+  "schema": "wiwo-native-platform-v1",
+  "scene": {
+    "name": "town02",
+    "xml_path": "assets/town02/town2_3mat.xml"
+  },
+  "radio": {
+    "carrier_hz": 2800000000.0,
+    "subcarrier_spacing_hz": 30000.0,
+    "bandwidth_hz": 1920000.0,
+    "num_subcarriers": 64,
+    "tx_pattern": "tr38901",
+    "tx_polarization": "V",
+    "rx_pattern": "iso",
+    "rx_polarization": "V"
+  },
+  "timing": {
+    "duration_s": 4.0,
+    "csi_dt_s": 0.01,
+    "mechanics_dt_s": 0.002,
+    "control_dt_s": 0.1
+  },
+  "base_stations": [
+    {
+      "id": "bs0",
+      "position_m": [
+        103.211403,
+        -102.730927,
+        10.0
+      ],
+      "panels": [
+        {
+          "id": "panel00",
+          "position_m": [
+            0.382783799944564,
+            0.0,
+            1.03125
+          ],
+          "orientation_deg": [
+            0.0,
+            -69.63586519368219,
+            0.0
+          ],
+          "size_m": [
+            0.015,
+            0.12312904524999999,
+            0.12312904524999999
+          ],
+          "array": {
+            "kind": "UPA",
+            "rows": 2,
+            "cols": 2,
+            "spacing_m": 0.0535343675
+          },
+          "mechanics": {
+            "mechanism": "gantry_gimbal",
+            "max_rotation_rad": 0.4,
+            "workspace_min_m": [
+              0.13278379994456402,
+              -0.25,
+              0.78125
+            ],
+            "workspace_max_m": [
+              0.632783799944564,
+              0.25,
+              1.28125
+            ],
+            "max_speed_m_s": 0.15,
+            "max_acceleration_m_s2": 0.4,
+            "max_angular_speed_rad_s": 0.3,
+            "max_angular_acceleration_rad_s2": 0.6,
+            "command_latency_s": 0.0
+          }
+        },
+        {
+          "id": "panel01",
+          "position_m": [
+            -0.4728431831603786,
+            -0.43316308896160666,
+            0.89375
+          ],
+          "orientation_deg": [
+            -137.50776405003788,
+            -54.34091230386124,
+            0.0
+          ],
+          "size_m": [
+            0.015,
+            0.12312904524999999,
+            0.12312904524999999
+          ],
+          "array": {
+            "kind": "UPA",
+            "rows": 2,
+            "cols": 2,
+            "spacing_m": 0.0535343675
+          },
+          "mechanics": {
+            "mechanism": "gantry_gimbal",
+            "max_rotation_rad": 0.4,
+            "workspace_min_m": [
+              -0.7228431831603785,
+              -0.6831630889616067,
+              0.64375
+            ],
+            "workspace_max_m": [
+              -0.2228431831603786,
+              -0.18316308896160666,
+              1.14375
+            ],
+            "max_speed_m_s": 0.15,
+            "max_acceleration_m_s2": 0.4,
+            "max_angular_speed_rad_s": 0.3,
+            "max_angular_acceleration_rad_s2": 0.6,
+            "command_latency_s": 0.0
+          }
+        },
+        {
+          "id": "panel02",
+          "position_m": [
+            0.06983591502089917,
+            0.7957442318189896,
+            0.7562500000000001
+          ],
+          "orientation_deg": [
+            84.98447189992424,
+            -43.432536557789774,
+            0.0
+          ],
+          "size_m": [
+            0.015,
+            0.12312904524999999,
+            0.12312904524999999
+          ],
+          "array": {
+            "kind": "UPA",
+            "rows": 2,
+            "cols": 2,
+            "spacing_m": 0.0535343675
+          },
+          "mechanics": {
+            "mechanism": "gantry_gimbal",
+            "max_rotation_rad": 0.4,
+            "workspace_min_m": [
+              -0.18016408497910083,
+              0.5457442318189896,
+              0.5062500000000001
+            ],
+            "workspace_max_m": [
+              0.31983591502089914,
+              1.0457442318189896,
+              1.00625
+            ],
+            "max_speed_m_s": 0.15,
+            "max_acceleration_m_s2": 0.4,
+            "max_angular_speed_rad_s": 0.3,
+            "max_angular_acceleration_rad_s2": 0.6,
+            "command_latency_s": 0.0
+          }
+        },
+        {
+          "id": "panel03",
+          "position_m": [
+            0.5533611579847542,
+            -0.7217616409409494,
+            0.61875
+          ],
+          "orientation_deg": [
+            -52.52329215011363,
+            -34.22886632781258,
+            0.0
+          ],
+          "size_m": [
+            0.015,
+            0.12312904524999999,
+            0.12312904524999999
+          ],
+          "array": {
+            "kind": "UPA",
+            "rows": 2,
+            "cols": 2,
+            "spacing_m": 0.0535343675
+          },
+          "mechanics": {
+            "mechanism": "gantry_gimbal",
+            "max_rotation_rad": 0.4,
+            "workspace_min_m": [
+              0.30336115798475416,
+              -0.9717616409409494,
+              0.36875
+            ],
+            "workspace_max_m": [
+              0.8033611579847542,
+              -0.4717616409409494,
+              0.86875
+            ],
+            "max_speed_m_s": 0.15,
+            "max_acceleration_m_s2": 0.4,
+            "max_angular_speed_rad_s": 0.3,
+            "max_angular_acceleration_rad_s2": 0.6,
+            "command_latency_s": 0.0
+          }
+        },
+        {
+          "id": "panel04",
+          "position_m": [
+            -0.9740197447007916,
+            0.1722903782368741,
+            0.48125000000000007
+          ],
+          "orientation_deg": [
+            169.9689437998485,
+            -25.94447977237001,
+            0.0
+          ],
+          "size_m": [
+            0.015,
+            0.12312904524999999,
+            0.12312904524999999
+          ],
+          "array": {
+            "kind": "UPA",
+            "rows": 2,
+            "cols": 2,
+            "spacing_m": 0.0535343675
+          },
+          "mechanics": {
+            "mechanism": "gantry_gimbal",
+            "max_rotation_rad": 0.4,
+            "workspace_min_m": [
+              -1.2240197447007914,
+              -0.0777096217631259,
+              0.23125000000000007
+            ],
+            "workspace_max_m": [
+              -0.7240197447007916,
+              0.4222903782368741,
+              0.7312500000000001
+            ],
+            "max_speed_m_s": 0.15,
+            "max_acceleration_m_s2": 0.4,
+            "max_angular_speed_rad_s": 0.3,
+            "max_angular_acceleration_rad_s2": 0.6,
+            "command_latency_s": 0.0
+          }
+        },
+        {
+          "id": "panel05",
+          "position_m": [
+            0.8816479532270118,
+            0.5608322601907106,
+            0.34375
+          ],
+          "orientation_deg": [
+            32.46117974981071,
+            -18.20995686428301,
+            0.0
+          ],
+          "size_m": [
+            0.015,
+            0.12312904524999999,
+            0.12312904524999999
+          ],
+          "array": {
+            "kind": "UPA",
+            "rows": 2,
+            "cols": 2,
+            "spacing_m": 0.0535343675
+          },
+          "mechanics": {
+            "mechanism": "gantry_gimbal",
+            "max_rotation_rad": 0.4,
+            "workspace_min_m": [
+              0.6316479532270118,
+              0.31083226019071064,
+              0.09375
+            ],
+            "workspace_max_m": [
+              1.1316479532270118,
+              0.8108322601907106,
+              0.59375
+            ],
+            "max_speed_m_s": 0.15,
+            "max_acceleration_m_s2": 0.4,
+            "max_angular_speed_rad_s": 0.3,
+            "max_angular_acceleration_rad_s2": 0.6,
+            "command_latency_s": 0.0
+          }
+        },
+        {
+          "id": "panel06",
+          "position_m": [
+            -0.28050013139568314,
+            -1.0434465073912533,
+            0.20625000000000002
+          ],
+          "orientation_deg": [
+            -105.04658430022727,
+            -10.806922874860343,
+            0.0
+          ],
+          "size_m": [
+            0.015,
+            0.12312904524999999,
+            0.12312904524999999
+          ],
+          "array": {
+            "kind": "UPA",
+            "rows": 2,
+            "cols": 2,
+            "spacing_m": 0.0535343675
+          },
+          "mechanics": {
+            "mechanism": "gantry_gimbal",
+            "max_rotation_rad": 0.4,
+            "workspace_min_m": [
+              -0.5305001313956832,
+              -1.2934465073912533,
+              -0.04374999999999998
+            ],
+            "workspace_max_m": [
+              -0.03050013139568314,
+              -0.7934465073912533,
+              0.45625000000000004
+            ],
+            "max_speed_m_s": 0.15,
+            "max_acceleration_m_s2": 0.4,
+            "max_angular_speed_rad_s": 0.3,
+            "max_angular_acceleration_rad_s2": 0.6,
+            "command_latency_s": 0.0
+          }
+        },
+        {
+          "id": "panel07",
+          "position_m": [
+            -0.5060065283340376,
+            0.9742847790986652,
+            0.06875
+          ],
+          "orientation_deg": [
+            117.44565164973496,
+            -3.583321698471973,
+            0.0
+          ],
+          "size_m": [
+            0.015,
+            0.12312904524999999,
+            0.12312904524999999
+          ],
+          "array": {
+            "kind": "UPA",
+            "rows": 2,
+            "cols": 2,
+            "spacing_m": 0.0535343675
+          },
+          "mechanics": {
+            "mechanism": "gantry_gimbal",
+            "max_rotation_rad": 0.4,
+            "workspace_min_m": [
+              -0.7560065283340376,
+              0.7242847790986652,
+              -0.18125
+            ],
+            "workspace_max_m": [
+              -0.2560065283340376,
+              1.224284779098665,
+              0.31875
+            ],
+            "max_speed_m_s": 0.15,
+            "max_acceleration_m_s2": 0.4,
+            "max_angular_speed_rad_s": 0.3,
+            "max_angular_acceleration_rad_s2": 0.6,
+            "command_latency_s": 0.0
+          }
+        },
+        {
+          "id": "panel08",
+          "position_m": [
+            1.031233378225855,
+            -0.3766047757701577,
+            -0.06875
+          ],
+          "orientation_deg": [
+            -20.062112400303032,
+            3.583321698471973,
+            0.0
+          ],
+          "size_m": [
+            0.015,
+            0.12312904524999999,
+            0.12312904524999999
+          ],
+          "array": {
+            "kind": "UPA",
+            "rows": 2,
+            "cols": 2,
+            "spacing_m": 0.0535343675
+          },
+          "mechanics": {
+            "mechanism": "gantry_gimbal",
+            "max_rotation_rad": 0.4,
+            "workspace_min_m": [
+              0.7812333782258549,
+              -0.6266047757701577,
+              -0.31875
+            ],
+            "workspace_max_m": [
+              1.281233378225855,
+              -0.12660477577015772,
+              0.18125
+            ],
+            "max_speed_m_s": 0.15,
+            "max_acceleration_m_s2": 0.4,
+            "max_angular_speed_rad_s": 0.3,
+            "max_angular_acceleration_rad_s2": 0.6,
+            "command_latency_s": 0.0
+          }
+        },
+        {
+          "id": "panel09",
+          "position_m": [
+            -0.9987471126492072,
+            -0.41226828943646865,
+            -0.20625000000000002
+          ],
+          "orientation_deg": [
+            -157.569876450341,
+            10.806922874860343,
+            0.0
+          ],
+          "size_m": [
+            0.015,
+            0.12312904524999999,
+            0.12312904524999999
+          ],
+          "array": {
+            "kind": "UPA",
+            "rows": 2,
+            "cols": 2,
+            "spacing_m": 0.0535343675
+          },
+          "mechanics": {
+            "mechanism": "gantry_gimbal",
+            "max_rotation_rad": 0.4,
+            "workspace_min_m": [
+              -1.2487471126492071,
+              -0.6622682894364686,
+              -0.45625000000000004
+            ],
+            "workspace_max_m": [
+              -0.7487471126492072,
+              -0.16226828943646865,
+              0.04374999999999998
+            ],
+            "max_speed_m_s": 0.15,
+            "max_acceleration_m_s2": 0.4,
+            "max_angular_speed_rad_s": 0.3,
+            "max_angular_acceleration_rad_s2": 0.6,
+            "command_latency_s": 0.0
+          }
+        },
+        {
+          "id": "panel10",
+          "position_m": [
+            0.442880721833626,
+            0.9464103780750328,
+            -0.34375
+          ],
+          "orientation_deg": [
+            64.92235949962141,
+            18.20995686428301,
+            0.0
+          ],
+          "size_m": [
+            0.015,
+            0.12312904524999999,
+            0.12312904524999999
+          ],
+          "array": {
+            "kind": "UPA",
+            "rows": 2,
+            "cols": 2,
+            "spacing_m": 0.0535343675
+          },
+          "mechanics": {
+            "mechanism": "gantry_gimbal",
+            "max_rotation_rad": 0.4,
+            "workspace_min_m": [
+              0.19288072183362598,
+              0.6964103780750328,
+              -0.59375
+            ],
+            "workspace_max_m": [
+              0.6928807218336259,
+              1.1964103780750328,
+              -0.09375
+            ],
+            "max_speed_m_s": 0.15,
+            "max_acceleration_m_s2": 0.4,
+            "max_angular_speed_rad_s": 0.3,
+            "max_angular_acceleration_rad_s2": 0.6,
+            "command_latency_s": 0.0
+          }
+        },
+        {
+          "id": "panel11",
+          "position_m": [
+            0.29603371700172426,
+            -0.9438021381084826,
+            -0.48125000000000007
+          ],
+          "orientation_deg": [
+            -72.58540455041698,
+            25.94447977237001,
+            0.0
+          ],
+          "size_m": [
+            0.015,
+            0.12312904524999999,
+            0.12312904524999999
+          ],
+          "array": {
+            "kind": "UPA",
+            "rows": 2,
+            "cols": 2,
+            "spacing_m": 0.0535343675
+          },
+          "mechanics": {
+            "mechanism": "gantry_gimbal",
+            "max_rotation_rad": 0.4,
+            "workspace_min_m": [
+              0.04603371700172426,
+              -1.1938021381084827,
+              -0.7312500000000001
+            ],
+            "workspace_max_m": [
+              0.5460337170017242,
+              -0.6938021381084826,
+              -0.23125000000000007
+            ],
+            "max_speed_m_s": 0.15,
+            "max_acceleration_m_s2": 0.4,
+            "max_angular_speed_rad_s": 0.3,
+            "max_angular_acceleration_rad_s2": 0.6,
+            "command_latency_s": 0.0
+          }
+        },
+        {
+          "id": "panel12",
+          "position_m": [
+            -0.786889706814879,
+            0.4560186693643078,
+            -0.61875
+          ],
+          "orientation_deg": [
+            149.90683139954547,
+            34.22886632781258,
+            0.0
+          ],
+          "size_m": [
+            0.015,
+            0.12312904524999999,
+            0.12312904524999999
+          ],
+          "array": {
+            "kind": "UPA",
+            "rows": 2,
+            "cols": 2,
+            "spacing_m": 0.0535343675
+          },
+          "mechanics": {
+            "mechanism": "gantry_gimbal",
+            "max_rotation_rad": 0.4,
+            "workspace_min_m": [
+              -1.036889706814879,
+              0.2060186693643078,
+              -0.86875
+            ],
+            "workspace_max_m": [
+              -0.536889706814879,
+              0.7060186693643078,
+              -0.36875
+            ],
+            "max_speed_m_s": 0.15,
+            "max_acceleration_m_s2": 0.4,
+            "max_angular_speed_rad_s": 0.3,
+            "max_angular_acceleration_rad_s2": 0.6,
+            "command_latency_s": 0.0
+          }
+        },
+        {
+          "id": "panel13",
+          "position_m": [
+            0.7801713574681484,
+            0.1715184843866886,
+            -0.7562500000000001
+          ],
+          "orientation_deg": [
+            12.39906734950788,
+            43.432536557789774,
+            0.0
+          ],
+          "size_m": [
+            0.015,
+            0.12312904524999999,
+            0.12312904524999999
+          ],
+          "array": {
+            "kind": "UPA",
+            "rows": 2,
+            "cols": 2,
+            "spacing_m": 0.0535343675
+          },
+          "mechanics": {
+            "mechanism": "gantry_gimbal",
+            "max_rotation_rad": 0.4,
+            "workspace_min_m": [
+              0.5301713574681484,
+              -0.0784815156133114,
+              -1.00625
+            ],
+            "workspace_max_m": [
+              1.0301713574681484,
+              0.4215184843866886,
+              -0.5062500000000001
+            ],
+            "max_speed_m_s": 0.15,
+            "max_acceleration_m_s2": 0.4,
+            "max_angular_speed_rad_s": 0.3,
+            "max_angular_acceleration_rad_s2": 0.6,
+            "command_latency_s": 0.0
+          }
+        },
+        {
+          "id": "panel14",
+          "position_m": [
+            -0.36880595057439103,
+            -0.5245885133329932,
+            -0.89375
+          ],
+          "orientation_deg": [
+            -125.1086967005301,
+            54.34091230386124,
+            0.0
+          ],
+          "size_m": [
+            0.015,
+            0.12312904524999999,
+            0.12312904524999999
+          ],
+          "array": {
+            "kind": "UPA",
+            "rows": 2,
+            "cols": 2,
+            "spacing_m": 0.0535343675
+          },
+          "mechanics": {
+            "mechanism": "gantry_gimbal",
+            "max_rotation_rad": 0.4,
+            "workspace_min_m": [
+              -0.618805950574391,
+              -0.7745885133329932,
+              -1.14375
+            ],
+            "workspace_max_m": [
+              -0.11880595057439103,
+              -0.27458851333299317,
+              -0.64375
+            ],
+            "max_speed_m_s": 0.15,
+            "max_acceleration_m_s2": 0.4,
+            "max_angular_speed_rad_s": 0.3,
+            "max_angular_acceleration_rad_s2": 0.6,
+            "command_latency_s": 0.0
+          }
+        },
+        {
+          "id": "panel15",
+          "position_m": [
+            -0.04919181017474896,
+            0.37960980402477945,
+            -1.03125
+          ],
+          "orientation_deg": [
+            97.38353924943151,
+            69.63586519368219,
+            0.0
+          ],
+          "size_m": [
+            0.015,
+            0.12312904524999999,
+            0.12312904524999999
+          ],
+          "array": {
+            "kind": "UPA",
+            "rows": 2,
+            "cols": 2,
+            "spacing_m": 0.0535343675
+          },
+          "mechanics": {
+            "mechanism": "gantry_gimbal",
+            "max_rotation_rad": 0.4,
+            "workspace_min_m": [
+              -0.29919181017474894,
+              0.12960980402477945,
+              -1.28125
+            ],
+            "workspace_max_m": [
+              0.20080818982525103,
+              0.6296098040247795,
+              -0.78125
+            ],
+            "max_speed_m_s": 0.15,
+            "max_acceleration_m_s2": 0.4,
+            "max_angular_speed_rad_s": 0.3,
+            "max_angular_acceleration_rad_s2": 0.6,
+            "command_latency_s": 0.0
+          }
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "trajectory": []
+    }
+  ],
+  "users": [
+    {
+      "id": "ue00",
+      "position_m": [
+        0.28359,
+        -111.014938,
+        0.22192
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            0.28359,
+            -111.014938,
+            0.22192
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            0.35112235494455574,
+            -110.97204999427794,
+            0.2219190906815282
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue01",
+      "position_m": [
+        1.422201,
+        -110.415688,
+        0.22193
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            1.422201,
+            -110.415688,
+            0.22193
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            1.4966493283991489,
+            -110.38640581482888,
+            0.2219354933280501
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue02",
+      "position_m": [
+        2.649182,
+        -110.03669,
+        0.221901
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            2.649182,
+            -110.03669,
+            0.221901
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            2.726973024940573,
+            -110.01802033407566,
+            0.22189739877206457
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue03",
+      "position_m": [
+        4.013924,
+        -109.773842,
+        0.221904
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            4.013924,
+            -109.773842,
+            0.221904
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            4.093251625268211,
+            -109.76349174061647,
+            0.221904
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue04",
+      "position_m": [
+        5.300719,
+        -109.650177,
+        0.22187
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            5.300719,
+            -109.650177,
+            0.22187
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            5.380526536694609,
+            -109.64463109315348,
+            0.22186800291435127
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue05",
+      "position_m": [
+        6.645356,
+        -109.579575,
+        0.221857
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            6.645356,
+            -109.579575,
+            0.221857
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            6.725302197019219,
+            -109.57664147301608,
+            0.22185826445128617
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue06",
+      "position_m": [
+        7.943619,
+        -109.544334,
+        0.221851
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            7.943619,
+            -109.544334,
+            0.221851
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            8.023604554361585,
+            -109.54281377190203,
+            0.221851
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue07",
+      "position_m": [
+        9.308221,
+        -109.524879,
+        0.221845
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            9.308221,
+            -109.524879,
+            0.221845
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            9.388217041392835,
+            -109.52408315989301,
+            0.221845
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue08",
+      "position_m": [
+        10.608348,
+        -109.515083,
+        0.221845
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            10.608348,
+            -109.515083,
+            0.221845
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            10.688346895398334,
+            -109.51466260132467,
+            0.221845
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue09",
+      "position_m": [
+        11.964337,
+        -109.509567,
+        0.221843
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            11.964337,
+            -109.509567,
+            0.221843
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            12.044336541182185,
+            -109.50929605602064,
+            0.221843
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue10",
+      "position_m": [
+        13.268814,
+        -109.505508,
+        0.221843
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            13.268814,
+            -109.505508,
+            0.221843
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            13.34881369845471,
+            -109.50528834764876,
+            0.221843
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue11",
+      "position_m": [
+        14.636615,
+        -109.502159,
+        0.221844
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            14.636615,
+            -109.502159,
+            0.221844
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            14.716614810930325,
+            -109.50198507153067,
+            0.221844
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue12",
+      "position_m": [
+        15.919334,
+        -109.499413,
+        0.221844
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            15.919334,
+            -109.499413,
+            0.221844
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            15.999333812944569,
+            -109.49924000048006,
+            0.221844
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue13",
+      "position_m": [
+        17.304033,
+        -109.49649,
+        0.221844
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            17.304033,
+            -109.49649,
+            0.221844
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            17.384032758010594,
+            -109.49629323047319,
+            0.221844
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue14",
+      "position_m": [
+        18.600168,
+        -109.493317,
+        0.221844
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            18.600168,
+            -109.493317,
+            0.221844
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            18.68016776053053,
+            -109.4931212576744,
+            0.221844
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue15",
+      "position_m": [
+        19.894535,
+        -109.48999,
+        0.221844
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            19.894535,
+            -109.48999,
+            0.221844
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            19.974534727294856,
+            -109.48978111546552,
+            0.221844
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue16",
+      "position_m": [
+        21.26112,
+        -109.486412,
+        0.22184
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            21.26112,
+            -109.486412,
+            0.22184
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            21.341119679079203,
+            -109.48618542300291,
+            0.22183682368695673
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue17",
+      "position_m": [
+        22.627272,
+        -109.482559,
+        0.221689
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            22.627272,
+            -109.482559,
+            0.221689
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            22.707271639719792,
+            -109.48231915049529,
+            0.2216781871124924
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue18",
+      "position_m": [
+        24.255322,
+        -109.477722,
+        0.221546
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            24.255322,
+            -109.477722,
+            0.221546
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            24.335321597669243,
+            -109.47746830262366,
+            0.2215427750333516
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue19",
+      "position_m": [
+        26.008736,
+        -109.472305,
+        0.221497
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            26.008736,
+            -109.472305,
+            0.221497
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            26.088735609117403,
+            -109.47205491975232,
+            0.22149603443919813
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue20",
+      "position_m": [
+        28.026115,
+        -109.465897,
+        0.221484
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            28.026115,
+            -109.465897,
+            0.221484
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            28.106114554838424,
+            -109.46563011865163,
+            0.221484
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue21",
+      "position_m": [
+        30.15571,
+        -109.458755,
+        0.221485
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            30.15571,
+            -109.458755,
+            0.221485
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            30.235709547613745,
+            -109.45848596260927,
+            0.2214856916128296
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue22",
+      "position_m": [
+        32.614639,
+        -109.450233,
+        0.221491
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            32.614639,
+            -109.450233,
+            0.221491
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            32.694638506096524,
+            -109.44995188736756,
+            0.221491
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue23",
+      "position_m": [
+        35.136303,
+        -109.441406,
+        0.221497
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            35.136303,
+            -109.441406,
+            0.221497
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            35.216302507335485,
+            -109.44112524086708,
+            0.2214976239091843
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue24",
+      "position_m": [
+        37.983002,
+        -109.431358,
+        0.221505
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            37.983002,
+            -109.431358,
+            0.221505
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            38.063001520135494,
+            -109.4310809114027,
+            0.221505
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue25",
+      "position_m": [
+        40.861904,
+        -109.421043,
+        0.221511
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            40.861904,
+            -109.421043,
+            0.221511
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            40.941903459044205,
+            -109.42074880214687,
+            0.22151150811373596
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue26",
+      "position_m": [
+        44.090271,
+        -109.40992,
+        0.221518
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            44.090271,
+            -109.40992,
+            0.221518
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            44.17027062477865,
+            -109.4096749793085,
+            0.22151836900706548
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue27",
+      "position_m": [
+        47.334229,
+        -109.400787,
+        0.221525
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            47.334229,
+            -109.400787,
+            0.221525
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            47.41422879421709,
+            -109.40060554691168,
+            0.221525
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue28",
+      "position_m": [
+        50.749149,
+        -109.394867,
+        0.221531
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            50.749149,
+            -109.394867,
+            0.221531
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            50.82914894922669,
+            -109.39477686891132,
+            0.2215313375696205
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue29",
+      "position_m": [
+        54.561829,
+        -109.392334,
+        0.221538
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            54.561829,
+            -109.392334,
+            0.221538
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            54.6418289969322,
+            -109.39231184487926,
+            0.221538
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue30",
+      "position_m": [
+        58.306591,
+        -109.39283,
+        0.221544
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            58.306591,
+            -109.39283,
+            0.221544
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            58.38659099605557,
+            -109.39285512188953,
+            0.221544
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue31",
+      "position_m": [
+        62.317265,
+        -109.395027,
+        0.221591
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            62.317265,
+            -109.395027,
+            0.221591
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            62.39726498230704,
+            -109.3950800915033,
+            0.2215944877629908
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue32",
+      "position_m": [
+        66.242653,
+        -109.398003,
+        0.221812
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            66.242653,
+            -109.398003,
+            0.221812
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            66.32265297384332,
+            -109.39806759000881,
+            0.2218156331879953
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue33",
+      "position_m": [
+        70.313385,
+        -109.401596,
+        0.221866
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            70.313385,
+            -109.401596,
+            0.221866
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            70.39338496488314,
+            -109.40167094601598,
+            0.221864661678286
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue34",
+      "position_m": [
+        74.198624,
+        -109.405212,
+        0.221814
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            74.198624,
+            -109.405212,
+            0.221814
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            74.27862396681047,
+            -109.40528487196123,
+            0.221814
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue35",
+      "position_m": [
+        78.209869,
+        -109.408882,
+        0.221877
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            78.209869,
+            -109.408882,
+            0.221877
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            78.28986896806077,
+            -109.40895344495495,
+            0.22187942774118719
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue36",
+      "position_m": [
+        82.054352,
+        -109.412201,
+        0.22198
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            82.054352,
+            -109.412201,
+            0.22198
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            82.13435197102,
+            -109.41226908922089,
+            0.2219808105859629
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue37",
+      "position_m": [
+        85.951988,
+        -109.415428,
+        0.221971
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            85.951988,
+            -109.415428,
+            0.221971
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            86.03198797324356,
+            -109.41549342314603,
+            0.22197008285309316
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue38",
+      "position_m": [
+        89.555367,
+        -109.418282,
+        0.221955
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            89.555367,
+            -109.418282,
+            0.221955
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            89.63536697528204,
+            -109.41834488779412,
+            0.221955
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    },
+    {
+      "id": "ue39",
+      "position_m": [
+        93.445938,
+        -109.421364,
+        0.221969
+      ],
+      "trajectory": [
+        {
+          "time_s": 0.0,
+          "position_m": [
+            93.445938,
+            -109.421364,
+            0.221969
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_s": 4.0,
+          "position_m": [
+            93.5259379808208,
+            -109.42141939559151,
+            0.221969
+          ],
+          "orientation_deg": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "orientation_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "array": {
+        "kind": "single",
+        "rows": 1,
+        "cols": 1,
+        "spacing_m": 0.04
+      },
+      "motion": {
+        "model": "bounded_quintic",
+        "max_speed_m_s": 0.05,
+        "max_acceleration_m_s2": 0.2,
+        "max_angular_speed_rad_s": 0.1,
+        "max_angular_acceleration_rad_s2": 0.2
+      }
+    }
+  ],
+  "actors": [],
+  "actions": [
+    {
+      "time_s": 0.1,
+      "bs_id": "bs0",
+      "panel_id": "panel00",
+      "type": "target_pose",
+      "frame": "bs_local",
+      "position_m": [
+        0.40278379994456404,
+        0.0,
+        1.03125
+      ],
+      "orientation_deg": [
+        0.0,
+        -69.63586519368219,
+        0.0
+      ]
+    },
+    {
+      "time_s": 0.1,
+      "bs_id": "bs0",
+      "panel_id": "panel01",
+      "type": "target_pose",
+      "frame": "bs_local",
+      "position_m": [
+        -0.4928431831603786,
+        -0.43316308896160666,
+        0.89375
+      ],
+      "orientation_deg": [
+        -137.50776405003788,
+        -54.34091230386124,
+        0.0
+      ]
+    },
+    {
+      "time_s": 0.1,
+      "bs_id": "bs0",
+      "panel_id": "panel02",
+      "type": "target_pose",
+      "frame": "bs_local",
+      "position_m": [
+        0.08983591502089917,
+        0.7957442318189896,
+        0.7562500000000001
+      ],
+      "orientation_deg": [
+        84.98447189992424,
+        -43.432536557789774,
+        0.0
+      ]
+    },
+    {
+      "time_s": 0.1,
+      "bs_id": "bs0",
+      "panel_id": "panel03",
+      "type": "target_pose",
+      "frame": "bs_local",
+      "position_m": [
+        0.5333611579847541,
+        -0.7217616409409494,
+        0.61875
+      ],
+      "orientation_deg": [
+        -52.52329215011363,
+        -34.22886632781258,
+        0.0
+      ]
+    }
+  ],
+  "rt": {
+    "max_depth": 3,
+    "samples_per_src": 100000,
+    "max_num_paths_per_src": 1000000,
+    "seed": 42,
+    "tx_device_chunk": 4,
+    "max_display_paths": 128,
+    "los": true,
+    "specular_reflection": true,
+    "diffuse_reflection": false,
+    "refraction": false,
+    "diffraction": false,
+    "edge_diffraction": false,
+    "diffraction_lit_region": true,
+    "synthetic_array": false,
+    "loop_mode": "evaluated",
+    "precision": "float32"
+  },
+  "dataset": {
+    "compression": "lzf",
+    "checkpoint_every_frames": 1
+  },
+  "seed": 42,
+  "town02_provenance": {
+    "trajectory_resource": "car_coordinate/OneCar/Straight 1 (103.211403, -102.730927, 20.000000)/car1.csv",
+    "coordinate_system": "Original XML/PLY and CSV x_b,y_b,z_b; metres; no map rescaling",
+    "BS_position_source": "Archived Straight 1 TX coordinates, with the original generator height adjustment 20m to 10m",
+    "UE_motion": "New slow bounded quintic motions from sampled CSV road positions; not recorded vehicle playback",
+    "static_materials": "Original XML ITU wood/concrete/brick; no weather or global material override",
+    "static_geometry_clearance": "Not_yet_checked_by_native_scene_preflight"
+  }
+}

@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+task_service_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)"
+exec "$task_service_root/.venv-full/bin/python" "$task_service_root/scripts/platform/town02_service.py" "$@"

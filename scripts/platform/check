@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Check installed runtime and CPU behavior without downloading browser binaries.
+set -euo pipefail
+task_platform_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)"
+cd "$task_platform_root"
+task_platform_python="${WIWO_PYTHON:-$task_platform_root/.venv-full/bin/python}"
+export PATH="$task_platform_root/.envs/python311/bin:$PATH"
+export CUDA_VISIBLE_DEVICES=-1 WIWO_GPU=-1 OPENBLAS_NUM_THREADS=2 OMP_NUM_THREADS=2
+export MPLCONFIGDIR="$task_platform_root/.cache/matplotlib"
+"$task_platform_python" -m pip check
+"$task_platform_python" -m wiwo_ma.platform.cli doctor
+"$task_platform_python" -m wiwo_ma.platform.town02 check
+"$task_platform_python" -m wiwo_ma.platform.town02_materials check
+if [[ "$task_platform_python" == "$task_platform_root/.venv-full/bin/python" ]]; then
+  touch "$task_platform_root/.venv-full/.wiwo-runtime-ready"
+fi
+"$task_platform_python" -m ruff check src tests examples scripts
+"$task_platform_python" -m compileall -q src examples scripts
+"$task_platform_python" -m pytest tests/platform -q --strict-markers --strict-config
+"$task_platform_python" examples/01_single_ma.py --headless
+"$task_platform_python" examples/02_dynamic_6dma.py --headless
+printf '%s\n' 'Runtime and CPU checks passed. Start Town02 with scripts/platform/town02.'

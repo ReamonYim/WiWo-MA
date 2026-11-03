@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# Install an automation browser supported by the current OS.
+set -euo pipefail
+task_platform_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)"
+cd "$task_platform_root"
+task_platform_python="$task_platform_root/.venv-full/bin/python"
+export PIP_CACHE_DIR="$task_platform_root/.cache/pip"
+export PLAYWRIGHT_BROWSERS_PATH="$task_platform_root/.cache/ms-playwright"
+export PIP_DISABLE_PIP_VERSION_CHECK=1
+case "${1:-}" in
+  --deps-only)
+    "$task_platform_python" -m playwright install-deps chromium
+    "$task_platform_python" scripts/platform/check_browser.py
+    exit 0
+    ;;
+  '') ;;
+  *) printf '%s\n' 'Usage: scripts/platform/install_browser [--deps-only]' >&2; exit 2 ;;
+esac
+task_browser_extra="$("$task_platform_python" - <<'PY'
+import platform
+try:
+    release = platform.freedesktop_os_release()
+except OSError:
+    release = {}
+focal = release.get('ID') == 'ubuntu' and release.get('VERSION_ID') == '20.04'
+print('browser-focal' if focal else 'browser')
+PY
+)"
+printf 'Installing optional browser extra: %s\n' "$task_browser_extra"
+"$task_platform_python" -m pip install --timeout 15 --retries 1 --no-build-isolation -e ".[${task_browser_extra}]"
+"$task_platform_python" -m pip check
+"$task_platform_python" -m playwright install --with-deps chromium
+"$task_platform_python" scripts/platform/check_browser.py

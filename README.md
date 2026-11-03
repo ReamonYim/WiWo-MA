@@ -1,239 +1,130 @@
-# WiWo-MA
+# WiWo-MA · Town02 地图加载与可移动天线仿真
 
-### A Physics-Grounded Interactive Simulation Platform for Movable Antenna Systems
+在 WiWo-MA 中加载 `Sionna_Town02` 地图，保留原始世界坐标，显示基站、可移动天线面板和 UE，
+并使用 **Sionna RT 2.2.0 内置 ITU 无线材质**。默认场景为 **16 个面板、64 个物理 TX 端口、40 个 UE、2.8 GHz**。
 
-Configure a movable antenna system, execute bounded mechanical actions, compute
-native Sionna RT channels, and replay complex CSI alongside the geometry that
-produced it. WiWo-MA connects physical antenna ports, UE motion and dynamic
-scene objects on a shared simulation timeline.
+![Town02 地图总览：五类无线材质、基站和 40 个 UE](docs/media/town02-map-overview.png)
 
-![Actual Munich scene and WiWo-MA interface](docs/media/01_munich_overview.png)
+*由本地 Town02 原始 PLY 顶点生成的俯视投影。颜色表示无线材质绑定，星号为基站，橙点为 UE 初始位置；不是光学贴图或射线追踪结果。*
 
-*Actual platform capture. Munich scene data: © OpenStreetMap contributors,
-[ODbL](https://www.openstreetmap.org/copyright), supplied through Sionna RT.
-Screenshots show mechanical preview or recorded native CSI, as labelled.*
-
-> **Version 1.0.0 · MIT licensed.** The validated scope is documented below.
-> Numerical SDK agreement does not certify every configuration or establish
-> measurement-based physical truth. See [release scope](docs/release/STATUS.md).
-
-## What the platform provides
-
-- **Bounded MA/6DMA mechanics.** Fixed arrays, rail-mounted MAs, rigid panels
-  and independently controlled panels, with translation/rotation constraints,
-  workspace limits, velocity/acceleration limits and collision checks.
-- **Native physical-port ray tracing.** Sionna RT 2.2.0 with
-  `synthetic_array=False`, explicit spatial/polarization port mapping, complex
-  CIR/CSI and heterogeneous receive-port masks.
-- **Dynamic experiments.** Continuous UE and actor trajectories, moving
-  antenna panels, and actual scene geometry for LOS/NLOS transitions.
-- **Durable datasets.** Streaming HDF5, row hashes, frozen configurations,
-  independent validation sidecars, bounded background jobs and frame-level
-  recovery.
-- **Interactive inspection.** Browser controls, recorded paths, CSI amplitude
-  and phase, channel gain, time–frequency analysis and synchronized replay.
-
-## Architecture and timing
-
-```mermaid
-flowchart LR
-    UI[Web controls / experiment JSON] --> V[Configuration and mechanical validation]
-    V --> M[Bounded mechanical integration]
-    UE[UE and actor trajectories] --> G[Physical state at CSI timestamp]
-    M --> G
-    B[Job authorization and resource limits] --> RT[Native Sionna RT]
-    G --> RT
-    RT --> C[CIR, delay and complex CSI]
-    C --> H[Streaming HDF5 and frame hashes]
-    H --> R[Synchronized geometry and CSI replay]
-    G --> P[Geometry preview: no CSI solve]
-    REF[Fresh independent SDK scene] --> A[Selected-state numerical audit]
-    C --> A
-    A --> S[Bound validation sidecar; other frames Unknown]
-```
-
-The mechanical integration clock, action clock, CSI sampling clock, browser
-refresh rate and solver wall time are distinct. The validated continuous
-example uses 2 ms mechanics, 100 ms controls and 10 ms CSI sampling.
-**Native RT is asynchronous and may take seconds per query.** Geometry preview
-does not calculate CSI; HDF5 replay reads previously calculated samples.
-
-## Installation
-
-The tested platform is Linux with Python 3.11. Native GPU computation also
-requires a compatible NVIDIA driver and OptiX. CPU mechanics, HDF5 reading and
-Web replay do not require a GPU. Built-in scenes are installed with Sionna RT;
-city meshes and dependency source trees are not vendored in this repository.
+## 1. 下载代码，准备地图资源
 
 ```bash
 git clone https://github.com/ReamonYim/WiWo-MA.git
 cd WiWo-MA
-python3.11 -m venv .venv
-source .venv/bin/activate
-python -m pip install -e '.[test]'
-python -m pip check
-WIWO_GPU=-1 scripts/platform/run doctor
 ```
 
-The numerical environment is pinned to Sionna RT 2.2.0, Mitsuba 3.9.1,
-Dr.Jit 1.5.0 and Viser 1.1.1. Source-tree editable installation is the supported
-deployment form. See [installation and OptiX](docs/installation.md).
+**原始地图资源需要单独准备，不包含在 Git 仓库中。** 使用你已有的 `Sionna_Town02` 资源包，目录应包含：
 
-## Quick start
+```text
+Sionna_Town02/
+├── 资源SHA256.json
+└── Town2_xml/
+    ├── town2_xml.xml           # 原始材质标签
+    ├── town2_3mat.xml          # 原三材质无线场景
+    ├── meshes/                # 原始 PLY 网格
+    ├── car_coordinate/        # 归档车辆坐标 CSV
+    └── material_manager.py
+```
 
-### 1. Move a single MA — no GPU
+导入器复制完整资源并检查 SHA-256，不修改源目录。导入后的主场景有 **6,085 个网格、2,831,119 个顶点、3,268,710 个三角形**。
+原始地图不缩放、不平移。资源准备、坐标来源和验证范围见 [Town02 指南](docs/town02.md)。
+
+## 2. 安装依赖并导入地图
+
+使用 Linux、Git 和 Python 3.11 及以上版本；安装器也支持通过已有 Conda 创建项目内 Python 环境。
+将下面的路径替换成资源包的实际位置：
 
 ```bash
-python examples/01_single_ma.py --headless
-WIWO_GPU=-1 python examples/01_single_ma.py --port 8080
+WIWO_TOWN02_SOURCE=/path/to/Sionna_Town02 scripts/platform/install
 ```
 
-Open `http://127.0.0.1:8080`. For SSH, forward both 8080 and the adjacent API
-port 8081. Click **Start / 开始预览** to execute the predefined bounded motion.
-Select a panel, edit its permitted target, then click **执行目标姿态** to submit
-it. Check the submitted payload and execution status; editing a field alone
-does not submit an action. Identical reached targets are explicitly labelled
-as no-ops. See the [UI guide](docs/ui.md).
+默认资源路径为 `$HOME/project/Sionna_Town02`。安装器会创建独立的 `.venv-full`，安装依赖，
+复制地图，生成保守材质版本，运行 CPU 检查，并安装用于自动化检查的 Chromium。
+Ubuntu 20.04 会使用兼容的 Playwright 额外依赖。详见[安装说明](docs/installation.md)。
 
-### 2. Preview the full dynamic 6DMA system — no GPU
+已安装依赖、只需重新导入资源时：
 
 ```bash
-python examples/02_dynamic_6dma.py --headless
-WIWO_GPU=-1 python examples/02_dynamic_6dma.py --port 8080
+.venv-full/bin/python -m wiwo_ma.platform.town02 import --source /path/to/Sionna_Town02
+.venv-full/bin/python -m wiwo_ma.platform.town02_materials check
 ```
 
-This uses the qualified four-second trajectory: 16 panels, 64 spatial TX
-ports, 40 UEs and two dynamic actors. The headless example traverses all 401
-sampling states; the browser shows the actual mechanics. Neither command
-generates CSI.
-
-![Actual mechanical controls](docs/media/03_mechanics_controls.png)
-
-### 3. Read, analyze and replay a closed CSI dataset — no new RT
-
-Datasets are separate from Git. Supply a compatible closed HDF5 that you are
-authorized to use; [the data catalog](data/README.md) lists the frozen examples
-and their verification scope. No unverified download link is supplied.
+## 3. 启动网页，查看地图
 
 ```bash
-python examples/03_read_and_replay.py --dataset data/demo401/csi.h5 --time 2.01
-python examples/03_read_and_replay.py --dataset data/demo401/csi.h5 \
-  --plot artifacts/analysis/ue0.png
-WIWO_GPU=-1 python examples/03_read_and_replay.py \
-  --dataset data/demo401/csi.h5 --web --port 8080
+scripts/platform/town02-service restart
 ```
 
-Playback, pause, frame stepping and timeline scrubbing use the recorded
-physical timestamps. Antenna coordinates, UE/actor geometry and CSI are read
-from the same HDF5 row. See [data format and replay](docs/data.md).
+显示 `"status": "ready"` 表示网页和 API 已可访问、地图完成首次绘制，且使用当前保守材质配置。
+后台服务默认监听 **8080**，API 使用 **8081**；退出终端不会停止网页进程。
 
-![Recorded CSI and actual timeline](docs/media/07_full_sequence_replay.png)
-
-The [complete gallery](docs/media/README.md) also includes the physical array,
-actual actor occlusion, port-wise CSI and a recorded native-CSI time–frequency plot.
-
-## Configure an experiment
-
-The Web forms or experiment JSON define BS/UE counts and poses, panel arrays,
-polarization, mechanical freedoms and limits, actor geometry and trajectories,
-carrier frequency, subcarriers, propagation settings and simulation clocks.
-Fixed, rail, Cartesian, gimbal and gantry–gimbal mechanisms have different
-permitted freedoms; a rigid panel preserves its element coordinates.
-
-For multiple panels, select each panel, enter its target, add it to the joint
-action queue, then submit the complete transaction. Inputs are validated before
-mechanical execution. Running frozen jobs cannot be silently reconfigured.
-See [mechanics](docs/mechanics.md) and [configuration coverage](docs/validation.md).
-
-## Generate native CSI — explicit GPU authorization required
-
-Preparing or previewing an experiment does not authorize device computation.
-The generic job workflow freezes the configuration and execution source before
-launch, checks a job-specific resource grant, and retains progress and failure
-records. It never borrows a historical experiment's remaining budget.
+- **在服务器本机访问：** 打开 <http://localhost:8080>。
+- **通过 VS Code 远程 SSH 访问：** 项目已提供自动转发 8080 / 8081 的设置。
+  若未自动转发，按 F1，运行 `Forward a Port`，分别添加两个端口，再在“端口”面板点击 8080 的“在浏览器中打开”。
+  保持远程连接；本地端口冲突时，以面板显示的地址为准。
+- **通过服务器平台的端口映射访问：** 使用平台为 8080 生成的网页地址。
 
 ```bash
-# CPU planning/admission only; use a new output directory.
-WIWO_GPU=-1 scripts/platform/run plan --config configs/platform/single_ma_bounded.json \
-  --job artifacts/platform/jobs/my_sequence --max-wall-s 300 --max-disk-gib 1
-
-# Only after the resource owner approves this exact job and grant.
-scripts/platform/run launch --job artifacts/platform/jobs/my_sequence \
-  --authorization artifacts/approvals/my_sequence.json
-
-# Explicit recovery retains committed frames and uses the same approved scope.
-scripts/platform/run launch --job artifacts/platform/jobs/my_sequence \
-  --authorization artifacts/approvals/my_sequence.json --resume
+scripts/platform/town02-service status   # 检查状态
+scripts/platform/town02-service stop     # 停止自己管理的网页进程
 ```
 
-No approved GPU grant is shipped. A complete Full64 trajectory can take hours;
-do not infer cost from UI rendering speed. The [GPU workflow guide](docs/gpu-jobs.md)
-explains resource estimates, OptiX, authorization and recovery.
+日志保存在 `.state/town02-service/8080/`。前台启动可用 `scripts/platform/town02 --port 8080`。
+容器重启后需再次启动服务，或在运行平台配置启动命令；后台进程本身不提供容器开机自启。
 
-## Validation and scope
+## 4. 材质如何设置
 
-Frozen v1.0.0 evidence includes a native 16-panel/64TX/40UE four-second,
-401-frame sequence, cross-process recovery after frame 201, complete replay,
-and selected independent SDK comparisons. The original numerical gate is
-per-UE NMSE ≤ 10⁻³, including weak users.
+原场景只有砖、混凝土、木材三类无线材质。当前默认版本扩展为 **五类**，只按原始 XML 中明确的材质 ID 精确匹配，
+不根据颜色、物体类别或光学 PBR 数值猜测电磁材质。
 
-| Frozen evidence | Independently checked | Still Unknown |
-|---|---:|---:|
-| Full-scale 4 s / 401 frames | 20 | 381 |
-| Small-scale 4 s / 401 frames | 9 | 392 |
-| Original 30 s / 3001 frames | 24 | 2977 |
-| Additional selected pose/path gate | 8 CSI + 8 complete-path states | No inference to other states |
+| Sionna ITU 类型 | 原三材质版本：绑定网格数 | 当前版本：绑定网格数 |
+| --- | ---: | ---: |
+| 砖 `brick` | 4,920 | 4,601 |
+| 混凝土 `concrete` | 614 | 753 |
+| 木材 `wood` | 551 | 575 |
+| 玻璃 `glass` | 0 | 91 |
+| 金属 `metal` | 0 | 65 |
+| **合计** | **6,085** | **6,085** |
 
-The full-scale selected comparisons reached worst per-UE NMSE
-6.4625×10⁻¹⁵. The additional gate includes 736 valid polarized path terms and
-same-time mechanical intervention/control comparisons. These are **SDK
-numerical consistency results, not measurement-based physical validation**.
-Packaging preserves the frozen propagation core; this public candidate does
-not claim a new GPU campaign. Details and untested configurations are in the
-[validation matrix](docs/validation.md).
+**21 条精确 ID 规则匹配了 408 个网格，其中更正了 395 个绑定。** 其余 **5,677 个网格保留旧绑定，物理材质仍未核实**。
+上述数量是分配结果，不代表整张地图的真实成分已经确认；原始标签也不是实测成分证明。
+
+相对介电常数和电导率由 Sionna 内置模型按载频提供，不手填系数。厚度和散射等保留 SDK 默认值；
+不应用全局材质覆盖。修改载频时会检查内置模型的有效频段。
+
+规则见 [`configs/materials/town02_strict_itu.json`](configs/materials/town02_strict_itu.json)。
+每个网格的来源、绑定更改和依据在导入后生成的 `assets/town02/town2_strict_itu.materials.json` 中记录。
+原三材质 XML 与配置继续保留。
+
+## 配置与检查
+
+| 配置 | 用途 |
+| --- | --- |
+| [`town02_strict_itu_single_ma.json`](configs/platform/town02_strict_itu_single_ma.json) | 单 MA / 单 UE，1 秒机械示例 |
+| [`town02_strict_itu_64tx_40ue.json`](configs/platform/town02_strict_itu_64tx_40ue.json) | 默认 16 面板 / 64TX / 40UE，4 秒、401 个采样时刻 |
+| [`town02_64tx_40ue.json`](configs/platform/town02_64tx_40ue.json) | 保留原三材质的对照配置 |
+
+UE 初始位置来自归档道路坐标，使用新定义的有界运动；不是原车辆轨迹回放。原地图中的车辆是静态网格。
 
 ```bash
-CUDA_VISIBLE_DEVICES='' WIWO_GPU=-1 python -m pytest tests/platform -q
-python -m ruff check src tests examples scripts
-python -m compileall -q src examples scripts
+scripts/platform/check
+WIWO_GPU=-1 .venv-full/bin/python examples/01_single_ma.py --headless
+WIWO_GPU=-1 .venv-full/bin/python examples/02_dynamic_6dma.py --headless
+.venv-full/bin/python scripts/platform/map_overview.py --output artifacts/town02/map-overview.png
 ```
 
-Public CPU tests are separate from `tests/restricted`, which requires retained
-research artifacts. GitHub Actions performs CPU installation, import/static
-checks, mechanics/storage tests and source-bundle checks. Consult the actual
-repository Actions results; local checks are not a hosted CI badge.
+这些检查与网页预览验证资源、材质分配和机械运动，**不计算 CSI**。
+Town02 的原生 SDK 场景加载、CUDA / OptiX 和 GPU 传播结果仍需独立验证。
+原 Munich 数据的数值结论不用于证明 Town02 的传播正确性。
 
-## Limitations
+## 其他文档
 
-- Only the listed configurations, motions and sampled states are validated.
-  Arbitrary array sizes, mechanisms, action histories and materials are not
-  all certified.
-- Ideal rigid mechanics and SDK antenna patterns do not model mutual
-  coupling, detailed support structures or arbitrary robot joint kinematics.
-- 100 Hz sampling is not a universal Doppler guarantee. Occlusion and path
-  birth/death need not be band-limited; the platform does not interpolate fake
-  Full RT labels.
-- The original 30-second sequence retains its trajectory reversal, mirrored
-  revisit/leakage risk, 29 unattributed low-correlation events and short-segment
-  SDK offset limitations.
-- New-machine CUDA/OptiX compatibility and untested browsers remain Unknown.
-  The Web service targets trusted local/SSH research use, not public multi-tenant hosting.
+- [Town02 资源、坐标和材质说明](docs/town02.md)
+- [安装与浏览器依赖](docs/installation.md)
+- [界面操作](docs/ui.md) · [机械模型](docs/mechanics.md)
+- [原平台与 Munich / CSI 工作流](docs/platform-overview.md)
+- [原生 GPU 计算](docs/gpu-jobs.md) · [数据与回放](docs/data.md)
 
-## Citation, acknowledgments and license
-
-See [citation instructions](CITATION.md). Formal author metadata and any paper
-or DOI remain unspecified; no affiliation or institutional endorsement is invented.
-
-WiWo-MA uses [Sionna RT](https://nvlabs.github.io/sionna/rt/),
-[Mitsuba](https://www.mitsuba-renderer.org/),
-[Dr.Jit](https://github.com/mitsuba-renderer/drjit),
-[Viser](https://github.com/viser-project/viser) and the scientific Python
-ecosystem. Munich scene data originate from OpenStreetMap and retain their
-[ODbL attribution requirements](https://www.openstreetmap.org/copyright).
-See [third-party notices](THIRD_PARTY_NOTICES.md).
-
-**Project code is released under the [MIT license](LICENSE).** You may use,
-modify and redistribute it, including commercially, while retaining the
-copyright and license notice. Scene data and dependencies retain their own
-terms. See [contributing](CONTRIBUTING.md),
-[security](SECURITY.md) and the [release checklist](docs/release/PUBLISHING.md).
+项目代码使用 [MIT 许可证](LICENSE)。Town02 原始资源、依赖和历史场景保留各自的权利与使用条件，
+见[第三方说明](THIRD_PARTY_NOTICES.md)。

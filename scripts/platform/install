@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+# Install the complete supported environment locally; preserve the fallback venv.
+set -euo pipefail
+task_platform_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)"
+cd "$task_platform_root"
+export PIP_CACHE_DIR="$task_platform_root/.cache/pip"
+export PLAYWRIGHT_BROWSERS_PATH="$task_platform_root/.cache/ms-playwright"
+export CONDA_PKGS_DIRS="$task_platform_root/.cache/conda/pkgs"
+export CONDA_ENVS_PATH="$task_platform_root/.envs"
+export CONDA_REMOTE_CONNECT_TIMEOUT_SECS=5
+export CONDA_REMOTE_READ_TIMEOUT_SECS=10
+export CONDA_REMOTE_MAX_RETRIES=0
+export PIP_DISABLE_PIP_VERSION_CHECK=1
+export CUDA_VISIBLE_DEVICES=-1
+export WIWO_GPU=-1
+export OPENBLAS_NUM_THREADS=2
+export OMP_NUM_THREADS=2
+task_platform_python=""
+for task_candidate in "${WIWO_PYTHON:-}" "$task_platform_root/.envs/python311/bin/python" python3.11 python3.12 python3.13 python3; do
+  if [[ -n "$task_candidate" ]] && command -v "$task_candidate" >/dev/null 2>&1 && "$task_candidate" -c 'import sys; raise SystemExit(sys.version_info < (3,11))'; then
+    task_platform_python="$task_candidate"
+    break
+  fi
+done
+if [[ -z "$task_platform_python" ]]; then
+  if command -v conda >/dev/null 2>&1; then
+    conda create --yes --prefix "$task_platform_root/.envs/python311" python=3.11 pip git
+    task_platform_python="$task_platform_root/.envs/python311/bin/python"
+  else
+    printf '%s\n' 'Python >=3.11 is required. Install it or set WIWO_PYTHON to a compatible interpreter.' >&2
+    exit 2
+  fi
+fi
+if [[ -d "$task_platform_root/.envs/python311/bin" ]]; then
+  export PATH="$task_platform_root/.envs/python311/bin:$PATH"
+fi
+if ! command -v git >/dev/null 2>&1; then
+  printf '%s\n' 'Git is required by the source-release tests. Install Git, then rerun this installer.' >&2
+  exit 2
+fi
+if [[ ! -x .venv-full/bin/python ]]; then
+  "$task_platform_python" -m venv .venv-full
+fi
+task_platform_python="$task_platform_root/.venv-full/bin/python"
+"$task_platform_python" -c 'import sys; assert sys.version_info >= (3,11), "Existing .venv-full requires Python >=3.11"'
+"$task_platform_python" -m pip install --timeout 15 --retries 1 --upgrade pip 'setuptools>=77' wheel
+"$task_platform_python" -m pip install --timeout 15 --retries 1 -e '.[test]'
+"$task_platform_python" -m pip check
+"$task_platform_python" -m wiwo_ma.platform.town02 import --source "${WIWO_TOWN02_SOURCE:-$HOME/project/Sionna_Town02}"
+WIWO_PYTHON="$task_platform_python" "$task_platform_root/scripts/platform/check"
+"$task_platform_root/scripts/platform/install_browser"
+"$task_platform_python" scripts/platform/fetch_docs.py
+"$task_platform_python" scripts/release/check_links.py
+touch "$task_platform_root/.venv-full/.wiwo-install-complete"
+printf '%s\n' 'CPU installation and checks completed. Start Town02 with scripts/platform/town02.'
+if command -v nvidia-smi >/dev/null 2>&1; then
+  nvidia-smi --query-gpu=name,driver_version --format=csv,noheader || printf '%s\n' 'NVIDIA driver access is unavailable; native GPU/OptiX compatibility remains unverified.' >&2
+fi

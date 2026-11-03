@@ -1,5 +1,11 @@
 # Installation and environment
 
+For the local Town02 setup, run `scripts/platform/install` and then
+`scripts/platform/town02 --port 8080`. The installer creates `.venv-full`
+with the runtime and CPU test tools, imports the supplied resources, runs CPU
+checks, and installs a browser compatible with the host OS. Browser automation
+can also be installed separately. See [Town02 setup](town02.md) for resource paths and scope.
+
 Use a source checkout and Python 3.11. The reviewed runtime pins Sionna RT
 2.2.0, Mitsuba 3.9.1, Dr.Jit 1.5.0, Viser 1.1.1, NumPy 2.4.6 and SciPy 1.17.1.
 Torch and the old research engines are not required.
@@ -31,8 +37,9 @@ WIWO_GPU=-1 python examples/01_single_ma.py --port 8080
 
 Open the Web port and forward its adjacent API port over SSH. For example,
 forward 8080 and 8081. Use unoccupied ports; do not replace an existing service.
-The launcher uses `WIWO_PYTHON`, the active virtual environment, `.venv`, or
-the available `python3`, in that order.
+The launcher uses `WIWO_PYTHON`, the active virtual environment, a checked
+`.venv-full`, `.venv`, or the available `python3`, in that order. The Town02
+launcher selects the checked `.venv-full` unless `WIWO_PYTHON` is explicit.
 
 Viser is installed as a dependency. At first startup, WiWo-MA generates its
 reviewed GUI adapter from the installed, SHA-pinned Viser frontend. Generated
@@ -56,8 +63,13 @@ compatibility is not inferred from matching package versions.
 
 ## Optional automated browser tests
 
+Playwright 1.63 dropped Ubuntu 20.04 support. On that OS, install the
+`browser-focal` extra (1.62.0); on supported newer systems use `browser`
+(1.63.0). These extras are separate from the CPU `test` extra.
+
 ```bash
-python -m playwright install chromium
+python -m pip install -e '.[browser]'  # Ubuntu 22.04+; use [browser-focal] on 20.04
+python -m playwright install --with-deps chromium
 ```
 
 Headless Chromium may also require OS libraries documented by Playwright. A
