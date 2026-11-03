@@ -101,3 +101,9 @@ The capture verifies the strict scene, actual panel motion, displayed TX
 coordinates and absence of computed CSI. It requires a terminal with local
 socket and browser-launch permissions. See the [main guide](../README.md) for
 the current screenshots and their scope.
+
+Large software-rendered scenes use the regular Chromium channel in headless
+mode, a 1440x960 viewport and a 2 Hz preview update rate. Each screenshot has
+a 180-second timeout and one retry at a smaller viewport. Geometry and material
+bindings are preserved; dimensions and retry history are recorded in the image
+provenance. Override `--width`, `--height` or `--screenshot-timeout` if needed.
