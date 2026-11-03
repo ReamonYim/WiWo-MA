@@ -11,7 +11,7 @@ inventory, not a legal opinion or a claim of institutional endorsement.
 | Dr.Jit 1.5.0 | [Upstream license](https://github.com/mitsuba-renderer/drjit/blob/master/LICENSE) | Install from packages; no dependency source bundled |
 | Viser 1.1.1 | [Versioned license](https://github.com/viser-project/viser/blob/v1.1.1/LICENSE) | Runtime dependency; generated modified frontend excluded from Git/source archive |
 | Munich city data | [Sionna scene documentation](https://nvlabs.github.io/sionna/rt/api/scene.html#sionna.rt.scene.munich), ODbL | Obtain through the installed SDK; no city XML/PLY/Blender models vendored |
-| User-supplied Town02 scene | `Sionna_Town02` resource package; its own resource terms apply | Import XML/PLY/CSV locally; raw resources are excluded from Git and source distributions. The README includes a generated vertex projection, not the underlying meshes or textures |
+| User-supplied Town02 scene | `Sionna_Town02` resource package; its own resource terms apply | Import XML/PLY/CSV locally; raw resources are excluded from Git and source distributions. Documentation includes rendered browser views and a vertex projection, without the underlying meshes or textures |
 | NumPy, SciPy, h5py, Matplotlib, trimesh and other packages | Their upstream distributions | Dependencies only; preserve their independent terms |
 | Finite reflector / primitive actor geometry | Project source, MIT | Small project-owned source assets only; no downloaded city meshes |
 

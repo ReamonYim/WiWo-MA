@@ -1,0 +1,247 @@
+{
+  "status": "Passed_actual_Town02_browser_gallery",
+  "scene": "Town02",
+  "mode": "physical_preview_no_synthetic_CSI",
+  "captured_utc": "2026-11-03T17:32:13.852695+00:00",
+  "native_CSI_computed": false,
+  "config_scene": {
+    "name": "town02",
+    "xml_path": "assets/town02/town2_strict_itu.xml",
+    "xml_sha256": "2d9ca73f8eefed350d0f692a47faa21368e5084ebb9322dedb22df8c8e23c67e",
+    "material_policy": "town02-source-label-itu-v1",
+    "material_audit_path": "assets/town02/town2_strict_itu.materials.json",
+    "material_audit_sha256": "1a729a91c3583fe9d6baf16c7b65d1bee97b1c72a1cef1bedfdb4f3fc4ea6302",
+    "material_rules_sha256": "4afa1ff7d12a80d51dc0b291a8fbbaab2951fe3bdf415727217d06364908892c",
+    "material_itu_catalog_sha256": "32a8d904ecdbffea08b73980ea1646dd8bbeb2235022200967b1b8cfe8264d08"
+  },
+  "images": [
+    {
+      "file": "town02-panorama.png",
+      "title": "Town02 panorama in the running Web platform",
+      "physical_time_s": 0.0,
+      "mode": "physical_preview_no_synthetic_CSI",
+      "capture": {
+        "attempts": [
+          {
+            "status": "captured",
+            "width": 1440,
+            "height": 960
+          }
+        ],
+        "width": 1440,
+        "height": 960
+      },
+      "sha256": "6fb961e2dfdbacda56fb20fb00e81febe6c983a3f703323ae745b279e4197ee2"
+    },
+    {
+      "file": "town02-antennas.png",
+      "title": "Town02 movable antenna panels and physical TX ports before motion",
+      "physical_time_s": 0.0,
+      "mode": "physical_preview_no_synthetic_CSI",
+      "capture": {
+        "attempts": [
+          {
+            "status": "captured",
+            "width": 1440,
+            "height": 960
+          }
+        ],
+        "width": 1440,
+        "height": 960
+      },
+      "sha256": "6b58b47f79bc16f55f8b52e5a590aaa8051b807f18eec59de196b434a7713ebc"
+    },
+    {
+      "file": "town02-platform.png",
+      "title": "Running Town02 platform after the scheduled bounded antenna motion",
+      "physical_time_s": 1.41,
+      "mode": "physical_preview_no_synthetic_CSI",
+      "capture": {
+        "attempts": [
+          {
+            "status": "captured",
+            "width": 1440,
+            "height": 960
+          }
+        ],
+        "width": 1440,
+        "height": 960
+      },
+      "sha256": "ef25f15ac986185f6d4b7550500b353e036ea9091959ee7d39b8d7c2e354d38a"
+    }
+  ],
+  "page_errors": [],
+  "browser_channel": "chromium",
+  "rendering": "software",
+  "preview_update_hz": 2,
+  "screenshot_timeout_s": 180.0,
+  "browser_version": "151.0.7922.34",
+  "motion": {
+    "initial_panel_positions": [
+      [
+        103.59418679994457,
+        -102.730927,
+        11.03125
+      ],
+      [
+        102.73855981683963,
+        -103.1640900889616,
+        10.89375
+      ],
+      [
+        103.28123891502091,
+        -101.93518276818101,
+        10.75625
+      ],
+      [
+        103.76476415798476,
+        -103.45268864094095,
+        10.61875
+      ],
+      [
+        102.2373832552992,
+        -102.55863662176311,
+        10.48125
+      ],
+      [
+        104.09305095322702,
+        -102.17009473980929,
+        10.34375
+      ],
+      [
+        102.93090286860432,
+        -103.77437350739125,
+        10.20625
+      ],
+      [
+        102.70539647166596,
+        -101.75664222090133,
+        10.06875
+      ],
+      [
+        104.24263637822585,
+        -103.10753177577016,
+        9.93125
+      ],
+      [
+        102.21265588735079,
+        -103.14319528943646,
+        9.79375
+      ],
+      [
+        103.65428372183364,
+        -101.78451662192496,
+        9.65625
+      ],
+      [
+        103.50743671700172,
+        -103.67472913810848,
+        9.51875
+      ],
+      [
+        102.42451329318513,
+        -102.27490833063568,
+        9.38125
+      ],
+      [
+        103.99157435746815,
+        -102.5594085156133,
+        9.24375
+      ],
+      [
+        102.8425970494256,
+        -103.25551551333298,
+        9.10625
+      ],
+      [
+        103.16221118982526,
+        -102.35131719597521,
+        8.96875
+      ]
+    ],
+    "final_panel_positions": [
+      [
+        103.61418679994456,
+        -102.730927,
+        11.03125
+      ],
+      [
+        102.71855981683963,
+        -103.1640900889616,
+        10.89375
+      ],
+      [
+        103.3012389150209,
+        -101.93518276818101,
+        10.75625
+      ],
+      [
+        103.74476415798476,
+        -103.45268864094095,
+        10.61875
+      ],
+      [
+        102.2373832552992,
+        -102.55863662176311,
+        10.48125
+      ],
+      [
+        104.09305095322702,
+        -102.17009473980929,
+        10.34375
+      ],
+      [
+        102.93090286860432,
+        -103.77437350739125,
+        10.20625
+      ],
+      [
+        102.70539647166596,
+        -101.75664222090133,
+        10.06875
+      ],
+      [
+        104.24263637822585,
+        -103.10753177577016,
+        9.93125
+      ],
+      [
+        102.21265588735079,
+        -103.14319528943646,
+        9.79375
+      ],
+      [
+        103.65428372183364,
+        -101.78451662192496,
+        9.65625
+      ],
+      [
+        103.50743671700172,
+        -103.67472913810848,
+        9.51875
+      ],
+      [
+        102.42451329318513,
+        -102.27490833063568,
+        9.38125
+      ],
+      [
+        103.99157435746815,
+        -102.5594085156133,
+        9.24375
+      ],
+      [
+        102.8425970494256,
+        -103.25551551333298,
+        9.10625
+      ],
+      [
+        103.16221118982526,
+        -102.35131719597521,
+        8.96875
+      ]
+    ],
+    "initial_time_s": 0.0,
+    "final_time_s": 1.41
+  }
+}

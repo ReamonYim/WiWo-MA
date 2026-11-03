@@ -6,9 +6,9 @@ WiWo-MA connects antenna motion, scene geometry and channel measurements on the 
 
 The current examples use **Town02: 16 panels, 64 physical TX ports, 40 UEs, and a 2.8 GHz carrier**. The browser preview runs on the CPU. Computing new channels requires a working NVIDIA/CUDA/OptiX environment and a separately authorized job.
 
-![Town02 geometry overview with material groups, base station and UEs](docs/media/town02-map-overview.png)
+![The running WiWo-MA frontend with Town02 and movable antenna panels](docs/media/town02-platform.png)
 
-*Vertex projection of the imported Town02 scene, with the current five material groups, base station and UE positions. This is a geometry overview, not a browser screenshot or a propagation result.*
+*Actual Town02 browser capture at t = 1.41 s, after four panels moved by 20 mm in their commanded directions. This is a mechanics preview; no CSI was computed for the screenshot.*
 
 ## 🧭 What the platform does
 
@@ -91,7 +91,9 @@ WIWO_TOWN02_SOURCE=/path/to/Sionna_Town02 scripts/platform/install --no-browser
 
 The importer checks source hashes before changing an existing import, copies resources into `assets/town02/`, and generates the strict material variant and its audit. It preserves the original scene and coordinates. The full map has **6,085 meshes, 2,831,119 vertices and 3,268,710 triangles**. The imported resource set contains 8,635 files, about 144 MiB uncompressed.
 
-In the Web viewer, use **地图全景 / Map overview** to frame the map, or **聚焦选中面板** to return to the selected antenna panel.
+![Town02 panorama captured in the running platform](docs/media/town02-panorama.png)
+
+*The complete imported map in the Web viewer. Use **地图全景 / Map overview** to frame the map, or **聚焦选中面板** to return to the selected antenna panel. A separate [geometry projection](docs/media/town02-map-overview.png) shows the material groups and UE layout.*
 
 ### Materials and provenance
 
@@ -129,6 +131,10 @@ scripts/platform/town02-service status
 The background manager listens on `0.0.0.0` by default. Use `restart --host 127.0.0.1` for a loopback-only service. Container restart persistence belongs in the platform's startup settings; a detached process does not survive a container restart.
 
 ## 🦾 Run a mechanical experiment
+
+![Movable antenna panels and physical TX ports in Town02](docs/media/town02-antennas.png)
+
+*The 16-panel apparatus before motion, with four physical TX ports per panel. The capture checks displayed TX coordinates against the physical state, then executes and verifies the scheduled motion.*
 
 Choose a preset, then use **Start**, **Pause**, **Step** and **Reset** to inspect the motion. To submit a manual target:
 
@@ -206,10 +212,10 @@ CPU preview and screenshot capture do not establish native Town02 CSI accuracy o
 
 Run this from a terminal that can listen on local ports and launch the installed Playwright Chromium. It selects a fresh private port pair, starts the production CPU-preview UI at 2 Hz, captures the panorama, antenna panels and full frontend, checks that the scheduled antenna motion actually occurs, and closes the temporary service. An existing 8080 service is left unchanged. Private screenshot services are excluded from VS Code automatic port forwarding.
 
-Successful capture writes `town02-panorama.png`, `town02-antennas.png`, `town02-platform.png` and `town02-gallery.json` into `docs/media/`. The JSON records the scene configuration, image hashes, physical timestamps and checked motion. It does not use historical Munich data or compute CSI. The checked-in overview above is a PLY projection; it is not presented as a live screenshot.
+Successful capture writes `town02-panorama.png`, `town02-antennas.png`, `town02-platform.png` and `town02-gallery.json` into `docs/media/`. The checked-in [capture record](docs/media/town02-gallery.json) contains the strict scene configuration, image hashes, physical timestamps and verified motion. These are actual browser screenshots, captured with Chromium and software WebGL; they do not use historical Munich data or compute CSI.
 
 ## Documentation and license
 
-[Town02 resources](assets/README.md) · [Installation](docs/installation.md) · [UI guide](docs/ui.md) · [Mechanics](docs/mechanics.md) · [GPU jobs](docs/gpu-jobs.md) · [Data and replay](docs/data.md)
+[Town02 resources](assets/README.md) · [Installation](docs/installation.md) · [UI guide](docs/ui.md) · [Mechanics](docs/mechanics.md) · [GPU jobs](docs/gpu-jobs.md) · [Data and replay](docs/data.md) · [Screenshot provenance](docs/media/town02-gallery.json)
 
 Project-owned source code and the small reflector scene are [MIT licensed](LICENSE). Sionna, other dependencies and externally supplied scenes retain their own terms; see [third-party notices](THIRD_PARTY_NOTICES.md) and [citation information](CITATION.md).

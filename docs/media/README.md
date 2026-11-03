@@ -1,6 +1,27 @@
 # Platform images
 
-## Current Town02 geometry and capture workflow
+## Current Town02 gallery
+
+These images were captured from the running Town02 platform with Chromium
+151.0.7922.34 and software WebGL, at 1440 × 960 pixels. They use the strict
+five-model ITU scene, 16 panels, 64 physical TX ports and 40 UEs. No native
+CSI was computed during capture.
+
+| Image | Captured state |
+|---|---|
+| [Town02 panorama](town02-panorama.png) | Complete imported map, paused at t = 0 s |
+| [Movable antennas](town02-antennas.png) | Antenna panels, physical ports, workspaces and controls before motion |
+| [Running platform](town02-platform.png) | Frontend at t = 1.41 s, after four scheduled panel translations |
+
+The [capture record](town02-gallery.json) contains scene and image hashes,
+timestamps, browser details and the initial/final panel positions. Capture
+verified the four commanded ±20 mm translations, the twelve unchanged panels,
+and displayed TX coordinates against the physical state. The temporary service
+was stopped after capture; the regular background service was left unchanged.
+
+Town02 views render the user-supplied external scene. Its resource terms remain
+separate from the MIT license for project-owned code; raw meshes and textures
+are not included in this repository.
 
 The [Town02 overview](town02-map-overview.png) is a projection of the actual
 imported PLY vertices using the current five material groups. It is not a
@@ -12,7 +33,8 @@ To capture the current Town02 frontend, panorama and movable antenna panels:
 .venv-full/bin/python scripts/media/capture_town02.py
 ```
 
-The script starts an isolated CPU-preview service, captures the actual browser,
+The script starts an isolated CPU-preview service on a fresh private port pair,
+sets its update rate to 2 Hz before running, captures the actual browser,
 verifies physical panel motion and displayed TX coordinates, and saves image
 hashes and timestamps in `town02-gallery.json` when successful. It does not
 change an existing background service or use the historical dataset below.
