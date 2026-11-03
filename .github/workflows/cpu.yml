@@ -44,7 +44,11 @@ jobs:
           python -m compileall -q src examples scripts
           python scripts/release/check_links.py
       - name: Public CPU mechanics, storage, input and failure regressions
-        run: python -m pytest tests/platform -q --strict-markers --strict-config
+        run: python -m pytest tests/platform -m "not town02" -q --strict-markers --strict-config
+      - name: External Town02 prerequisites and integration availability
+        run: |
+          python -m wiwo_ma.platform.town02 status
+          python -m pytest tests/platform -m town02 -q -rs --strict-markers --strict-config
       - name: Runnable mechanical examples
         run: |
           python examples/01_single_ma.py --headless --config configs/platform/single_ma_bounded.json

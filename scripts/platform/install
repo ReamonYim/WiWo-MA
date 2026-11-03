@@ -3,6 +3,16 @@
 set -euo pipefail
 task_platform_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$task_platform_root"
+task_install_town02=1
+task_install_browser=1
+for task_install_arg in "$@"; do
+  case "$task_install_arg" in
+    --no-town02) task_install_town02=0 ;;
+    --no-browser) task_install_browser=0 ;;
+    --help) printf '%s\n' 'Usage: scripts/platform/install [--no-town02] [--no-browser]'; exit 0 ;;
+    *) printf 'Unknown install option: %s\n' "$task_install_arg" >&2; exit 2 ;;
+  esac
+done
 export PIP_CACHE_DIR="$task_platform_root/.cache/pip"
 export PLAYWRIGHT_BROWSERS_PATH="$task_platform_root/.cache/ms-playwright"
 export CONDA_PKGS_DIRS="$task_platform_root/.cache/conda/pkgs"
@@ -46,9 +56,13 @@ task_platform_python="$task_platform_root/.venv-full/bin/python"
 "$task_platform_python" -m pip install --timeout 15 --retries 1 --upgrade pip 'setuptools>=77' wheel
 "$task_platform_python" -m pip install --timeout 15 --retries 1 -e '.[test]'
 "$task_platform_python" -m pip check
-"$task_platform_python" -m wiwo_ma.platform.town02 import --source "${WIWO_TOWN02_SOURCE:-$HOME/project/Sionna_Town02}"
+if [[ "$task_install_town02" == 1 ]]; then
+  "$task_platform_python" -m wiwo_ma.platform.town02 import --source "${WIWO_TOWN02_SOURCE:-$HOME/project/Sionna_Town02}"
+fi
 WIWO_PYTHON="$task_platform_python" "$task_platform_root/scripts/platform/check"
-"$task_platform_root/scripts/platform/install_browser"
+if [[ "$task_install_browser" == 1 ]]; then
+  "$task_platform_root/scripts/platform/install_browser"
+fi
 "$task_platform_python" scripts/platform/fetch_docs.py
 "$task_platform_python" scripts/release/check_links.py
 touch "$task_platform_root/.venv-full/.wiwo-install-complete"

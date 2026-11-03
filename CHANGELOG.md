@@ -1,5 +1,13 @@
 # Changelog
 
+## Town02 resource and CI correction
+
+- Check actual XML, manifest, audit and referenced mesh prerequisites instead of treating a committed JSON preset as an installed map.
+- Separate optional external-scene integration from self-contained CPU tests; incomplete imports and explicitly required missing maps fail.
+- Exercise the production importer, strict ITU conversion, PLY reader and mechanics with independently authored lightweight geometry.
+- Validate source files before replacing an existing import, add actionable resource status/errors, and allow platform installation without Town02 or browser automation.
+- Add a map overview camera control and a dedicated Town02 browser capture script; the normal background preview is left untouched.
+
 ## Town02 integration
 
 - Make Town02 resource preparation, import, preview and Web access the README's main workflow, with a generated map overview.

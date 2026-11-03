@@ -1,10 +1,23 @@
 # Installation and environment
 
-For the local Town02 setup, run `scripts/platform/install` and then
+For Town02, first obtain the external resource package described in
+[scene resources](../assets/README.md), then run `scripts/platform/install` and
 `scripts/platform/town02 --port 8080`. The installer creates `.venv-full`
 with the runtime and CPU test tools, imports the supplied resources, runs CPU
 checks, and installs a browser compatible with the host OS. Browser automation
 can also be installed separately. See [Town02 setup](town02.md) for resource paths and scope.
+
+Town02 is required only for Town02 configurations. To install the platform
+without that external map or an automation browser, use:
+
+```bash
+scripts/platform/install --no-town02 --no-browser
+```
+
+The included reflector scene is available without external resources. Use
+`python -m wiwo_ma.platform.town02 status --require` to inspect a Town02
+installation before starting its preview. A partial import is an error;
+committed experiment JSON files alone do not establish map availability.
 
 Use a source checkout and Python 3.11. The reviewed runtime pins Sionna RT
 2.2.0, Mitsuba 3.9.1, Dr.Jit 1.5.0, Viser 1.1.1, NumPy 2.4.6 and SciPy 1.17.1.
@@ -32,7 +45,7 @@ without the source resources is not currently the deployment contract.
 ## CPU preview and replay
 
 ```bash
-WIWO_GPU=-1 python examples/01_single_ma.py --port 8080
+WIWO_GPU=-1 python examples/01_single_ma.py --port 8080 --config configs/platform/single_ma_bounded.json
 ```
 
 Open the Web port and forward its adjacent API port over SSH. For example,
@@ -76,3 +89,15 @@ Headless Chromium may also require OS libraries documented by Playwright. A
 researcher using their own desktop browser does not need Chromium on the
 server. The validated gallery uses Chromium/Linux and software WebGL rendering
 for the UI; screenshots do not imply that CUDA ran during capture.
+
+The current Town02 gallery is captured from a separate temporary CPU-preview
+service, leaving an existing background service unchanged:
+
+```bash
+.venv-full/bin/python scripts/media/capture_town02.py
+```
+
+The capture verifies the strict scene, actual panel motion, displayed TX
+coordinates and absence of computed CSI. It requires a terminal with local
+socket and browser-launch permissions. See the [main guide](../README.md) for
+the current screenshots and their scope.

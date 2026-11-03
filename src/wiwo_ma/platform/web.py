@@ -248,6 +248,7 @@ class PlatformUI:
             g.add_markdown('鼠标拖动/旋转目标gizmo，再执行目标。实际阵面由有界速度/加速度机构连续运动。')
             self.gizmo_mode=g.add_dropdown('鼠标操作',options=['平移','旋转','两者'],initial_value='两者');self.gizmo_mode.on_update(self._ordered(self._set_gizmo_mode,client_only=True))
             self._button('聚焦选中面板',self._focus)
+            self._button('地图全景 / Map overview',self._overview)
             self._button('执行目标姿态',self._execute_target)
             self.pending_actions=[]
             self._button('将所选目标加入联合动作',self._queue_target)
@@ -403,6 +404,14 @@ class PlatformUI:
     def _focus(self):
         s=self.controller.state();center=np.asarray(s['positions'][self.selected])
         for client in self.server.get_clients().values():self._aim(client,center,[1.7,-2.2,1.3])
+
+    def _overview(self):
+        meshes,_=load_display_meshes(str(scene_xml(self.controller.config['scene'])))
+        if not meshes:raise ValueError('No scene meshes available for an overview')
+        lo=np.min([np.min(mesh['vertices'],axis=0) for mesh in meshes],axis=0)
+        hi=np.max([np.max(mesh['vertices'],axis=0) for mesh in meshes],axis=0)
+        center=(lo+hi)/2;span=max(float(np.max(hi-lo)),1.)
+        for client in self.server.get_clients().values():self._aim(client,center,span*np.array([.85,-1.1,1.]))
 
     def _seek_timeline(self):
         result=self.controller.command('seek',dict(time_s=self.timeline.value));self.timeline_dirty=False;return result

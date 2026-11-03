@@ -3,6 +3,7 @@ import argparse
 import csv
 import hashlib
 import json
+import os
 import shutil
 from collections import Counter
 from pathlib import Path
@@ -23,9 +24,12 @@ def example(mode='full'):
     return load(ROOT / 'configs/platform' / CONFIGS[mode])
 
 
-def resource_report(folder=ASSET_ROOT, verify_hashes=True):
+def resource_report(folder=None, verify_hashes=True):
     """Check real XML bindings and mesh files without initializing an SDK."""
-    folder = Path(folder)
+    folder = Path(folder or ASSET_ROOT)
+    if not (folder/XML_NAME).is_file():
+        from .town02_resources import IMPORT_HINT
+        raise FileNotFoundError('Missing Town02 baseline XML: '+str(folder/XML_NAME)+'. '+IMPORT_HINT)
     tree = ET.parse(folder / XML_NAME).getroot()
     materials = {
         node.get('id'): node.find("string[@name='type']").get('value')
@@ -114,15 +118,37 @@ def configuration(mode='full'):
 
 def import_resources(source):
     """Copy complete map meshes and archived trajectories, checking source SHA256."""
-    source = Path(source).resolve()
+    source = Path(source).expanduser().resolve()
     originals = source / 'Town2_xml'
-    expected = {x['path']:x for x in json.loads((source/'资源SHA256.json').read_text(encoding='utf-8-sig'))['files']}
+    required=[source/'资源SHA256.json',originals/XML_NAME,originals/'town2_xml.xml',
+              originals/'material_manager.py',originals/TRAJECTORY]
+    missing=[str(path.relative_to(source)) for path in required if not path.is_file()]
+    if missing or not (originals/'meshes').is_dir():
+        raise FileNotFoundError('Incomplete external Town02 package: '+', '.join(missing or ['Town2_xml/meshes'])+
+                                '. Supply the original resource package and set WIWO_TOWN02_SOURCE or --source.')
+    records=json.loads((source/'资源SHA256.json').read_text(encoding='utf-8-sig'))['files']
+    expected = {x['path']:x for x in records}
+    if len(expected)!=len(records):raise ValueError('Duplicate paths in source checksum manifest')
     selected = [*sorted((originals/'meshes').glob('*.ply')),
                 *sorted(originals.glob('town2*.xml')),
                 *sorted((originals/'car_coordinate').rglob('*.csv')),
                 originals/'material_manager.py']
-    if not (originals/XML_NAME).is_file() or not selected:
+    if not list((originals/'meshes').glob('*.ply')):
         raise FileNotFoundError('Town02 XML and meshes are required in ' + str(originals))
+    # Validate every source before changing an existing import.
+    for path in selected:
+        key=str(path.relative_to(source))
+        if key not in expected:raise ValueError('Source resource is absent from checksum manifest: '+key)
+        item=expected[key];data=path.read_bytes()
+        if hashlib.sha256(data).hexdigest()!=item['sha256'] or len(data)!=item['bytes']:
+            raise ValueError('Source resource checksum mismatch: '+key)
+    for name in (XML_NAME,'town2_xml.xml'):
+        for shape in ET.parse(originals/name).getroot().findall('shape'):
+            filename=shape.find("string[@name='filename']")
+            if filename is None:raise ValueError('Source shape has no mesh filename: '+name)
+            path=(originals/filename.get('value')).resolve()
+            if not path.is_relative_to(originals) or not path.is_file():
+                raise FileNotFoundError('Missing or external source mesh: '+filename.get('value'))
     imported = []
     for path in selected:
         relative = path.relative_to(originals)
@@ -138,7 +164,7 @@ def import_resources(source):
     manifest = dict(source=str(source),source_scene='Town2_xml/'+XML_NAME,
                     total_bytes=sum(x['bytes'] for x in imported),files=imported)
     (ASSET_ROOT/'import-manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
-    report = resource_report()
+    report = resource_report(ASSET_ROOT)
     for mode, filename in CONFIGS.items():
         target = ROOT/'configs/platform'/filename
         if not target.exists():
@@ -152,9 +178,18 @@ def import_resources(source):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest='command',required=True)
-    commands.add_parser('import').add_argument('--source',type=Path,required=True)
+    commands.add_parser('import').add_argument('--source',type=Path,
+        default=Path(os.environ.get('WIWO_TOWN02_SOURCE',str(Path.home()/'project/Sionna_Town02'))))
     commands.add_parser('check')
+    status=commands.add_parser('status',help='Inspect actual external XML/PLY prerequisites without loading a backend')
+    status.add_argument('--require',action='store_true',help='Exit nonzero unless the full strict import is available')
     args = parser.parse_args()
+    if args.command=='status':
+        from .town02_resources import resource_status
+        result=resource_status()
+        print(json.dumps(result,indent=2))
+        if result['status']=='incomplete' or args.require and result['status']!='available':raise SystemExit(2)
+        return
     result = import_resources(args.source) if args.command == 'import' else resource_report()
     print(json.dumps(result,indent=2))
 

@@ -285,8 +285,8 @@ def test_map_ticks_reuse_verified_scene_but_configuration_change_resolves_again(
     assert [scene['material_audit_sha256'] for scene in resolved]==['first','second']
 
 
-@pytest.mark.skipif(not (REAL_ROOT/'configs/platform/town02_strict_itu_64tx_40ue.json').is_file(),
-                    reason='Local user-supplied Town02 strict variant is unavailable')
+@pytest.mark.town02
+@pytest.mark.usefixtures('require_town02')
 def test_actual_variant_has_only_five_builtin_types_and_preserves_original_imports():
     folder = REAL_ROOT/'assets/town02'
     paths = [folder/materials.BASE_XML,folder/materials.SOURCE_XML]

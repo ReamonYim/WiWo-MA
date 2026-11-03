@@ -32,7 +32,7 @@ where = ["src"]
 [tool.pytest.ini_options]
 # Public CPU tests need no retained research datasets or GPU.
 testpaths = ["tests/platform"]
-markers = ["gpu: requires explicit GPU authorization", "restricted: requires retained independent research artifacts"]
+markers = ["gpu: requires explicit GPU authorization", "restricted: requires retained independent research artifacts", "town02: integration with the complete user-supplied Town02 map; --require-town02 makes it mandatory"]
 
 [tool.ruff.lint]
 # Check actual syntax/name errors without rewriting frozen numerical formulas.

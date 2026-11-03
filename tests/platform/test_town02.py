@@ -11,14 +11,14 @@ import pytest
 from wiwo_ma.platform.config import validate
 from wiwo_ma.platform.physics import PhysicalWorld
 from wiwo_ma.platform.scene_geometry import scene_xml
-from wiwo_ma.platform.town02 import ASSET_ROOT, example, resource_report
+from wiwo_ma.platform.town02 import example, resource_report
 
 
-LOCAL_ASSETS = pytest.mark.skipif(not (ASSET_ROOT/'import-manifest.json').is_file(),
-                                 reason='User-supplied Town02 resources are local assets')
+LOCAL_ASSETS = pytest.mark.usefixtures('require_town02')
 
 
 @LOCAL_ASSETS
+@pytest.mark.town02
 def test_copied_map_meshes_and_three_original_ITU_materials_are_intact():
     report = resource_report()
     assert report['shapes'] == report['unique_meshes'] == 6085
@@ -28,6 +28,7 @@ def test_copied_map_meshes_and_three_original_ITU_materials_are_intact():
 
 
 @LOCAL_ASSETS
+@pytest.mark.town02
 def test_single_MA_reaches_BS_local_target_in_the_original_Town02_world_frame():
     config = example('single')
     world = PhysicalWorld(config)
@@ -38,6 +39,7 @@ def test_single_MA_reaches_BS_local_target_in_the_original_Town02_world_frame():
 
 
 @LOCAL_ASSETS
+@pytest.mark.town02
 def test_full_Town02_preserves_physical_port_counts_and_bounded_road_motion():
     config = example()
     state = PhysicalWorld(config).state()
@@ -49,6 +51,7 @@ def test_full_Town02_preserves_physical_port_counts_and_bounded_road_motion():
 
 
 @LOCAL_ASSETS
+@pytest.mark.town02
 def test_preview_and_native_loader_resolve_the_same_XML_from_another_CWD(tmp_path,monkeypatch):
     from wiwo_ma.scene import load_asset
 
@@ -74,6 +77,7 @@ def test_preview_and_native_loader_resolve_the_same_XML_from_another_CWD(tmp_pat
 
 
 @LOCAL_ASSETS
+@pytest.mark.town02
 @pytest.mark.parametrize('xml_path',[None,'assets/town02/town2_3mat.xml'])
 def test_Town02_default_XML_is_explicit_in_validated_configuration(xml_path):
     config = example('single')
@@ -82,6 +86,7 @@ def test_Town02_default_XML_is_explicit_in_validated_configuration(xml_path):
 
 
 @LOCAL_ASSETS
+@pytest.mark.town02
 def test_scene_validation_rejects_an_external_XML_and_keeps_historical_config_unchanged(tmp_path):
     config = example('single')
     foreign = tmp_path/'map.xml'

@@ -1,5 +1,6 @@
 include README.md LICENSE CITATION.md CHANGELOG.md CONTRIBUTING.md SECURITY.md THIRD_PARTY_NOTICES.md
 include requirements-platform-validated.txt requirements-dev.lock.txt
+include assets/README.md
 recursive-include assets *.obj *.xml *.js LICENSE-Viser
 recursive-include configs *.json
 recursive-include examples *.py
