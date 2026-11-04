@@ -6,9 +6,9 @@ WiWo-MA connects antenna motion, scene geometry and channel measurements on the 
 
 The current examples use **Town02: 16 panels, 64 physical TX ports, 40 UEs, and a 2.8 GHz carrier**. The browser preview runs on the CPU. Computing new channels requires a working NVIDIA/CUDA/OptiX environment and a separately authorized job.
 
-![The running WiWo-MA frontend with Town02 and movable antenna panels](docs/media/town02-platform.png)
+![Town02 city blocks and streets in the running WiWo-MA platform](docs/media/town02-panorama.png)
 
-*Actual Town02 browser capture at t = 1.41 s, after four panels moved by 20 mm in their commanded directions. This is a mechanics preview; no CSI was computed for the screenshot.*
+*Town02 in the running platform. The camera frames the full scene; the screenshots below show the street layout, base-station neighborhood and movable antennas at closer distances.*
 
 ## 🧭 What the platform does
 
@@ -66,7 +66,7 @@ Town02 is an **external scene**, not a required download for the whole platform.
 
 ```text
 Sionna_Town02/
-├── 资源SHA256.json
+├── <original checksum manifest>
 └── Town2_xml/
     ├── town2_xml.xml
     ├── town2_3mat.xml
@@ -75,6 +75,8 @@ Sionna_Town02/
     └── material_manager.py
 ```
 
+Keep the checksum manifest under the filename supplied by the resource provider;
+the [resource guide](assets/README.md) explains the import requirements.
 With the dependencies installed:
 
 ```bash
@@ -91,9 +93,13 @@ WIWO_TOWN02_SOURCE=/path/to/Sionna_Town02 scripts/platform/install --no-browser
 
 The importer checks source hashes before changing an existing import, copies resources into `assets/town02/`, and generates the strict material variant and its audit. It preserves the original scene and coordinates. The full map has **6,085 meshes, 2,831,119 vertices and 3,268,710 triangles**. The imported resource set contains 8,635 files, about 144 MiB uncompressed.
 
-![Town02 panorama captured in the running platform](docs/media/town02-panorama.png)
+![Town02 street layout from above](docs/media/town02-topdown.png)
 
-*The complete imported map in the Web viewer. Use **地图全景 / Map overview** to frame the map, or **聚焦选中面板** to return to the selected antenna panel. A separate [geometry projection](docs/media/town02-map-overview.png) shows the material groups and UE layout.*
+*A near-vertical view makes the road network and city blocks easier to read. Use **Map overview** to frame the map in your own session. A separate [geometry projection](docs/media/town02-map-overview.png) shows the material groups and UE layout.*
+
+![Town02 neighborhood around the base station](docs/media/town02-site.png)
+
+*The blocks around the actual base station. The label marks its world position; the scene and radio-material bindings are the same as in the full overview.*
 
 ### Materials and provenance
 
@@ -130,17 +136,25 @@ scripts/platform/town02-service status
 
 The background manager listens on `0.0.0.0` by default. Use `restart --host 127.0.0.1` for a loopback-only service. Container restart persistence belongs in the platform's startup settings; a detached process does not survive a container restart.
 
+![The running frontend with the base station and UE road positions](docs/media/town02-platform.png)
+
+*The experiment in its surroundings, after the scheduled antenna motion. The labels identify the real BS and UE positions. Preview, mechanical time and CSI status are shown by the application.*
+
 ## 🦾 Run a mechanical experiment
 
 ![Movable antenna panels and physical TX ports in Town02](docs/media/town02-antennas.png)
 
 *The 16-panel apparatus before motion, with four physical TX ports per panel. The capture checks displayed TX coordinates against the physical state, then executes and verifies the scheduled motion.*
 
+![One movable antenna panel and its four physical TX ports](docs/media/town02-panel-detail.png)
+
+*A closer view of the selected panel and its four ports. The camera faces the actual panel normal, so its surface and element layout are visible.*
+
 Choose a preset, then use **Start**, **Pause**, **Step** and **Reset** to inspect the motion. To submit a manual target:
 
 1. Select a panel and choose world coordinates or the constrained BS-local input mode.
 2. Enter a permitted position and rotation, or adjust the target gizmo.
-3. Click **执行目标姿态** to submit it. Editing a field alone does not move the antenna.
+3. Use the target-pose execution button to submit it. Editing a field alone does not move the antenna.
 4. Check the submitted action and its execution status. For several panels, add targets to the joint action queue and submit the transaction.
 
 | Configuration | System | Physical interval |
@@ -212,7 +226,7 @@ CPU preview and screenshot capture do not establish native Town02 CSI accuracy o
 
 Run this from a terminal that can listen on local ports and launch the installed Playwright Chromium. It selects a fresh private port pair, starts the production CPU-preview UI at 2 Hz, captures the panorama, antenna panels and full frontend, checks that the scheduled antenna motion actually occurs, and closes the temporary service. An existing 8080 service is left unchanged. Private screenshot services are excluded from VS Code automatic port forwarding.
 
-Successful capture writes `town02-panorama.png`, `town02-antennas.png`, `town02-platform.png` and `town02-gallery.json` into `docs/media/`. The checked-in [capture record](docs/media/town02-gallery.json) contains the strict scene configuration, image hashes, physical timestamps and verified motion. These are actual browser screenshots, captured with Chromium and software WebGL; they do not use historical Munich data or compute CSI.
+Successful capture writes six PNGs and `town02-gallery.json` into `docs/media/`; see the [image index](docs/media/README.md). The [capture record](docs/media/town02-gallery.json) contains the strict scene configuration, camera positions, image hashes, physical timestamps and verified motion. These are actual browser screenshots, captured with Chromium and software WebGL; they do not use historical Munich data or compute CSI.
 
 ## Documentation and license
 

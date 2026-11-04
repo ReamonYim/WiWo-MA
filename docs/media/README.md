@@ -3,18 +3,21 @@
 ## Current Town02 gallery
 
 These images were captured from the running Town02 platform with Chromium
-151.0.7922.34 and software WebGL, at 1440 × 960 pixels. They use the strict
+151.0.7922.34 and software WebGL, at 1600 × 1000 pixels. They use the strict
 five-model ITU scene, 16 panels, 64 physical TX ports and 40 UEs. No native
 CSI was computed during capture.
 
 | Image | Captured state |
 |---|---|
 | [Town02 panorama](town02-panorama.png) | Complete imported map, paused at t = 0 s |
+| [Street layout](town02-topdown.png) | Near-vertical view of the roads and city blocks |
+| [Base-station neighborhood](town02-site.png) | Closer city view with the actual BS location marked |
 | [Movable antennas](town02-antennas.png) | Antenna panels, physical ports, workspaces and controls before motion |
-| [Running platform](town02-platform.png) | Frontend at t = 1.41 s, after four scheduled panel translations |
+| [Panel detail](town02-panel-detail.png) | Selected panel and four physical TX ports, viewed towards its surface |
+| [Running platform](town02-platform.png) | Frontend with BS and UE positions after four scheduled panel translations |
 
 The [capture record](town02-gallery.json) contains scene and image hashes,
-timestamps, browser details and the initial/final panel positions. Capture
+timestamps, camera positions, browser details and the initial/final panel positions. Capture
 verified the four commanded ±20 mm translations, the twelve unchanged panels,
 and displayed TX coordinates against the physical state. The temporary service
 was stopped after capture; the regular background service was left unchanged.

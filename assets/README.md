@@ -17,7 +17,8 @@ WIWO_TOWN02_SOURCE=/path/to/Sionna_Town02 scripts/platform/install --no-browser
 .venv-full/bin/python -m wiwo_ma.platform.town02 status --require
 ```
 
-The package must contain `资源SHA256.json` and `Town2_xml/` with the original
+The package must contain its original provider-supplied SHA-256 manifest at the
+root, under its original filename, and `Town2_xml/` with the original
 `town2_xml.xml`, `town2_3mat.xml`, `meshes/`, `car_coordinate/` and
 `material_manager.py`. The importer verifies source hashes before copying
 resources to the Git-ignored `assets/town02/` directory.

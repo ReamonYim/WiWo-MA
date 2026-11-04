@@ -2,7 +2,7 @@
   "status": "Passed_actual_Town02_browser_gallery",
   "scene": "Town02",
   "mode": "physical_preview_no_synthetic_CSI",
-  "captured_utc": "2026-11-03T17:32:13.852695+00:00",
+  "captured_utc": "2026-11-04T07:09:52.480996+00:00",
   "native_CSI_computed": false,
   "config_scene": {
     "name": "town02",
@@ -20,54 +20,204 @@
       "title": "Town02 panorama in the running Web platform",
       "physical_time_s": 0.0,
       "mode": "physical_preview_no_synthetic_CSI",
+      "view": "panorama",
       "capture": {
         "attempts": [
           {
             "status": "captured",
-            "width": 1440,
-            "height": 960
+            "width": 1600,
+            "height": 1000
           }
         ],
-        "width": 1440,
-        "height": 960
+        "width": 1600,
+        "height": 1000
       },
-      "sha256": "6fb961e2dfdbacda56fb20fb00e81febe6c983a3f703323ae745b279e4197ee2"
+      "cameras": [
+        {
+          "position": [
+            174.6163873199874,
+            -408.64043598344074,
+            455.61563214018395
+          ],
+          "look_at": [
+            122.09239196777344,
+            -198.54445457458496,
+            17.91567087173464
+          ]
+        }
+      ],
+      "scene_faces": 3268710,
+      "sha256": "fb0820b8a4459a95dcd6ad351023967846ad33c41c83fc4a257485548e75c43d"
+    },
+    {
+      "file": "town02-topdown.png",
+      "title": "Town02 street layout from above",
+      "physical_time_s": 0.0,
+      "mode": "physical_preview_no_synthetic_CSI",
+      "view": "topdown",
+      "capture": {
+        "attempts": [
+          {
+            "status": "captured",
+            "width": 1600,
+            "height": 1000
+          }
+        ],
+        "width": 1600,
+        "height": 1000
+      },
+      "cameras": [
+        {
+          "position": [
+            122.09239196777344,
+            -237.3955784481006,
+            503.5547192906778
+          ],
+          "look_at": [
+            122.09239196777344,
+            -198.54445457458496,
+            17.91567087173464
+          ]
+        }
+      ],
+      "scene_faces": 3268710,
+      "sha256": "5fb3595f29bac4ec10857e767d4de063ee3bbfd98319729283aea23c1bafa9dc"
+    },
+    {
+      "file": "town02-site.png",
+      "title": "Town02 blocks around the actual base station",
+      "physical_time_s": 0.0,
+      "mode": "physical_preview_no_synthetic_CSI",
+      "view": "site",
+      "capture": {
+        "attempts": [
+          {
+            "status": "captured",
+            "width": 1600,
+            "height": 1000
+          }
+        ],
+        "width": 1600,
+        "height": 1000
+      },
+      "cameras": [
+        {
+          "position": [
+            9.573845441671846,
+            -174.7597948530296,
+            162.77102880060264
+          ],
+          "look_at": [
+            103.21115112304686,
+            -102.73109817504883,
+            18.713635444641113
+          ]
+        }
+      ],
+      "scene_faces": 3268710,
+      "sha256": "cab717102c5eb4fd4bef73559d7eb2694d1af45ab35f9852ddafad6557a9cb37"
     },
     {
       "file": "town02-antennas.png",
       "title": "Town02 movable antenna panels and physical TX ports before motion",
       "physical_time_s": 0.0,
       "mode": "physical_preview_no_synthetic_CSI",
+      "view": "antennas",
       "capture": {
         "attempts": [
           {
             "status": "captured",
-            "width": 1440,
-            "height": 960
+            "width": 1600,
+            "height": 1000
           }
         ],
-        "width": 1440,
-        "height": 960
+        "width": 1600,
+        "height": 1000
       },
-      "sha256": "6b58b47f79bc16f55f8b52e5a590aaa8051b807f18eec59de196b434a7713ebc"
+      "cameras": [
+        {
+          "position": [
+            103.22764613278832,
+            -99.73848029116289,
+            13.329730330281746
+          ],
+          "look_at": [
+            103.22764613278831,
+            -102.76550786414629,
+            10.0
+          ]
+        }
+      ],
+      "scene_faces": 3268710,
+      "sha256": "67136c6d42e9c9455cd070af81fa193ec0aacf76af40ccc8dad6795c0fd018ce"
+    },
+    {
+      "file": "town02-panel-detail.png",
+      "title": "Selected movable antenna panel and its four physical TX ports",
+      "physical_time_s": 0.0,
+      "mode": "physical_preview_no_synthetic_CSI",
+      "view": "detail",
+      "capture": {
+        "attempts": [
+          {
+            "status": "captured",
+            "width": 1600,
+            "height": 1000
+          }
+        ],
+        "width": 1600,
+        "height": 1000
+      },
+      "cameras": [
+        {
+          "position": [
+            103.77014255936672,
+            -102.730927,
+            11.656981228824463
+          ],
+          "look_at": [
+            103.59418679994455,
+            -102.73092699999998,
+            11.03125
+          ]
+        }
+      ],
+      "scene_faces": 3268710,
+      "sha256": "faece33c560112ed2e25cef40fcb2f75acc630cdbdd433b5c26f9dbf5d8dace7"
     },
     {
       "file": "town02-platform.png",
       "title": "Running Town02 platform after the scheduled bounded antenna motion",
-      "physical_time_s": 1.41,
+      "physical_time_s": 1.23,
       "mode": "physical_preview_no_synthetic_CSI",
+      "view": "platform",
       "capture": {
         "attempts": [
           {
             "status": "captured",
-            "width": 1440,
-            "height": 960
+            "width": 1600,
+            "height": 1000
           }
         ],
-        "width": 1440,
-        "height": 960
+        "width": 1600,
+        "height": 1000
       },
-      "sha256": "ef25f15ac986185f6d4b7550500b353e036ea9091959ee7d39b8d7c2e354d38a"
+      "cameras": [
+        {
+          "position": [
+            78.17807452835883,
+            -199.94271484916186,
+            158.08743774439702
+          ],
+          "look_at": [
+            52.26897144317627,
+            -106.38206481933594,
+            14.147976160049442
+          ]
+        }
+      ],
+      "scene_faces": 3268710,
+      "sha256": "b76618d874bf3a7b70493d8bfbba006f4f6cbf715322550d877b5ca13ed804ca"
     }
   ],
   "page_errors": [],
@@ -242,6 +392,6 @@
       ]
     ],
     "initial_time_s": 0.0,
-    "final_time_s": 1.41
+    "final_time_s": 1.23
   }
 }
